@@ -1,8 +1,5 @@
-using System;
-using NUnit.Framework;
 using UnityEngine;
 using Unity.Netcode;
-using UnityEditor.UI;
 using UnityEngine.UI;
 
 public class PlayerNetworkLife : NetworkBehaviour

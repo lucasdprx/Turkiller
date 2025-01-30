@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 using UnityEngine;
 using Unity.Netcode;
@@ -9,6 +10,14 @@ public class PlayerNetworkLife : NetworkBehaviour
     [SerializeField] private Slider _lifeSlider;
     [SerializeField] private NetworkVariable<int> _maxLife = new NetworkVariable<int>(100);
     private NetworkVariable<float> _currentLife = new NetworkVariable<float>(100);
+
+    public void Update()
+    {
+        if (IsOwner && Input.GetKeyDown(KeyCode.Space))
+        {
+            TakeDamageServerRpc(10);
+        }
+    }
 
     public override void OnNetworkSpawn()
     {

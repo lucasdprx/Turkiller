@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -5,13 +6,16 @@ public class ProjectileComponent : NetworkBehaviour
 {
     [SerializeField] private float _speed = 15f;
     [SerializeField] private float _distance = 10f;
+    [SerializeField] private Rigidbody2D _rigidbody;
+    [SerializeField] private string tagPlayer;
     private float _distanceTraveled;
 
     private void Update()
     {
         if (!IsServer) return;
 
-        transform.position += transform.right * (_speed * Time.deltaTime);
+        Vector2 movement = transform.right * (_speed * Time.fixedDeltaTime);
+        _rigidbody.MovePosition(_rigidbody.position + movement);
         _distanceTraveled += _speed * Time.deltaTime;
 
         if (_distanceTraveled >= _distance)
@@ -24,19 +28,22 @@ public class ProjectileComponent : NetworkBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (!IsServer) return;
-
-        PlayerNetworkLife playerNetworkLife = collision.gameObject.GetComponent<PlayerNetworkLife>();
+        if (other.gameObject.tag == tagPlayer) return;
+        
+        Debug.Log("Projectile hit something");
+        PlayerNetworkLife playerNetworkLife = other.gameObject.GetComponent<PlayerNetworkLife>();
         if (playerNetworkLife != null)
         {
-            playerNetworkLife.TakeDamageServerRpc(10); // Apply 10 points of damage
+            playerNetworkLife.TakeDamageServerRpc(10);
             NetworkObject networkObject = gameObject.GetComponent<NetworkObject>();
             if (networkObject != null)
             {
-                networkObject.Despawn(true);
+                    networkObject.Despawn(true);
             }
         }
+
     }
 }

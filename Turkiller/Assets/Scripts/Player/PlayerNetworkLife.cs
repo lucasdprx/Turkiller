@@ -8,47 +8,53 @@ public class PlayerNetworkLife : NetworkBehaviour
     [SerializeField] private NetworkVariable<int> _maxLife = new NetworkVariable<int>(100);
     private NetworkVariable<float> _currentLife = new NetworkVariable<float>(100);
 
-    public void Update()
+    private void Start()
     {
-        if (IsOwner && Input.GetKeyDown(KeyCode.Space))
+        if (IsServer)
         {
-            TakeDamageServerRpc(10);
+            _currentLife.Value = _maxLife.Value;
+        }
+        _lifeSlider.maxValue = _maxLife.Value;
+        _lifeSlider.value = _currentLife.Value;
+        _currentLife.OnValueChanged += OnLifeChanged;
+    }
+
+    private void OnLifeChanged(float oldLife, float newLife)
+    {
+        _lifeSlider.value = newLife;
+        if (newLife <= 0)
+        {
+            Die();
         }
     }
 
     public override void OnNetworkSpawn()
     {
-        if (IsServer)
-        {
-            _currentLife.Value = _maxLife.Value;
-            _lifeSlider.maxValue = _maxLife.Value;
-            _lifeSlider.value = _currentLife.Value;
-        }
+        base.OnNetworkSpawn();
+        _lifeSlider.maxValue = _maxLife.Value;
+        _lifeSlider.value = _currentLife.Value;
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     public void TakeDamageServerRpc(int damage)
     {
         _currentLife.Value -= damage;
-        _lifeSlider.value = _currentLife.Value;
-
-        if (_currentLife.Value <= 0)
-        {
-            Die();
-        }
     }
     
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     public void HealServerRpc(int heal)
     {
         _currentLife.Value += heal;
-        _lifeSlider.value = _currentLife.Value;
+        if (_currentLife.Value > _maxLife.Value)
+        {
+            _currentLife.Value = _maxLife.Value;
+        }
     }
 
-    public void Die()
+    private void Die()
     {
         if (!IsServer) return;
-        Debug.Log("you are dead");
+        Debug.Log("Player Dead");
     }
     
     public bool IsAlive()

@@ -22,12 +22,12 @@ public class PlayerAttack : NetworkBehaviour
     {
         GameObject projectile = Instantiate(_projectilePrefab, _spawnPoint.position, Quaternion.identity);
         Vector3 mousePos = _camera.ScreenToWorldPoint(Input.mousePosition);
-        
-        //Rotate
+
+        // Rotate
         Vector3 dir = mousePos - projectile.transform.position;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         projectile.transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, projectile.transform.rotation.y, 1));
-        
+
         NetworkObject networkObject = projectile.GetComponent<NetworkObject>();
 
         if (networkObject != null)

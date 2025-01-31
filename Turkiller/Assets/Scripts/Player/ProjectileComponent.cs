@@ -9,6 +9,12 @@ public class ProjectileComponent : NetworkBehaviour
     [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private string tagPlayer;
     private float _distanceTraveled;
+    private ulong _ownerClientId;
+    
+    public void SetOwner(ulong ownerId)
+    {
+        _ownerClientId = ownerId;
+    }
 
     private void Update()
     {
@@ -31,19 +37,24 @@ public class ProjectileComponent : NetworkBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!IsServer) return;
-        if (other.gameObject.tag == tagPlayer) return;
-        
+
+        NetworkObject networkObject = other.gameObject.GetComponent<NetworkObject>();
+        if (networkObject != null && networkObject.OwnerClientId == _ownerClientId)
+        {
+            return;
+        }
+
         Debug.Log("Projectile hit something");
         PlayerNetworkLife playerNetworkLife = other.gameObject.GetComponent<PlayerNetworkLife>();
         if (playerNetworkLife != null)
         {
             playerNetworkLife.TakeDamageServerRpc(10);
-            NetworkObject networkObject = gameObject.GetComponent<NetworkObject>();
-            if (networkObject != null)
+            NetworkObject projNetworkObject = gameObject.GetComponent<NetworkObject>();
+            if (projNetworkObject != null)
             {
-                    networkObject.Despawn(true);
+                projNetworkObject.Despawn(true);
             }
         }
-
     }
+
 }

@@ -13,12 +13,12 @@ public class PlayerAttack : NetworkBehaviour
     {
         if (IsOwner && Input.GetMouseButtonDown(0))
         {
-            RequestAttackServerRpc();
+            RequestAttackServerRpc(OwnerClientId);
         }
     }
 
     [ServerRpc]
-    private void RequestAttackServerRpc()
+    private void RequestAttackServerRpc(ulong ownerClientId)
     {
         GameObject projectile = Instantiate(_projectilePrefab, _spawnPoint.position, Quaternion.identity);
         Vector3 mousePos = _camera.ScreenToWorldPoint(Input.mousePosition);
@@ -29,9 +29,9 @@ public class PlayerAttack : NetworkBehaviour
         projectile.transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, projectile.transform.rotation.y, 1));
 
         NetworkObject networkObject = projectile.GetComponent<NetworkObject>();
-
         if (networkObject != null)
         {
+            projectile.GetComponent<ProjectileComponent>().SetOwner(ownerClientId); // Assignation de l'ID
             networkObject.Spawn(true);
         }
     }

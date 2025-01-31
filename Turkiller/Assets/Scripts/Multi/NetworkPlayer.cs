@@ -16,7 +16,7 @@ public class NetworkPlayer : NetworkBehaviour
         _camera = GetComponentInChildren<Camera>();
         _playerInput = GetComponentInChildren<PlayerInput>();
     }
-    
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -25,5 +25,19 @@ public class NetworkPlayer : NetworkBehaviour
         _playerAttack.enabled = IsOwner;
         _camera.gameObject.SetActive(IsOwner);
         _playerInput.gameObject.SetActive(IsOwner);
+
+        UpdateTagLocally();
+    }
+
+    private void UpdateTagLocally()
+    {
+        if (IsOwner)
+        {
+            gameObject.tag = "Player"; // Tag local pour le propriétaire du personnage
+        }
+        else
+        {
+            gameObject.tag = "Untagged"; // Tous les autres joueurs sont vus comme "Untagged"
+        }
     }
 }

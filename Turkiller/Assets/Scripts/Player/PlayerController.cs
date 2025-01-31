@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,6 +7,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _moveSpeed = 10f;
     private Vector2 _moveDirection;
     private Rigidbody2D _rb;
+    
 
     private void Awake()
     {

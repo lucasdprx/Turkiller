@@ -141,3 +141,15 @@ app.get('/users', (req, res) => {
     });
   });
   
+  // Route to update a user's score
+app.post('/update-score', (req, res) => {
+  const { email, newScore } = req.body;
+
+  const query = 'UPDATE users SET score = ? WHERE email = ?';
+  db.query(query, [newScore, email], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.status(200).send('Score updated successfully');
+  });
+});

@@ -9,7 +9,7 @@ public class NetworkMenu : MonoBehaviour
             return;
         
         NetworkManager.Singleton.StartServer();
-        print("Start server");
+        Debug.Log("Start server");
     }
     public void StartHost()
     {
@@ -19,9 +19,5 @@ public class NetworkMenu : MonoBehaviour
     public void StartClient()
     {
         NetworkManager.Singleton.StartClient();
-    }
-    public void StartServer()
-    {
-        NetworkManager.Singleton.StartServer();
     }
 }

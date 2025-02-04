@@ -45,16 +45,16 @@ public class ProjectileComponent : NetworkBehaviour
         }
 
         Debug.Log("Projectile hit something");
-        PlayerNetworkLife playerNetworkLife = other.gameObject.GetComponent<PlayerNetworkLife>();
-        if (playerNetworkLife != null)
-        {
-            playerNetworkLife.TakeDamageServerRpc(10);
-            NetworkObject projNetworkObject = gameObject.GetComponent<NetworkObject>();
-            if (projNetworkObject != null)
-            {
-                projNetworkObject.Despawn(true);
-            }
-        }
+        // PlayerNetworkLife playerNetworkLife = other.gameObject.GetComponent<PlayerNetworkLife>();
+        // if (playerNetworkLife != null)
+        // {
+        //     playerNetworkLife.TakeDamageServerRpc(10);
+        //     NetworkObject projNetworkObject = gameObject.GetComponent<NetworkObject>();
+        //     if (projNetworkObject != null)
+        //     {
+        //         projNetworkObject.Despawn(true);
+        //     }
+        // }
     }
 
 }

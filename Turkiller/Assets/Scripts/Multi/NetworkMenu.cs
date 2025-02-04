@@ -11,13 +11,22 @@ public class NetworkMenu : MonoBehaviour
         NetworkManager.Singleton.StartServer();
         Debug.Log("Start server");
     }
+
+    public void StartClient(GameObject buttonClient)
+    {
+        bool success = NetworkManager.Singleton.StartClient();
+
+        if (!success)
+        {
+            Debug.Log("Failed to start client");
+        }
+        else
+        {
+            buttonClient.SetActive(false);
+        }
+    }
     public void StartHost()
     {
         NetworkManager.Singleton.StartHost();
-    }
-
-    public void StartClient()
-    {
-        NetworkManager.Singleton.StartClient();
     }
 }

@@ -9,7 +9,7 @@ public class NetworkMenu : MonoBehaviour
             return;
         
         NetworkManager.Singleton.StartServer();
-        Debug.Log("Start server");
+        Debug.Log("Start server !");
     }
 
     public void StartClient(GameObject buttonClient)

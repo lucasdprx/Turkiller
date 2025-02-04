@@ -1,8 +1,5 @@
-using System;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Serialization;
-
 public class PlayerAttack : NetworkBehaviour
 {
     [SerializeField] private GameObject _projectilePrefab;
@@ -13,16 +10,16 @@ public class PlayerAttack : NetworkBehaviour
     {
         if (IsOwner && Input.GetMouseButtonDown(0))
         {
-            RequestAttackServerRpc(OwnerClientId);
+            Vector3 mousePos = _camera.ScreenToWorldPoint(Input.mousePosition);
+            RequestAttackServerRpc(OwnerClientId, mousePos);
         }
     }
 
     [ServerRpc]
-    private void RequestAttackServerRpc(ulong ownerClientId)
+    private void RequestAttackServerRpc(ulong ownerClientId, Vector3 mousePos)
     {
         GameObject projectile = Instantiate(_projectilePrefab, _spawnPoint.position, Quaternion.identity);
-        Vector3 mousePos = _camera.ScreenToWorldPoint(Input.mousePosition);
-
+        
         // Rotate
         Vector3 dir = mousePos - projectile.transform.position;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;

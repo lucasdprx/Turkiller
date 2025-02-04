@@ -1,4 +1,3 @@
-using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -10,7 +9,16 @@ public class ProjectileComponent : NetworkBehaviour
     [SerializeField] private string tagPlayer;
     private float _distanceTraveled;
     private ulong _ownerClientId;
-    
+    private Transform _transform;
+    private NetworkObject _networkObject;
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        _transform = transform;
+        _networkObject = GetComponent<NetworkObject>();
+    }
+
     public void SetOwner(ulong ownerId)
     {
         _ownerClientId = ownerId;
@@ -20,25 +28,28 @@ public class ProjectileComponent : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        Vector2 movement = transform.right * (_speed * Time.fixedDeltaTime);
-        _rigidbody.MovePosition(_rigidbody.position + movement);
+        MoveProjectile();
+    }
+
+    private void MoveProjectile()
+    {
+        Vector2 movement = _transform.right * (_speed * Time.deltaTime);
+        //_rigidbody.MovePosition(_rigidbody.position + movement);
+        _transform.position += _transform.right * (_speed * Time.deltaTime);;
         _distanceTraveled += _speed * Time.deltaTime;
 
-        if (_distanceTraveled >= _distance)
-        {
-            NetworkObject networkObject = gameObject.GetComponent<NetworkObject>();
-            if (networkObject != null)
-            {
-                networkObject.Despawn(true);
-            }
-        }
+        if (!(_distanceTraveled >= _distance))
+            return;
+        
+        if (_networkObject != null)
+            _networkObject.Despawn();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!IsServer) return;
 
-        NetworkObject networkObject = other.gameObject.GetComponent<NetworkObject>();
+        NetworkObject networkObject = other.GetComponent<NetworkObject>();
         if (networkObject != null && networkObject.OwnerClientId == _ownerClientId)
         {
             return;

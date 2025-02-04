@@ -10,15 +10,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 _moveDirection;
     private Rigidbody2D _rb;
 
-    [Serializable]
-    public struct BonusEffect
-    {
-        public Bonus bonus;
-        public float time;
-        public float intensity;
-    }
+   [SerializeField] private PlayerEffects _effects;
 
-    public List<BonusEffect> effects = new List<BonusEffect>();
 
 
     private void Awake()
@@ -36,41 +29,14 @@ public class PlayerController : MonoBehaviour
     private void Movement()
     {
         if (_rb == null || _moveDirection == Vector2.zero) return;
-        
-        _rb.linearVelocity = _moveDirection * _moveSpeed;
+
+        _rb.linearVelocity = _moveDirection * _moveSpeed * _effects.GetEffect(Bonus.MoveSpeed).max;
+        //Vector3 dir = _moveDirection * _moveSpeed;
+        //transform.position += dir;
     }
     private void Update()
     {
         Movement();
-        HandleEffect();
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void AddEffectServerRpc(Seeds seed)
-    {
-        BonusEffect effect = new BonusEffect();
-        effect.time = seed.bonusDuration;
-        effect.intensity = seed.bonusIntensity;
-        effect.bonus = seed.bonus;
-        effects.Add(effect);
-    }
-
-    public void HandleEffect()
-    {
-        for(int i = 0; i < effects.Count; i++)
-        {
-            BonusEffect tmpEffect = effects[i];
-
-            tmpEffect.time -= Time.deltaTime;
-
-            effects[i] = tmpEffect;
-
-            if(tmpEffect.time <= 0)
-            {
-                effects.RemoveAt(i);
-                i--;
-            }
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

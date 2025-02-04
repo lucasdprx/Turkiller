@@ -7,35 +7,54 @@ public class SeedObject : NetworkBehaviour
     public Seeds seeds;
     public SpriteRenderer spriteRenderer;
 
+    public Sprite[] sprites;
+
+
     private ulong _ownerClientId;
+
+    private NetworkVariable<int> spriteIndex = new NetworkVariable<int>(0);
+
+    private SeedSpawner _spawner;
+
+    public override void OnNetworkSpawn()
+    {
+        spriteIndex.OnValueChanged += OnSpriteChanged;
+        OnSpriteChanged(0, spriteIndex.Value); // Appliquer immédiatement la valeur actuelle
+    }
+
+
+    private void OnSpriteChanged(int oldValue, int newValue)
+    {
+        spriteRenderer.sprite = sprites[newValue];
+    }
 
     public void SetOwner(ulong ownerId)
     {
         _ownerClientId = ownerId;
     }
 
-    public void Init(Seeds newSeed)
+    public void Init(Seeds newSeed, SeedSpawner spawner)
     {
         seeds = newSeed;
-        spriteRenderer.sprite = seeds.sprite;
+        spriteIndex.Value = seeds.spriteIndex;
+        _spawner = spawner;
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        print("a");
         if (!IsServer) return;
 
         NetworkObject networkObject = collision.gameObject.GetComponent<NetworkObject>();
 
-        Debug.Log("Seed hit something");
-        PlayerController playerNetworkLife = collision.gameObject.GetComponent<PlayerController>();
+        PlayerEffects playerNetworkLife = collision.gameObject.GetComponent<PlayerEffects>();
         if (playerNetworkLife != null)
         {
-            print("c");
-            playerNetworkLife.AddEffectServerRpc(seeds);
+            playerNetworkLife.AddEffectServerRpc(new() { bonus = seeds.bonus, time = seeds.bonusDuration, intensity = seeds.bonusIntensity }) ;
             NetworkObject projNetworkObject = gameObject.GetComponent<NetworkObject>();
             if (projNetworkObject != null)
             {
-                print("d");
+                _spawner.SeedCollectedServerRpc();
                 projNetworkObject.Despawn(true);
             }
         }

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a3a52c2d628746542a134bcbd09083de, type: 3}
-  m_Name: Sunflower
+  m_Name: Flax
   m_EditorClassIdentifier: 
-  SeedName: Sunflower
-  spriteIndex: 1
-  bonus: 1
-  bonusDuration: 20
+  SeedName: Flax
+  spriteIndex: 2
+  bonus: 2
+  bonusDuration: 30
   bonusIntensity: 2

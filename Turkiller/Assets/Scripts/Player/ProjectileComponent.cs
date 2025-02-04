@@ -10,10 +10,16 @@ public class ProjectileComponent : NetworkBehaviour
     [SerializeField] private string tagPlayer;
     private float _distanceTraveled;
     private ulong _ownerClientId;
+    private float _damage;
     
     public void SetOwner(ulong ownerId)
     {
         _ownerClientId = ownerId;
+    }
+
+    public void Init(float damage)
+    {
+        _damage = damage;
     }
 
     private void Update()
@@ -48,7 +54,7 @@ public class ProjectileComponent : NetworkBehaviour
         PlayerNetworkLife playerNetworkLife = other.gameObject.GetComponent<PlayerNetworkLife>();
         if (playerNetworkLife != null)
         {
-            playerNetworkLife.TakeDamageServerRpc(10);
+            playerNetworkLife.TakeDamageServerRpc(_damage);
             NetworkObject projNetworkObject = gameObject.GetComponent<NetworkObject>();
             if (projNetworkObject != null)
             {

@@ -8,6 +8,8 @@ public class PlayerAttack : NetworkBehaviour
     [SerializeField] private GameObject _projectilePrefab;
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private Camera _camera;
+    [SerializeField] private float _baseDamage = 10;
+    [SerializeField] private PlayerEffects _effects;
 
     private void Update()
     {
@@ -32,6 +34,7 @@ public class PlayerAttack : NetworkBehaviour
         if (networkObject != null)
         {
             projectile.GetComponent<ProjectileComponent>().SetOwner(ownerClientId); // Assignation de l'ID
+            projectile.GetComponent<ProjectileComponent>().Init(_baseDamage * _effects.GetEffect(Bonus.DamageMultiplier).max);
             networkObject.Spawn(true);
         }
     }

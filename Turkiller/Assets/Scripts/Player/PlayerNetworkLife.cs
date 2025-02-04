@@ -1,13 +1,12 @@
 using UnityEngine;
 using Unity.Netcode;
-using Unity.Netcode;
-using UnityEngine;
 using UnityEngine.UI;
 public class PlayerNetworkLife : NetworkBehaviour
 {
     [SerializeField] private Slider _lifeSlider;
     [SerializeField] private NetworkVariable<int> _maxLife = new NetworkVariable<int>(100);
     private NetworkVariable<float> _currentLife = new NetworkVariable<float>(100);
+    [SerializeField] private PlayerEffects _effects;
 
     private void Start()
     {
@@ -37,9 +36,9 @@ public class PlayerNetworkLife : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void TakeDamageServerRpc(int damage)
+    public void TakeDamageServerRpc(float damage)
     {
-        _currentLife.Value -= damage;
+        _currentLife.Value -= damage * _effects.GetEffect(Bonus.DamageTakenMultiplier).min;
     }
     
     [ServerRpc(RequireOwnership = false)]

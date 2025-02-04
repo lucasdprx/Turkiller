@@ -5,18 +5,25 @@ public class ProjectileComponent : NetworkBehaviour
 {
     [SerializeField] private float _speed = 15f;
     [SerializeField] private float _distance = 10f;
-    [SerializeField] private Rigidbody2D _rigidbody;
-    [SerializeField] private string tagPlayer;
+    [SerializeField] private string tagPlayer = "Player";
+    
     private float _distanceTraveled;
     private ulong _ownerClientId;
     private Transform _transform;
     private NetworkObject _networkObject;
+    private Rigidbody2D _rigidbody;
 
-    public override void OnNetworkSpawn()
+    private void Awake()
     {
-        base.OnNetworkSpawn();
         _transform = transform;
         _networkObject = GetComponent<NetworkObject>();
+        _rigidbody = GetComponent<Rigidbody2D>();
+    }
+
+    public void SetVelocity()
+    {
+        Vector2 velocity = _transform.right * _speed;
+        _rigidbody.linearVelocity = velocity;
     }
 
     public void SetOwner(ulong ownerId)
@@ -33,11 +40,7 @@ public class ProjectileComponent : NetworkBehaviour
 
     private void MoveProjectile()
     {
-        Vector2 movement = _transform.right * (_speed * Time.deltaTime);
-        //_rigidbody.MovePosition(_rigidbody.position + movement);
-        _transform.position += _transform.right * (_speed * Time.deltaTime);;
         _distanceTraveled += _speed * Time.deltaTime;
-
         if (!(_distanceTraveled >= _distance))
             return;
         
@@ -55,17 +58,14 @@ public class ProjectileComponent : NetworkBehaviour
             return;
         }
 
-        Debug.Log("Projectile hit something");
-        // PlayerNetworkLife playerNetworkLife = other.gameObject.GetComponent<PlayerNetworkLife>();
-        // if (playerNetworkLife != null)
-        // {
-        //     playerNetworkLife.TakeDamageServerRpc(10);
-        //     NetworkObject projNetworkObject = gameObject.GetComponent<NetworkObject>();
-        //     if (projNetworkObject != null)
-        //     {
-        //         projNetworkObject.Despawn(true);
-        //     }
-        // }
+        PlayerNetworkLife playerNetworkLife = other.GetComponent<PlayerNetworkLife>();
+        if (playerNetworkLife == null)
+            return;
+        
+        playerNetworkLife.TakeDamageServerRpc(10);
+        if (_networkObject != null)
+        {
+            _networkObject.Despawn();
+        }
     }
-
 }

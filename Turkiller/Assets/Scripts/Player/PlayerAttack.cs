@@ -10,26 +10,33 @@ public class PlayerAttack : NetworkBehaviour
     {
         if (IsOwner && Input.GetMouseButtonDown(0))
         {
-            Vector3 mousePos = _camera.ScreenToWorldPoint(Input.mousePosition);
-            RequestAttackServerRpc(OwnerClientId, mousePos);
+            Vector3 mousePos = GetMousePosition();
+            Vector3 dir = mousePos - _spawnPoint.position;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            Quaternion direction = Quaternion.AngleAxis(angle, new Vector3(0, _spawnPoint.rotation.y, 1));
+            RequestAttackServerRpc(OwnerClientId, _spawnPoint.position, direction);
         }
+    }
+    private Vector3 GetMousePosition()
+    {
+        return _camera.ScreenToWorldPoint(Input.mousePosition);
     }
 
     [ServerRpc]
-    private void RequestAttackServerRpc(ulong ownerClientId, Vector3 mousePos)
+    private void RequestAttackServerRpc(ulong ownerClientId, Vector3 spawnPoint, Quaternion direction)
     {
-        GameObject projectile = Instantiate(_projectilePrefab, _spawnPoint.position, Quaternion.identity);
-        
-        // Rotate
-        Vector3 dir = mousePos - projectile.transform.position;
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        projectile.transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, projectile.transform.rotation.y, 1));
+        GameObject projectile = Instantiate(_projectilePrefab, spawnPoint, direction);
 
+        if (!projectile.TryGetComponent(out ProjectileComponent projectileComponent))
+            return;
+        
+        projectileComponent.SetVelocity();
+        
         NetworkObject networkObject = projectile.GetComponent<NetworkObject>();
-        if (networkObject != null)
-        {
-            projectile.GetComponent<ProjectileComponent>().SetOwner(ownerClientId); // Assignation de l'ID
-            networkObject.Spawn(true);
-        }
+        if (networkObject == null)
+            return;
+        
+        projectileComponent.SetOwner(ownerClientId); // Assignation de l'ID
+        networkObject.Spawn(true);
     }
 }

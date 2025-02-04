@@ -11,19 +11,15 @@ public class SeedSpawner : NetworkBehaviour
     [SerializeField] private Vector2 spawnAreaMax = new Vector2(5, 5);
     [SerializeField] private float spawnInterval = 5f;
     [SerializeField] private int maxSeeds = 10;
-    public static NetworkVariable<bool> server = new(true);
 
     private int currentSeedCount = 0;
 
     public override void OnNetworkSpawn()
     {
-        if(!IsServer) return;   
+        if(!IsServer) return;
 
-        if(Application.platform == RuntimePlatform.LinuxServer || SeedSpawner.server.Value)
-        {
-            SeedSpawner.server.Value = false;
-            StartCoroutine(SpawnSeeds());
-        }
+        StartCoroutine(SpawnSeeds());
+
     }
 
     private IEnumerator SpawnSeeds()
@@ -38,7 +34,7 @@ public class SeedSpawner : NetworkBehaviour
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [ServerRpc]
     private void SpawnSeedServerRpc(ulong ownerClientId)
     {
         if (seeds.Count == 0) return;
@@ -51,7 +47,7 @@ public class SeedSpawner : NetworkBehaviour
         );
 
         GameObject newSeed = Instantiate(seedPrefab, randomPosition, Quaternion.identity);
-        newSeed.GetComponent<SeedObject>().Init(randomSeed);
+        newSeed.GetComponent<SeedObject>().Init(randomSeed, this);
         currentSeedCount++;
 
         NetworkObject networkObject = newSeed.GetComponent<NetworkObject>();
@@ -62,7 +58,8 @@ public class SeedSpawner : NetworkBehaviour
         }
     }
 
-    public void SeedCollected()
+    [ServerRpc]
+    public void SeedCollectedServerRpc()
     {
         currentSeedCount--;
     }

@@ -5,6 +5,7 @@ public class PlayerNetworkLife : NetworkBehaviour
 {
     [SerializeField] private float _maxHealth = 100;
     [SerializeField] private Image _healthBar;
+    [SerializeField] private PlayerEffects _effects;
 
     private NetworkVariable<float> _currentHealth = new NetworkVariable<float>();
 
@@ -19,7 +20,6 @@ public class PlayerNetworkLife : NetworkBehaviour
     [Rpc(SendTo.Server, RequireOwnership = false)]
     public void TakeDamageServerRpc(float damage, ulong targetClientId)
     {
-        Debug.Log("Take Damage");
         PlayerController[] players = FindObjectsByType<PlayerController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         foreach (PlayerController player in players)
         {
@@ -28,7 +28,7 @@ public class PlayerNetworkLife : NetworkBehaviour
                 continue;
             
             PlayerNetworkLife playerNetworkLife = player.GetComponent<PlayerNetworkLife>();
-            playerNetworkLife._currentHealth.Value -= damage;
+            playerNetworkLife._currentHealth.Value -= damage * _effects.GetEffect(Bonus.DamageTakenMultiplier).min;
             playerNetworkLife.UpdateHealthClientRpc(playerNetworkLife._currentHealth.Value);
         }
     }

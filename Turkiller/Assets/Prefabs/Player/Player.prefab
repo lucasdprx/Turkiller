@@ -255,6 +255,7 @@ GameObject:
   - component: {fileID: 6906997715150876645}
   - component: {fileID: -3294064529289567382}
   - component: {fileID: -4595100722608389081}
+  - component: {fileID: 1377571546169007362}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -294,6 +295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 5
+  _effects: {fileID: 1377571546169007362}
 --- !u!114 &2936366191188770192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -384,6 +386,8 @@ MonoBehaviour:
   _projectilePrefab: {fileID: 7028746318498644895, guid: c3e152074896a9442bcb7219c1ba4db8, type: 3}
   _spawnPoint: {fileID: 6105469438828675672}
   _camera: {fileID: 8471852998346571616}
+  _baseDamage: 10
+  _effects: {fileID: 1377571546169007362}
 --- !u!61 &5180963656216227215
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -489,6 +493,22 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   _maxHealth: 100
   _healthBar: {fileID: 7439949207679979583}
+  _effects: {fileID: 1377571546169007362}
+--- !u!114 &1377571546169007362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3540394408133261254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b50e1bce8adfdc4eb8a3f8f60fed425, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  effectUIPrefab: {fileID: 2917589295019690546, guid: f08b04bdd5c437e47b576401790f3e47, type: 3}
+  testEffects: []
 --- !u!1 &3922212256401152626
 GameObject:
   m_ObjectHideFlags: 0

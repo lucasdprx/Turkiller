@@ -1,10 +1,13 @@
 using Unity.Netcode;
 using UnityEngine;
+
 public class PlayerAttack : NetworkBehaviour
 {
     [SerializeField] private GameObject _projectilePrefab;
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private Camera _camera;
+    [SerializeField] private float _baseDamage = 10;
+    [SerializeField] private PlayerEffects _effects;
 
     private void Update()
     {
@@ -36,6 +39,7 @@ public class PlayerAttack : NetworkBehaviour
             return;
         
         projectileComponent.SetOwner(ownerClientId);
+        projectileComponent.Init(_baseDamage * _effects.GetEffect(Bonus.DamageMultiplier).max);
         networkObject.Spawn(true);
     }
 }

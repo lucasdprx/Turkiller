@@ -12,6 +12,7 @@ public class ProjectileComponent : NetworkBehaviour
     private Transform _transform;
     private NetworkObject _networkObject;
     private Rigidbody2D _rigidbody;
+    private float _damage;
 
     private void Awake()
     {
@@ -39,6 +40,11 @@ public class ProjectileComponent : NetworkBehaviour
         _id = ownerId;
     }
 
+    public void Init(float damage)
+    {
+        _damage = damage;
+    }
+
     private void Update()
     {
         MoveProjectile();
@@ -63,19 +69,17 @@ public class ProjectileComponent : NetworkBehaviour
             return;
         }
         
-        Debug.Log("Hit");
         PlayerNetworkLife playerNetworkLife = other.GetComponent<PlayerNetworkLife>();
         if (playerNetworkLife == null)
             return;
         
-        playerNetworkLife.TakeDamageServerRpc(10, networkObject.OwnerClientId);
+        playerNetworkLife.TakeDamageServerRpc(_damage, networkObject.OwnerClientId);
         DespawnServerRpc();
     }
 
     [Rpc(SendTo.Server, RequireOwnership = false)]
     private void DespawnServerRpc()
     {
-        Debug.Log("Despawn");
         if (_networkObject != null)
         {
             _networkObject.Despawn();

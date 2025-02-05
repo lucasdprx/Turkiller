@@ -1,16 +1,12 @@
-using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 10f;
     private Vector2 _moveDirection;
     private Rigidbody2D _rb;
-
-   [SerializeField] private PlayerEffects _effects;
+    [SerializeField] private PlayerEffects _effects;
 
 
 

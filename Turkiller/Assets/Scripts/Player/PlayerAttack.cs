@@ -14,7 +14,8 @@ public class PlayerAttack : NetworkBehaviour
             Vector3 dir = mousePos - _spawnPoint.position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             Quaternion direction = Quaternion.AngleAxis(angle, new Vector3(0, _spawnPoint.rotation.y, 1));
-            RequestAttackServerRpc(OwnerClientId, _spawnPoint.position, direction);
+            ulong ownerClientId = GetComponent<NetworkObject>().OwnerClientId;
+            RequestAttackServerRpc(ownerClientId, _spawnPoint.position, direction);
         }
     }
     private Vector3 GetMousePosition()
@@ -30,13 +31,11 @@ public class PlayerAttack : NetworkBehaviour
         if (!projectile.TryGetComponent(out ProjectileComponent projectileComponent))
             return;
         
-        projectileComponent.SetVelocity();
-        
         NetworkObject networkObject = projectile.GetComponent<NetworkObject>();
         if (networkObject == null)
             return;
         
-        projectileComponent.SetOwner(ownerClientId); // Assignation de l'ID
+        projectileComponent.SetOwner(ownerClientId);
         networkObject.Spawn(true);
     }
 }

@@ -7,7 +7,8 @@ public class ProjectileComponent : NetworkBehaviour
     [SerializeField] private float _distance = 10f;
     
     private float _distanceTraveled;
-    private ulong _ownerClientId;
+    private NetworkVariable<ulong> _ownerClientId = new NetworkVariable<ulong>();
+    private ulong _id;
     private Transform _transform;
     private NetworkObject _networkObject;
     private Rigidbody2D _rigidbody;
@@ -19,21 +20,27 @@ public class ProjectileComponent : NetworkBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    public void SetVelocity()
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        SetVelocity();
+        if (IsServer)
+            _ownerClientId.Value = _id;
+    }
+
+    private void SetVelocity()
     {
         Vector2 velocity = _transform.right * _speed;
         _rigidbody.linearVelocity = velocity;
     }
-
+    
     public void SetOwner(ulong ownerId)
     {
-        _ownerClientId = ownerId;
+        _id = ownerId;
     }
 
     private void Update()
     {
-        if (!IsServer) return;
-
         MoveProjectile();
     }
 
@@ -43,28 +50,32 @@ public class ProjectileComponent : NetworkBehaviour
         if (!(_distanceTraveled >= _distance))
             return;
         
-        if (_networkObject != null)
-            _networkObject.Despawn();
+        DespawnServerRpc();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!IsServer) return;
+        if (IsServer) return;
 
         NetworkObject networkObject = other.GetComponent<NetworkObject>();
-        if (networkObject != null && networkObject.OwnerClientId == _ownerClientId)
+        if (networkObject != null && networkObject.OwnerClientId == _ownerClientId.Value)
         {
             return;
         }
         
-        Debug.Log("Enter !");
+        Debug.Log("Hit");
         PlayerNetworkLife playerNetworkLife = other.GetComponent<PlayerNetworkLife>();
         if (playerNetworkLife == null)
             return;
         
-        Debug.Log(playerNetworkLife);
-        Debug.Log(networkObject.OwnerClientId);
         playerNetworkLife.TakeDamageServerRpc(10, networkObject.OwnerClientId);
+        DespawnServerRpc();
+    }
+
+    [Rpc(SendTo.Server, RequireOwnership = false)]
+    private void DespawnServerRpc()
+    {
+        Debug.Log("Despawn");
         if (_networkObject != null)
         {
             _networkObject.Despawn();

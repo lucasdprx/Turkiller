@@ -8,11 +8,13 @@ public class NetworkPlayer : NetworkBehaviour
     private PlayerAttack _playerAttack;
     private Camera _camera;
     private PlayerInput _playerInput;
+    private PlayerNetworkLife _playerNetworkLife;
 
     private void Awake()
     {
         _playerController = GetComponent<PlayerController>();
         _playerAttack = GetComponent<PlayerAttack>();
+        _playerNetworkLife = GetComponent<PlayerNetworkLife>();
         _camera = GetComponentInChildren<Camera>();
         _playerInput = GetComponentInChildren<PlayerInput>();
     }
@@ -23,6 +25,7 @@ public class NetworkPlayer : NetworkBehaviour
 
         _playerController.enabled = IsOwner;
         _playerAttack.enabled = IsOwner;
+        _playerNetworkLife.enabled = IsOwner;
         _camera.gameObject.SetActive(IsOwner);
         _playerInput.gameObject.SetActive(IsOwner);
 

@@ -5,7 +5,6 @@ public class ProjectileComponent : NetworkBehaviour
 {
     [SerializeField] private float _speed = 15f;
     [SerializeField] private float _distance = 10f;
-    [SerializeField] private string tagPlayer = "Player";
     
     private float _distanceTraveled;
     private ulong _ownerClientId;
@@ -57,12 +56,15 @@ public class ProjectileComponent : NetworkBehaviour
         {
             return;
         }
-
+        
+        Debug.Log("Enter !");
         PlayerNetworkLife playerNetworkLife = other.GetComponent<PlayerNetworkLife>();
         if (playerNetworkLife == null)
             return;
         
-        playerNetworkLife.TakeDamageServerRpc(10);
+        Debug.Log(playerNetworkLife);
+        Debug.Log(networkObject.OwnerClientId);
+        playerNetworkLife.TakeDamageServerRpc(10, networkObject.OwnerClientId);
         if (_networkObject != null)
         {
             _networkObject.Despawn();

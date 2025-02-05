@@ -3,44 +3,39 @@ using UnityEngine;
 using UnityEngine.UI;
 public class PlayerNetworkLife : NetworkBehaviour
 {
-    [SerializeField] private int _maxHealth = 100;
+    [SerializeField] private float _maxHealth = 100;
     [SerializeField] private Image _healthBar;
-    
-    private NetworkVariable<int> _currentHealth = new NetworkVariable<int>();
+
+    private NetworkVariable<float> _currentHealth = new NetworkVariable<float>();
 
     public override void OnNetworkSpawn()
     {
-        if (IsServer)
-        {
+        if (IsServer) 
             _currentHealth.Value = _maxHealth;
-        }
-
-        _currentHealth.OnValueChanged += UpdateHealthBar;
+        
+        _healthBar.fillAmount = _currentHealth.Value / _maxHealth;
     }
 
-    private void UpdateHealthBar(int oldValue, int newValue)
+    [Rpc(SendTo.Server, RequireOwnership = false)]
+    public void TakeDamageServerRpc(float damage, ulong targetClientId)
     {
-        if (_healthBar != null)
+        Debug.Log("Take Damage");
+        PlayerController[] players = FindObjectsByType<PlayerController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (PlayerController player in players)
         {
-            _healthBar.fillAmount = (float)newValue / _maxHealth;
+            NetworkObject networkObject = player.GetComponent<NetworkObject>();
+            if (networkObject.OwnerClientId != targetClientId)
+                continue;
+            
+            PlayerNetworkLife playerNetworkLife = player.GetComponent<PlayerNetworkLife>();
+            playerNetworkLife._currentHealth.Value -= damage;
+            playerNetworkLife.UpdateHealthClientRpc(playerNetworkLife._currentHealth.Value);
         }
     }
 
-    [ServerRpc]
-    public void TakeDamageServerRpc(int damage)
+    [Rpc(SendTo.ClientsAndHost)]
+    private void UpdateHealthClientRpc(float newHealth)
     {
-        _currentHealth.Value = Mathf.Max(0, _currentHealth.Value - damage);
-        UpdateHealthClientRpc(_currentHealth.Value);
-    }
-
-    [ClientRpc]
-    private void UpdateHealthClientRpc(int newHealth)
-    {
-        Debug.Log(newHealth);
-        if (_healthBar != null)
-        {
-            _healthBar.fillAmount = (float)newHealth / _maxHealth;
-        }
-        Debug.Log(_healthBar.fillAmount);
+        _healthBar.fillAmount = newHealth / _maxHealth;
     }
 }

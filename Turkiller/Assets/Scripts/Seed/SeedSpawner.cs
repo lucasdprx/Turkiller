@@ -16,8 +16,10 @@ public class SeedSpawner : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        print("1");
         if(!IsServer) return;
 
+        print("2");
         StartCoroutine(SpawnSeeds());
     }
 
@@ -27,15 +29,17 @@ public class SeedSpawner : NetworkBehaviour
         {
             if (currentSeedCount < maxSeeds && seeds.Count > 0)
             {
+                print("3");
                 SpawnSeedServerRpc(OwnerClientId);
             }
             yield return new WaitForSeconds(spawnInterval);
         }
     }
 
-    [ServerRpc]
+    [Rpc(SendTo.Server)]
     private void SpawnSeedServerRpc(ulong ownerClientId)
     {
+        print("4");
         if (seeds.Count == 0) return;
 
         Seeds randomSeed = seeds[Random.Range(0, seeds.Count)];
@@ -57,7 +61,7 @@ public class SeedSpawner : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
+    [Rpc(SendTo.Server)]
     public void SeedCollectedServerRpc()
     {
         currentSeedCount--;

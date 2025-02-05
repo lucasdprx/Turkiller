@@ -14,7 +14,7 @@ public class PlayerEffects : NetworkBehaviour
         public float intensity;
         public Bonus bonus;
 
-        // Sérialisation pour la synchronisation réseau
+        // Sï¿½rialisation pour la synchronisation rï¿½seau
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref time);
@@ -23,7 +23,7 @@ public class PlayerEffects : NetworkBehaviour
             serializer.SerializeValue(ref bonus);
         }
 
-        // Implémentation de IEquatable pour NetworkList
+        // Implï¿½mentation de IEquatable pour NetworkList
         public bool Equals(BonusEffect other)
         {
             return time == other.time && intensity == other.intensity && bonus == other.bonus;
@@ -64,13 +64,13 @@ public class PlayerEffects : NetworkBehaviour
 
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server, RequireOwnership = false)]
     public void AddEffectServerRpc(BonusEffect seed, ulong id)
     {
         CreateUIClientRpc(id, seed); 
     }
     
-    [ClientRpc]
+    [Rpc(SendTo.ClientsAndHost)]
     public void CreateUIClientRpc(ulong id, BonusEffect bonus)
     {
         bool passed = true;

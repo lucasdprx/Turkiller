@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using System;
-using UnityEngine;
+using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEngine;
 
 public class PlayerEffects : NetworkBehaviour
 {
@@ -10,6 +10,7 @@ public class PlayerEffects : NetworkBehaviour
     public struct BonusEffect : INetworkSerializable, IEquatable<BonusEffect>
     {
         public float time;
+        public float maxTime;
         public float intensity;
         public Bonus bonus;
 
@@ -17,6 +18,7 @@ public class PlayerEffects : NetworkBehaviour
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref time);
+            serializer.SerializeValue(ref maxTime);
             serializer.SerializeValue(ref intensity);
             serializer.SerializeValue(ref bonus);
         }
@@ -38,22 +40,57 @@ public class PlayerEffects : NetworkBehaviour
         }
     }
 
-    private NetworkList<BonusEffect> effects = new NetworkList<BonusEffect>();
+    public GameObject effectUIPrefab;
+    private Transform _effectParent;
+
+    private List<BonusEffect> effects = new List<BonusEffect>();
+
+    public List<BonusEffect> testEffects = new();
+
+    private void Start()
+    {
+        _effectParent = ReferenceManager.instance.parentsEffectUI;
+    }
 
 
     private void Update()
     {
-        DecreaseEffectServerRpc();
+        DecreaseEffect();
+        testEffects.Clear();
+        foreach (var effect in effects)
+        {
+            testEffects.Add(effect);
+        }
+
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void AddEffectServerRpc(BonusEffect seed)
+    public void AddEffectServerRpc(BonusEffect seed, ulong id)
     {
-        effects.Add(seed);
+        CreateUIClientRpc(id, seed); 
+    }
+    
+    [ClientRpc]
+    public void CreateUIClientRpc(ulong id, BonusEffect bonus)
+    {
+        bool passed = true;
+        foreach (var item in effects)
+        {
+            if (item.bonus == bonus.bonus)
+                passed = false;
+        }
+        if (passed)
+        {
+            if (id == NetworkManager.Singleton.LocalClientId)
+            {
+                Instantiate(effectUIPrefab, _effectParent).GetComponent<EffectUI>().Init(this, bonus.bonus);
+            }
+        }         
+        effects.Add(bonus);
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void DecreaseEffectServerRpc()
+    
+    public void DecreaseEffect()
     {
         for (int i = 0; i < effects.Count; i++)
         {
@@ -69,6 +106,22 @@ public class PlayerEffects : NetworkBehaviour
                 i--;
             }
         }
+    }
+
+    public (float time, float max) HighestTimer(Bonus bonus)
+    {
+        float highestTime = 0;
+        float highestMax = 0;
+
+        for (int i = 0; i < effects.Count; i++)
+        {
+            if (bonus == effects[i].bonus && effects[i].time > highestTime)
+            {
+                highestTime = effects[i].time;
+                highestMax = effects[i].maxTime;
+            }
+        }
+        return (highestTime, highestMax);
     }
 
     public (float min, float max) GetEffect(Bonus bonus)
@@ -89,7 +142,6 @@ public class PlayerEffects : NetworkBehaviour
                 }
             }
         }
-
         return (min, max);
     }
 }

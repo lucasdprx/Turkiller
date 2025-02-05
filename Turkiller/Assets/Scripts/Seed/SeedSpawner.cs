@@ -1,14 +1,14 @@
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEngine;
 
 public class SeedSpawner : NetworkBehaviour
 {
     [SerializeField] private GameObject seedPrefab;
     [SerializeField] private List<Seeds> seeds;
-    [SerializeField] private Vector2 spawnAreaMin = new Vector2(-5, -5);
-    [SerializeField] private Vector2 spawnAreaMax = new Vector2(5, 5);
+    [SerializeField] private Vector2 spawnAreaMin = new Vector2(-10, -10);
+    [SerializeField] private Vector2 spawnAreaMax = new Vector2(10, 10);
     [SerializeField] private float spawnInterval = 5f;
     [SerializeField] private int maxSeeds = 10;
 
@@ -19,7 +19,6 @@ public class SeedSpawner : NetworkBehaviour
         if(!IsServer) return;
 
         StartCoroutine(SpawnSeeds());
-
     }
 
     private IEnumerator SpawnSeeds()

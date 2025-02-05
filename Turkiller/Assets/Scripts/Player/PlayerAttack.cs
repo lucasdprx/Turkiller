@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+
 public class PlayerAttack : NetworkBehaviour
 {
     [SerializeField] private GameObject _projectilePrefab;

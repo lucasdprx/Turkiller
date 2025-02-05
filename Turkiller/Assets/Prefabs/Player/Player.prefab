@@ -601,7 +601,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b50e1bce8adfdc4eb8a3f8f60fed425, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effects: []
+  ShowTopMostFoldoutHeaderGroup: 1
+  effectUIPrefab: {fileID: 2917589295019690546, guid: f08b04bdd5c437e47b576401790f3e47, type: 3}
+  effectParent: {fileID: 0}
 --- !u!1 &3922212256401152626
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,3 @@
-using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -6,22 +5,17 @@ public class SeedObject : NetworkBehaviour
 {
     public Seeds seeds;
     public SpriteRenderer spriteRenderer;
-
     public Sprite[] sprites;
 
-
     private ulong _ownerClientId;
-
     private NetworkVariable<int> spriteIndex = new NetworkVariable<int>(0);
-
     private SeedSpawner _spawner;
 
     public override void OnNetworkSpawn()
     {
         spriteIndex.OnValueChanged += OnSpriteChanged;
-        OnSpriteChanged(0, spriteIndex.Value); // Appliquer immédiatement la valeur actuelle
+        OnSpriteChanged(0, spriteIndex.Value);
     }
-
 
     private void OnSpriteChanged(int oldValue, int newValue)
     {
@@ -40,7 +34,6 @@ public class SeedObject : NetworkBehaviour
         _spawner = spawner;
     }
 
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!IsServer) return;
@@ -50,8 +43,10 @@ public class SeedObject : NetworkBehaviour
         PlayerEffects playerNetworkLife = collision.gameObject.GetComponent<PlayerEffects>();
         if (playerNetworkLife != null)
         {
-            playerNetworkLife.AddEffectServerRpc(new() { bonus = seeds.bonus, time = seeds.bonusDuration, intensity = seeds.bonusIntensity }) ;
+            PlayerEffects.BonusEffect caca = new() { bonus = seeds.bonus, maxTime = seeds.bonusDuration, time = seeds.bonusDuration, intensity = seeds.bonusIntensity };
+            
             NetworkObject projNetworkObject = gameObject.GetComponent<NetworkObject>();
+                    playerNetworkLife.AddEffectServerRpc(caca, playerNetworkLife.OwnerClientId);
             if (projNetworkObject != null)
             {
                 _spawner.SeedCollectedServerRpc();

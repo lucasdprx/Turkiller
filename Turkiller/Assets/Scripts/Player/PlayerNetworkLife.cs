@@ -1,5 +1,4 @@
 using Unity.Netcode;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +13,7 @@ public class PlayerNetworkLife : NetworkBehaviour
     private NetworkVariable<float> _currentHealth = new NetworkVariable<float>(
         100,
         NetworkVariableReadPermission.Everyone, // Tout le monde peut lire
-        NetworkVariableWritePermission.Server // Seul le serveur peut écrire
+        NetworkVariableWritePermission.Server // Seul le serveur peut ï¿½crire
     );
 
     private void Start()

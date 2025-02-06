@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SeedName: Flax
   spriteIndex: 2
-  bonus: 2
+  bonus: 3
   bonusDuration: 30
   bonusIntensity: 2
+  puntos: 5

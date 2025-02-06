@@ -40,13 +40,16 @@ public class SeedObject : NetworkBehaviour
 
         NetworkObject networkObject = collision.gameObject.GetComponent<NetworkObject>();
 
-        PlayerEffects playerNetworkLife = collision.gameObject.GetComponent<PlayerEffects>();
-        if (playerNetworkLife != null)
+        PlayerEffects playerEffect = collision.gameObject.GetComponent<PlayerEffects>();
+        if (playerEffect != null)
         {
             PlayerEffects.BonusEffect caca = new() { bonus = seeds.bonus, maxTime = seeds.bonusDuration, time = seeds.bonusDuration, intensity = seeds.bonusIntensity };
             
+            playerEffect.AddEffectServerRpc(caca, playerEffect.OwnerClientId);
+            playerEffect.GetComponent<PlayerInfo>().AddScore(seeds.puntos);
+
             NetworkObject projNetworkObject = gameObject.GetComponent<NetworkObject>();
-                    playerNetworkLife.AddEffectServerRpc(caca, playerNetworkLife.OwnerClientId);
+
             if (projNetworkObject != null)
             {
                 _spawner.SeedCollectedServerRpc();

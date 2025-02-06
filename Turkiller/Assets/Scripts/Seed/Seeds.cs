@@ -9,11 +9,12 @@ public class Seeds : ScriptableObject
     public Bonus bonus;
     public float bonusDuration;
     public float bonusIntensity;
-
+    public int puntos;
 }
 
 [Serializable] public enum Bonus
 {
+    None,
     DamageTakenMultiplier,
     AttackSpeed,
     MoveSpeed,

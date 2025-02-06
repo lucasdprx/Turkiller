@@ -8,11 +8,16 @@ public class PlayerAttack : NetworkBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private float _baseDamage = 10;
     [SerializeField] private PlayerEffects _effects;
+    [SerializeField] private float _distanceAttackSpeed = 0.6f;
+
+    private float _attackTimer;
 
     private void Update()
     {
-        if (IsOwner && Input.GetMouseButtonDown(0))
+        _attackTimer += Time.deltaTime;
+        if (IsOwner && Input.GetMouseButton(0) && _attackTimer >= _distanceAttackSpeed)
         {
+            _attackTimer = 0;
             Vector3 mousePos = GetMousePosition();
             Vector3 dir = mousePos - _spawnPoint.position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;

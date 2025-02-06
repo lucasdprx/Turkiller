@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SeedName: Sesame
   spriteIndex: 0
-  bonus: 0
+  bonus: 1
   bonusDuration: 10
   bonusIntensity: 0
+  puntos: 15

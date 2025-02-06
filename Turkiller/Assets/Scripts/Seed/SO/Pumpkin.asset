@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SeedName: Pumpkin
   spriteIndex: 3
-  bonus: 3
+  bonus: 4
   bonusDuration: 15
   bonusIntensity: 1.4
+  puntos: 10

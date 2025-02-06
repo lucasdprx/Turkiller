@@ -4,15 +4,32 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 10f;
+    [SerializeField] private PlayerEffects _effects;
+    
     private Vector2 _moveDirection;
     private Rigidbody2D _rb;
-    [SerializeField] private PlayerEffects _effects;
-
+    private PlayerInput _playerInput;
+    private Transform _spritePlayer;
+    private Camera _camera;
+    private Transform _transform;
 
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _playerInput = GetComponentInChildren<PlayerInput>();
+        _spritePlayer = GetComponentInChildren<SpriteRenderer>().transform;
+        _camera = GetComponentInChildren<Camera>();
+        _transform = transform;
+    }
+    
+    private void Update()
+    {
+        Movement();
+        Vector3 dir = PlayerAttack.GetMousePosition(_camera) - _transform.position;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        Quaternion direction = Quaternion.AngleAxis(angle, new Vector3(0, _transform.rotation.y, 1));
+        _spritePlayer.rotation = direction;
     }
 
     public void GetInputMovement(InputAction.CallbackContext ctx)
@@ -22,17 +39,16 @@ public class PlayerController : MonoBehaviour
         if (ctx.canceled)
             _rb.linearVelocity = Vector2.zero;
     }
+
+    public void FreezeInput(bool value)
+    {
+        _playerInput.enabled = !value;
+    }
     private void Movement()
     {
         if (_rb == null || _moveDirection == Vector2.zero) return;
 
-        _rb.linearVelocity = _moveDirection * _moveSpeed * _effects.GetEffect(Bonus.MoveSpeed).max;
-        //Vector3 dir = _moveDirection * _moveSpeed;
-        //transform.position += dir;
-    }
-    private void Update()
-    {
-        Movement();
+        _rb.linearVelocity = _moveDirection * (_moveSpeed * _effects.GetEffect(Bonus.MoveSpeed).max);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -28,7 +28,7 @@ public class PlayerNetworkLife : NetworkBehaviour
                 continue;
             
             PlayerNetworkLife playerNetworkLife = player.GetComponent<PlayerNetworkLife>();
-            playerNetworkLife._currentHealth.Value -= damage * _effects.GetEffect(Bonus.DamageTakenMultiplier).min;
+            playerNetworkLife._currentHealth.Value -= damage;// * _effects.GetEffect(Bonus.DamageTakenMultiplier).min;
             playerNetworkLife.UpdateHealthClientRpc(playerNetworkLife._currentHealth.Value);
         }
     }

@@ -134,7 +134,7 @@ public class PlayerEffects : NetworkBehaviour
     {
         (float min, float max) = (1, 1);
 
-        for(int i = 0;i < effects.Count;i++)
+        for (int i = 0;i < effects.Count;i++)
         {
             if(effects[i].bonus == bonus)
             {

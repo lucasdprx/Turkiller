@@ -110,15 +110,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f08ab9bb6092dfa4e831530b22813976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _bonus: 0
   seedSprites:
   - sprite: {fileID: 7847595167911472084, guid: ae229b9d8029d4343b21a521b6602388, type: 3}
-    bonus: 0
-  - sprite: {fileID: 3627446616717767677, guid: 3b2d4f077b55f444c982d0692aed5bce, type: 3}
     bonus: 1
-  - sprite: {fileID: 7447576856632055868, guid: 7e9f6b22e12a175418413112a31b3100, type: 3}
+  - sprite: {fileID: 3627446616717767677, guid: 3b2d4f077b55f444c982d0692aed5bce, type: 3}
     bonus: 2
-  - sprite: {fileID: 8969210940614702701, guid: 7cb3cb3f403e27544acf3817d84fb9d6, type: 3}
+  - sprite: {fileID: 7447576856632055868, guid: 7e9f6b22e12a175418413112a31b3100, type: 3}
     bonus: 3
+  - sprite: {fileID: 8969210940614702701, guid: 7cb3cb3f403e27544acf3817d84fb9d6, type: 3}
+    bonus: 4
   imageEffect: {fileID: 8052100356845473855}
   bgImage: {fileID: 1407552588139440232}
 --- !u!1 &7992835288017102465

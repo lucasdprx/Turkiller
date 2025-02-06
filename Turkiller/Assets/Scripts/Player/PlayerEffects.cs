@@ -14,6 +14,8 @@ public class PlayerEffects : NetworkBehaviour
         public float intensity;
         public Bonus bonus;
 
+        
+
         // S�rialisation pour la synchronisation r�seau
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
@@ -47,10 +49,14 @@ public class PlayerEffects : NetworkBehaviour
 
     public List<BonusEffect> testEffects = new();
 
+    
+
     private void Start()
     {
         _effectParent = ReferenceManager.instance.parentsEffectUI;
     }
+
+    
 
 
     private void Update()
@@ -128,7 +134,7 @@ public class PlayerEffects : NetworkBehaviour
     {
         (float min, float max) = (1, 1);
 
-        for(int i = 0;i < effects.Count;i++)
+        for (int i = 0;i < effects.Count;i++)
         {
             if(effects[i].bonus == bonus)
             {

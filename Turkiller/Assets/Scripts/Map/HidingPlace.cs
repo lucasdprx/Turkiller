@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Bush : MonoBehaviour
+public class HidingPlace : MonoBehaviour
 {
     private SpriteRenderer _bush;
     private Color _clearBush;

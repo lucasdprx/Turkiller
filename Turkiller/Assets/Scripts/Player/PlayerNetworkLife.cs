@@ -45,11 +45,12 @@ public class PlayerNetworkLife : NetworkBehaviour
 
         if (!(newValue <= 0f))
             return;
-        
-        if (IsOwner)
-            _deathMenu.SetActive(true);
 
-        DieServerRpc(OwnerClientId);
+        if (IsOwner)
+        {
+            _deathMenu.SetActive(true);
+            DieServerRpc(OwnerClientId);
+        }
     }
 
     [Rpc(SendTo.Server, RequireOwnership = false)]
@@ -86,6 +87,7 @@ public class PlayerNetworkLife : NetworkBehaviour
     [Rpc(SendTo.Server, RequireOwnership = false)]
     private void DieServerRpc(ulong targetClientId)
     {
+        _currentHealth.Value = _maxHealth;
         DieClientRpc(targetClientId);
     }
 
@@ -102,10 +104,6 @@ public class PlayerNetworkLife : NetworkBehaviour
         playerPrefab.GetComponentInChildren<Collider2D>().enabled = true;
         playerPrefab.GetComponent<PlayerController>().enabled = true;
         _player.GetComponentInChildren<SpriteRenderer>().enabled = true;
-
-
-
-        if (IsServer) _currentHealth.Value = _maxHealth;
         _player.SetActive(true);
     }
 

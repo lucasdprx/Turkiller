@@ -12,9 +12,12 @@ public class PlayerNetworkLife : NetworkBehaviour
 
     private NetworkVariable<float> _currentHealth = new NetworkVariable<float>(100);
 
+    private PlayerSpawn playerSpawn;
+
     private void Start()
     {
         _deathMenu.SetActive(false);
+        playerSpawn = GetComponent<PlayerSpawn>();
     }
 
     public override void OnNetworkSpawn()
@@ -32,6 +35,7 @@ public class PlayerNetworkLife : NetworkBehaviour
     public void SpawnTest()
     {
         RespawnPlayerClientRpc(OwnerClientId);
+
     }
 
     public override void OnDestroy()
@@ -45,7 +49,7 @@ public class PlayerNetworkLife : NetworkBehaviour
 
         if (!(newValue <= 0f))
             return;
-        
+
         if (IsOwner)
             _deathMenu.SetActive(true);
 
@@ -73,7 +77,7 @@ public class PlayerNetworkLife : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     private void DieClientRpc(ulong targetClientId)
     {
-        if(NetworkManager.Singleton.ConnectedClients.TryGetValue(targetClientId, out var player))
+        if (NetworkManager.Singleton.ConnectedClients.TryGetValue(targetClientId, out var player))
         {
             _healthBar.transform.parent.gameObject.SetActive(false);
             player.PlayerObject.GetComponent<PlayerAttack>().enabled = false;
@@ -87,27 +91,29 @@ public class PlayerNetworkLife : NetworkBehaviour
     private void DieServerRpc(ulong targetClientId)
     {
         DieClientRpc(targetClientId);
-        
+
     }
 
     [Rpc(SendTo.ClientsAndHost)]
     public void RespawnPlayerClientRpc(ulong clientId)
     {
-        if (clientId != OwnerClientId) return; 
+        if (clientId != OwnerClientId) return;
 
+        //GetRandomSpawnPoint();
         _deathMenu.SetActive(false);
         _healthBar.transform.parent.gameObject.SetActive(true);
         NetworkObject playerPrefab = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
-        playerPrefab.transform.position = new Vector3(0f, 1f, 0f);
         playerPrefab.GetComponent<PlayerAttack>().enabled = true;
         playerPrefab.GetComponentInChildren<Collider2D>().enabled = true;
         playerPrefab.GetComponent<PlayerController>().enabled = true;
         _player.GetComponentInChildren<SpriteRenderer>().enabled = true;
-
+        //playerPrefab.transform.position = playerSpawn.GetRandomSpawnPoint().position;
+        playerPrefab.transform.position = playerPrefab.GetComponent<PlayerSpawn>().GetRandomSpawnPoint().position;
 
 
         if (IsServer) _currentHealth.Value = _maxHealth;
         _player.SetActive(true);
     }
+
 
 }

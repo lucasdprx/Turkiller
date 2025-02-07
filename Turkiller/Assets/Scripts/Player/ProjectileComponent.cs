@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -61,7 +62,7 @@ public class ProjectileComponent : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (IsServer) return;
+        if (IsServer || other.CompareTag("Bush")) return;
 
         NetworkObject networkObject = other.GetComponent<NetworkObject>();
         if (networkObject != null && networkObject.OwnerClientId == _ownerClientId.Value)

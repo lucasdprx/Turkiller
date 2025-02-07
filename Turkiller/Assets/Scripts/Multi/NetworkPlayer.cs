@@ -28,6 +28,9 @@ public class NetworkPlayer : NetworkBehaviour
         _camera.gameObject.SetActive(IsOwner);
         _playerInput.gameObject.SetActive(IsOwner);
 
+
+        transform.position = GetComponent<PlayerSpawn>().GetRandomSpawnPoint().position;
+
         UpdateTagLocally();
     }
 

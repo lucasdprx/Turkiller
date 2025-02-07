@@ -22,7 +22,6 @@ public class NetworkPlayer : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-
         _playerController.enabled = IsOwner;
         _playerAttack.enabled = IsOwner;
         _playerNetworkLife.enabled = IsOwner;

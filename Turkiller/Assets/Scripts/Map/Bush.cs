@@ -1,37 +1,34 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Bush : MonoBehaviour
 {
-    private SpriteRenderer _spriteBush;
-    private Color _colorClearBush;
-    private Color _colorFullBush;
+    private SpriteRenderer _bush;
+    private Color _clearBush;
+    private Color _fullBush;
     private float _alphaValueClearBush = 0.6f;
 
     private void Awake()
     {
-        _spriteBush = GetComponentInChildren<SpriteRenderer>();
+        _bush = GetComponentInChildren<SpriteRenderer>();
     }
 
     private void Start()
     {
-        _colorClearBush = new Color(1, 1, 1, _alphaValueClearBush);
-        _colorFullBush = Color.white;
+        _clearBush = new Color(1, 1, 1, _alphaValueClearBush);
+        _fullBush = Color.white;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag != "Player") return;
 
-        _spriteBush.color = _colorClearBush;
-        print ("in");
+        _bush.color = _clearBush;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag != "Player") return;
 
-        _spriteBush.color = _colorFullBush;
-        print("out");
+        _bush.color = _fullBush;
     }
 }

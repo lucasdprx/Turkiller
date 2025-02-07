@@ -11,8 +11,21 @@ public class PlayerInfo : NetworkBehaviour
 
     private void Awake()
     {
-        //TEST
+        string newName = ReferenceManager.instance.playerName;
+        if(newName.Length > 1)
+        {
+            playerName = newName;
+        }
+        else
+        {
+            playerName = GetRandomName();
+        }
         
+        
+    }
+
+    private string GetRandomName()
+    {
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         int length = Random.Range(4, 10);
 
@@ -22,8 +35,7 @@ public class PlayerInfo : NetworkBehaviour
             result += chars[Random.Range(0, chars.Length)];
         }
 
-        playerName = result;
-        
+        return result;
     }
 
     public void AddScore(int newScore)

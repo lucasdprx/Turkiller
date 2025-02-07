@@ -56,7 +56,10 @@ public class PlayerEffects : NetworkBehaviour
         _effectParent = ReferenceManager.instance.parentsEffectUI;
     }
 
-    
+    public void RemoveEffects()
+    {
+        effects.Clear();
+    }
 
 
     private void Update()

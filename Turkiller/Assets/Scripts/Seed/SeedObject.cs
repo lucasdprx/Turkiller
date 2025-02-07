@@ -13,6 +13,7 @@ public class SeedObject : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        spriteIndex.Value = seeds.spriteIndex;
         spriteIndex.OnValueChanged += OnSpriteChanged;
         OnSpriteChanged(0, spriteIndex.Value);
     }
@@ -30,7 +31,6 @@ public class SeedObject : NetworkBehaviour
     public void Init(Seeds newSeed, SeedSpawner spawner)
     {
         seeds = newSeed;
-        spriteIndex.Value = seeds.spriteIndex;
         _spawner = spawner;
     }
 

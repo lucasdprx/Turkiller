@@ -25,8 +25,8 @@ public class NetworkMenu : MonoBehaviour
             buttonClient.SetActive(false);
         }
     }
-    public void StartHost()
+    public void StartHost(GameObject buttonClient)
     {
-        NetworkManager.Singleton.StartHost();
+        if(NetworkManager.Singleton.StartHost()) buttonClient.SetActive(false);
     }
 }

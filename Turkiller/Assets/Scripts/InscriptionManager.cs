@@ -12,17 +12,15 @@ public class InscriptionManager : MonoBehaviour
     {
         string newName = nameText.text;
 
-        ReferenceManager.instance.playerName = newName;
 
-        networkMenu.StartClient(objectToDesactiveOnPlay);
+        networkMenu.StartClient(objectToDesactiveOnPlay, newName);
     }
 
     public void HostGame()
     {
         string newName = nameText.text;
 
-        ReferenceManager.instance.playerName = newName;
 
-        networkMenu.StartHost(objectToDesactiveOnPlay);
+        networkMenu.StartHost(objectToDesactiveOnPlay, newName);
     }
 }

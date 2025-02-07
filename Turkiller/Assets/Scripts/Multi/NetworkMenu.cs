@@ -1,3 +1,4 @@
+using System.Text;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -12,8 +13,11 @@ public class NetworkMenu : MonoBehaviour
         Debug.Log("Start server !");
     }
 
-    public void StartClient(GameObject buttonClient)
+    public void StartClient(GameObject buttonClient, string playerName)
     {
+        NetworkManager.Singleton.NetworkConfig.ConnectionData = Encoding.UTF8.GetBytes(playerName);
+
+
         bool success = NetworkManager.Singleton.StartClient();
 
         if (!success)
@@ -25,8 +29,13 @@ public class NetworkMenu : MonoBehaviour
             buttonClient.SetActive(false);
         }
     }
-    public void StartHost(GameObject buttonClient)
+    public void StartHost(GameObject buttonClient, string playerName)
     {
-        if(NetworkManager.Singleton.StartHost()) buttonClient.SetActive(false);
+        NetworkManager.Singleton.NetworkConfig.ConnectionData = Encoding.UTF8.GetBytes(playerName);
+
+
+        if (!NetworkManager.Singleton.StartHost()) return;
+            
+        buttonClient.SetActive(false);
     }
 }

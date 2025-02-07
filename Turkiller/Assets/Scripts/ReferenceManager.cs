@@ -10,6 +10,4 @@ public class ReferenceManager : MonoBehaviour
     }
 
     public Transform parentsEffectUI;
-
-    public string playerName;
 }

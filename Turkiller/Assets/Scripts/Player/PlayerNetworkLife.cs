@@ -10,11 +10,7 @@ public class PlayerNetworkLife : NetworkBehaviour
     [SerializeField] private GameObject _deathMenu;
     [SerializeField] private GameObject _player;
 
-    private NetworkVariable<float> _currentHealth = new NetworkVariable<float>(
-        100,
-        NetworkVariableReadPermission.Everyone, // Tout le monde peut lire
-        NetworkVariableWritePermission.Server // Seul le serveur peut �crire
-    );
+    private NetworkVariable<float> _currentHealth = new NetworkVariable<float>(100);
 
     private void Start()
     {
@@ -38,7 +34,7 @@ public class PlayerNetworkLife : NetworkBehaviour
         RespawnPlayerClientRpc(OwnerClientId);
     }
 
-    private void OnDestroy()
+    public override void OnDestroy()
     {
         _currentHealth.OnValueChanged -= OnHealthChanged;
     }
@@ -47,13 +43,13 @@ public class PlayerNetworkLife : NetworkBehaviour
     {
         _healthBar.fillAmount = newValue / _maxHealth;
 
-        if (newValue <= 0f)
-        {
-            if (IsOwner)
-                _deathMenu.SetActive(true);
+        if (!(newValue <= 0f))
+            return;
+        
+        if (IsOwner)
+            _deathMenu.SetActive(true);
 
-            DieServerRpc(OwnerClientId);
-        }
+        DieServerRpc(OwnerClientId);
     }
 
     [Rpc(SendTo.Server, RequireOwnership = false)]

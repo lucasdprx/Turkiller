@@ -66,7 +66,6 @@ public class ProjectileComponent : NetworkBehaviour
         NetworkObject networkObject = other.GetComponent<NetworkObject>();
         if (networkObject != null && networkObject.OwnerClientId == _ownerClientId.Value)
         {
-            DespawnServerRpc();
             return;
         }
         

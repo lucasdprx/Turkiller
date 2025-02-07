@@ -13,10 +13,7 @@ public class PlayerEffects : NetworkBehaviour
         public float maxTime;
         public float intensity;
         public Bonus bonus;
-
         
-
-        // S�rialisation pour la synchronisation r�seau
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref time);
@@ -25,7 +22,6 @@ public class PlayerEffects : NetworkBehaviour
             serializer.SerializeValue(ref bonus);
         }
 
-        // Impl�mentation de IEquatable pour NetworkList
         public bool Equals(BonusEffect other)
         {
             return time == other.time && intensity == other.intensity && bonus == other.bonus;

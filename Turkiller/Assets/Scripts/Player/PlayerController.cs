@@ -1,7 +1,8 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
     [SerializeField] private float _moveSpeed = 10f;
     [SerializeField] private PlayerEffects _effects;
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         Movement();
+        if (!IsOwner) return;
         Vector3 dir = PlayerAttack.GetMousePosition(_camera) - _transform.position;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         Quaternion direction = Quaternion.AngleAxis(angle, new Vector3(0, _transform.rotation.y, 1));

@@ -66,14 +66,14 @@ public class PlayerNetworkLife : NetworkBehaviour
 
             PlayerNetworkLife playerNetworkLife = player.GetComponent<PlayerNetworkLife>();
 
-            playerNetworkLife._currentHealth.Value -= damage * playerNetworkLife._effects.GetEffect(Bonus.DamageTakenMultiplier).min + 10;
+            playerNetworkLife._currentHealth.Value -= damage * playerNetworkLife._effects.GetEffect(Bonus.DamageTakenMultiplier).min;
         }
     }
 
     [Rpc(SendTo.ClientsAndHost)]
     private void DieClientRpc(ulong targetClientId)
     {
-        if(NetworkManager.Singleton.ConnectedClients.TryGetValue(targetClientId, out var player))
+        if(NetworkManager.Singleton.ConnectedClients.TryGetValue(targetClientId, out NetworkClient player))
         {
             _healthBar.transform.parent.gameObject.SetActive(false);
             player.PlayerObject.GetComponent<PlayerAttack>().enabled = false;
@@ -87,7 +87,6 @@ public class PlayerNetworkLife : NetworkBehaviour
     private void DieServerRpc(ulong targetClientId)
     {
         DieClientRpc(targetClientId);
-        
     }
 
     [Rpc(SendTo.ClientsAndHost)]

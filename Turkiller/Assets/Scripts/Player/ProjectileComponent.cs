@@ -66,12 +66,16 @@ public class ProjectileComponent : NetworkBehaviour
         NetworkObject networkObject = other.GetComponent<NetworkObject>();
         if (networkObject != null && networkObject.OwnerClientId == _ownerClientId.Value)
         {
+            DespawnServerRpc();
             return;
         }
         
         PlayerNetworkLife playerNetworkLife = other.GetComponent<PlayerNetworkLife>();
         if (playerNetworkLife == null)
+        {
+            DespawnServerRpc();
             return;
+        }
         
         playerNetworkLife.TakeDamageServerRpc(10, networkObject.OwnerClientId);
         DespawnServerRpc();

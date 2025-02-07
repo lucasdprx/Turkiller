@@ -246,8 +246,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6105469438828675672}
-  - component: {fileID: 7604146510223293416}
   - component: {fileID: 2936366191188770192}
+  - component: {fileID: 7604146510223293416}
   - component: {fileID: 4219436783519841249}
   - component: {fileID: 2372960564854978812}
   - component: {fileID: 110450169244003332}
@@ -281,19 +281,6 @@ Transform:
   - {fileID: 5521768386000088681}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7604146510223293416
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3540394408133261254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65b33cae613889c43b2e0ae9909f3bf8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _moveSpeed: 7
 --- !u!114 &2936366191188770192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,6 +306,21 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &7604146510223293416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3540394408133261254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65b33cae613889c43b2e0ae9909f3bf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  _moveSpeed: 7
+  _effects: {fileID: 0}
 --- !u!114 &4219436783519841249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -384,6 +386,13 @@ MonoBehaviour:
   _projectilePrefab: {fileID: 7028746318498644895, guid: c3e152074896a9442bcb7219c1ba4db8, type: 3}
   _spawnPoint: {fileID: 6105469438828675672}
   _camera: {fileID: 8471852998346571616}
+  _baseDamage: 10
+  _effects: {fileID: 0}
+  _distanceAttackSpeed: 0.6
+  _recoilDistanceAttack: 4
+  _recoilMeleeAttack: 4
+  _MeleeAttackSpeed: 0.6
+  _meleeAttackPoint: {fileID: 0}
 --- !u!50 &6906997715150876645
 Rigidbody2D:
   serializedVersion: 5
@@ -443,6 +452,9 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   _maxHealth: 100
   _healthBar: {fileID: 7439949207679979583}
+  _effects: {fileID: 0}
+  _deathMenu: {fileID: 0}
+  _player: {fileID: 0}
 --- !u!58 &6946314888063895060
 CircleCollider2D:
   m_ObjectHideFlags: 0

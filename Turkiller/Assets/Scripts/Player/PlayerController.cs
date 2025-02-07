@@ -32,6 +32,7 @@ public class PlayerController : NetworkBehaviour
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         Quaternion direction = Quaternion.AngleAxis(angle, new Vector3(0, _transform.rotation.y, 1));
         _spritePlayer.rotation = direction;
+        _spritePlayer.Rotate(0, 0, -90);
     }
 
     public void GetInputMovement(InputAction.CallbackContext ctx)

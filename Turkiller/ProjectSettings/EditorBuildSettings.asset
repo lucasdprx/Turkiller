@@ -9,6 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/MVP/MVP.unity
     guid: 60a8bf55e0b66694289fffe37f2c4e37
   - enabled: 1
+    path: Assets/Scenes/MVP/IntegrationVisuals.unity
+    guid: 3febe76eb59b9874d9a11ac506ca6047
     path: Assets/Scenes/Andy/SeedSpawner.unity
     guid: 4c61f79c3a28b4b41b350345f4d79de8
   - enabled: 1

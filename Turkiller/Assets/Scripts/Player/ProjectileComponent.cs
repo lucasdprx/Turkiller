@@ -1,4 +1,3 @@
-using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -73,11 +72,8 @@ public class ProjectileComponent : NetworkBehaviour
         PlayerNetworkLife playerNetworkLife = other.GetComponent<PlayerNetworkLife>();
         if (playerNetworkLife == null)
         {
-            DespawnServerRpc();
-            return;
+            playerNetworkLife.TakeDamageServerRpc(10, networkObject.OwnerClientId);
         }
-        
-        playerNetworkLife.TakeDamageServerRpc(10, networkObject.OwnerClientId);
         DespawnServerRpc();
     }
 

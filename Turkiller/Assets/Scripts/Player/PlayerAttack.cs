@@ -1,6 +1,9 @@
 using System.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
+using UnityEngine.InputSystem;
 public class PlayerAttack : NetworkBehaviour
 {
     [SerializeField] private GameObject _projectilePrefab;
@@ -19,7 +22,7 @@ public class PlayerAttack : NetworkBehaviour
     private Rigidbody2D _rb;
     private float _attackTimer;
     private bool _isAttacking;
-    private bool _isDistanceAttack = true;
+    private bool _isDistanceAttack;
     private Transform _transform;
     private SpriteRenderer _spriteRenderer;
     private PlayerController _playerController;
@@ -35,28 +38,6 @@ public class PlayerAttack : NetworkBehaviour
     private void Update()
     {
         _attackTimer += Time.deltaTime;
-        if (!IsOwner || !Input.GetMouseButton(0)) return;
-
-        if (_isDistanceAttack && _attackTimer >= _distanceAttackSpeed)
-        {
-            _attackTimer = 0;
-            
-            Vector3 dir = GetMousePosition(_camera) - _spawnPoint.position;
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-            Quaternion direction = Quaternion.AngleAxis(angle, new Vector3(0, _spawnPoint.rotation.y, 1));
-
-            ulong ownerClientId = GetComponent<NetworkObject>().OwnerClientId;
-            _rb.AddForce(-dir.normalized * _recoilDistanceAttack, ForceMode2D.Impulse);
-            RequestDistanceAttackServerRpc(ownerClientId, _spawnPoint.position, direction);
-        }
-        
-        else if (!_isDistanceAttack && _attackTimer >= _MeleeAttackSpeed)
-        {
-            _attackTimer = 0;
-            Vector3 dir = GetMousePosition(_camera) - _spawnPoint.position;
-            _rb.AddForce(dir.normalized * _recoilMeleeAttack, ForceMode2D.Impulse);
-            StartCoroutine(TimeMeleeAttack());
-        }
     }
     private IEnumerator TimeMeleeAttack()
     {
@@ -79,6 +60,11 @@ public class PlayerAttack : NetworkBehaviour
         yield return new WaitForSeconds(0.2f);
         _playerController.FreezeInput(false);
     }
+
+    public bool GetIsDistance()
+    {
+        return _isDistanceAttack;
+    }
     
     public static Vector3 GetMousePosition(Camera cam)
     {
@@ -100,5 +86,59 @@ public class PlayerAttack : NetworkBehaviour
         projectileComponent.SetOwner(ownerClientId);
         projectileComponent.Init(_baseDamage * _effects.GetEffect(Bonus.DamageMultiplier).max);
         networkObject.Spawn(true);
+    }
+
+    private void ChangeStateAttack()
+    {
+        _isDistanceAttack = !_isDistanceAttack;
+
+        if( _isDistanceAttack )
+        {
+            _spriteRenderer.transform.Rotate(0, 0, 180);
+            print("distance attack");
+        }
+        else
+        {
+            _spriteRenderer.transform.Rotate(0, 0, 180);
+            print("melee attack");
+        }
+    }
+
+    private void Attack()
+    {
+        if (_isDistanceAttack && _attackTimer >= _distanceAttackSpeed)
+        {
+            _attackTimer = 0;
+
+            Vector3 dir = GetMousePosition(_camera) - _spawnPoint.position;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            Quaternion direction = Quaternion.AngleAxis(angle, new Vector3(0, _spawnPoint.rotation.y, 1));
+
+            ulong ownerClientId = GetComponent<NetworkObject>().OwnerClientId;
+            _rb.AddForce(-dir.normalized * _recoilDistanceAttack, ForceMode2D.Impulse);
+            RequestDistanceAttackServerRpc(ownerClientId, _spawnPoint.position, direction);
+        }
+
+        else if (!_isDistanceAttack && _attackTimer >= _MeleeAttackSpeed)
+        {
+            _attackTimer = 0;
+            Vector3 dir = GetMousePosition(_camera) - _spawnPoint.position;
+            _rb.AddForce(dir.normalized * _recoilMeleeAttack, ForceMode2D.Impulse);
+            StartCoroutine(TimeMeleeAttack());
+        }
+    }
+
+    public void LeftClick(InputAction.CallbackContext context)
+    {
+        if(context.performed && IsOwner)
+        {
+            Attack();
+        }
+    }
+
+    public void RightClick(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+            ChangeStateAttack();
     }
 }

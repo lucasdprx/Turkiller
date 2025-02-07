@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      BuissonRougeCadrer_0: -868743707894768843
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

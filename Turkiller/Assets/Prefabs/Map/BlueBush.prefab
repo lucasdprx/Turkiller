@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7806716862263932190}
   - component: {fileID: 2152638468110749942}
   - component: {fileID: 2624740559892511338}
+  - component: {fileID: 8917284677614038442}
   m_Layer: 0
   m_Name: BlueBush
   m_TagString: Untagged
@@ -76,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: -5612008806656852826, guid: 05c6435268c49ac4b9744c02cde65d2d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -124,3 +125,16 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: -0.3734684, y: -0.2376616}
   m_Radius: 3.9656444
+--- !u!114 &8917284677614038442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3039172391778774241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eccd265508d60543864b2a322f642e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _alphaValueClearBush: 0.4

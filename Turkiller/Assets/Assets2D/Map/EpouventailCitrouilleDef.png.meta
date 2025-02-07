@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      EpouventailCitrouilleDef_0: 8670476045569037413
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

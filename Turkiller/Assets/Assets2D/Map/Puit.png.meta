@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: e62a354d895b2624c9acc2cb24d7dc46
+guid: a0b4c4db0b551b84b9858660881d1480
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3555115691458294516
-    second: Dindonneau_0
+      213: 644816186386367319
+    second: Puit_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 256
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Dindonneau_0
+      name: Puit_0
       rect:
         serializedVersion: 2
-        x: 464
-        y: 163
-        width: 1120
-        height: 1608
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33}
+        x: 13
+        y: 10
+        width: 354
+        height: 355
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4f2f9c4b2ee465130800000000000000
-      internalID: 3555115691458294516
+      spriteID: 7534bf6b7e8d2f800800000000000000
+      internalID: 644816186386367319
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Dindonneau_0: 3555115691458294516
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

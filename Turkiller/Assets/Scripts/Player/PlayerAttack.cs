@@ -111,8 +111,8 @@ public class PlayerAttack : NetworkBehaviour
         else if (!_isDistanceAttack && _attackTimer >= _MeleeAttackSpeed)
         {
             _attackTimer = 0;
-            Vector3 dir = GetMousePosition(_camera) - _spawnPoint.position;
-            _rb.AddForce(dir.normalized * _recoilMeleeAttack, ForceMode2D.Impulse);
+            Vector3 dir = (GetMousePosition(_camera) - _spawnPoint.position).normalized;
+            _rb.AddForce(dir * _recoilMeleeAttack, ForceMode2D.Impulse);
             StartCoroutine(TimeMeleeAttack());
         }
     }

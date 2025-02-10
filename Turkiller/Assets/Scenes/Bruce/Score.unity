@@ -3498,7 +3498,7 @@ MonoBehaviour:
   menuSignIn: {fileID: 1860789880}
   emailInputSignIn: {fileID: 1224460882}
   passwordInputSignIn: {fileID: 1434930938}
-  objectToDesactiveOnPlay: {fileID: 1883336838}
+  objectToDeactivateOnPlay: {fileID: 821863510}
   networkMenu: {fileID: 821863515}
 --- !u!1 &877250577
 GameObject:
@@ -6940,8 +6940,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c1c4d96c2ac08ab48a8b668d44cd1af1, type: 2}
   - {fileID: 11400000, guid: f92cd52df505d0b4aa111c96267609cc, type: 2}
   - {fileID: 11400000, guid: 2cb15550e96a4554880f10499c38c2be, type: 2}
-  spawnAreaMin: {x: -5, y: -5}
-  spawnAreaMax: {x: 5, y: 5}
   spawnInterval: 5
   maxSeeds: 10
 --- !u!4 &1449725466
@@ -7619,6 +7617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ed71839a853ad54aa9041a47885ddb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnPoints: []
   parentsEffectUI: {fileID: 740023933}
 --- !u!4 &1610150147
 Transform:

@@ -8,28 +8,27 @@ using UnityEngine.Networking;
 public class InscriptionManager : MonoBehaviour
 {
     [Header("MainPage")]
-    public GameObject menuHome;
+    [SerializeField] private GameObject menuHome;
 
     [Header("Customization")]
-    public GameObject menuCustomization;
-    public TextMeshProUGUI nameText;
+    [SerializeField] private GameObject menuCustomization;
+    [SerializeField] private TextMeshProUGUI nameText;
 
     [Header("SignUp")]
-    public GameObject menuSignUp;
-    public TextMeshProUGUI nameInputSignUp;
-    public TextMeshProUGUI emailInputSignUp;
-    public TextMeshProUGUI passwordInputSignUp;
+    [SerializeField] private GameObject menuSignUp;
+    [SerializeField] private TextMeshProUGUI nameInputSignUp;
+    [SerializeField] private TextMeshProUGUI emailInputSignUp;
+    [SerializeField] private TextMeshProUGUI passwordInputSignUp;
 
     [Header("SignIn")]
-    public GameObject menuSignIn;
-    public TextMeshProUGUI emailInputSignIn;
-    public TextMeshProUGUI passwordInputSignIn;
+    [SerializeField] private GameObject menuSignIn;
+    [SerializeField] private TextMeshProUGUI emailInputSignIn;
+    [SerializeField] private TextMeshProUGUI passwordInputSignIn;
 
     [Header("Other")]
 
-    public GameObject objectToDesactiveOnPlay;
-
-    public NetworkMenu networkMenu;
+    [SerializeField] private GameObject objectToDeactivateOnPlay;
+    [SerializeField] private NetworkMenu networkMenu;
 
 
     public void StartGame()
@@ -37,15 +36,15 @@ public class InscriptionManager : MonoBehaviour
         string newName = nameText.text;
 
 
-        networkMenu.StartClient(objectToDesactiveOnPlay, newName);
+        networkMenu.StartClient(objectToDeactivateOnPlay, newName);
     }
 
     public void HostGame()
     {
         string newName = nameText.text;
 
-
-        networkMenu.StartHost(objectToDesactiveOnPlay, newName);
+        print(newName);
+        networkMenu.StartHost(objectToDeactivateOnPlay, newName);
     }
 
     public void GoToCustomization()

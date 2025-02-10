@@ -13,7 +13,7 @@ public class NetworkMenu : MonoBehaviour
         Debug.Log("Start server !");
     }
 
-    public void StartClient(GameObject buttonClient, string playerName)
+    public void StartClient(GameObject networkMenu, string playerName)
     {
         NetworkManager.Singleton.NetworkConfig.ConnectionData = Encoding.UTF8.GetBytes(playerName);
 
@@ -26,16 +26,15 @@ public class NetworkMenu : MonoBehaviour
         }
         else
         {
-            buttonClient.SetActive(false);
+            networkMenu.SetActive(false);
         }
     }
-    public void StartHost(GameObject buttonClient, string playerName)
+    public void StartHost(GameObject networkMenu, string playerName)
     {
         NetworkManager.Singleton.NetworkConfig.ConnectionData = Encoding.UTF8.GetBytes(playerName);
 
-
         if (!NetworkManager.Singleton.StartHost()) return;
             
-        buttonClient.SetActive(false);
+        networkMenu.SetActive(false);
     }
 }

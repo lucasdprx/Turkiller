@@ -53,7 +53,7 @@ public class SeedObject : NetworkBehaviour
         if (projNetworkObject == null)
             return;
         
-        _spawner.SeedCollectedServerRpc();
+        _spawner.SeedCollectedServerRpc(transform.position);
         projNetworkObject.Despawn();
     }
 }

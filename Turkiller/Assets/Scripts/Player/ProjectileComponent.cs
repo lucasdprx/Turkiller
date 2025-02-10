@@ -70,7 +70,7 @@ public class ProjectileComponent : NetworkBehaviour
         }
         
         PlayerNetworkLife playerNetworkLife = other.GetComponent<PlayerNetworkLife>();
-        if (playerNetworkLife != null)
+        if (playerNetworkLife == null)
         {
             DespawnServerRpc();
             return;

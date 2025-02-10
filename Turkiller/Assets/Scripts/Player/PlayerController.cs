@@ -13,6 +13,7 @@ public class PlayerController : NetworkBehaviour
     private Transform _spritePlayer;
     private Camera _camera;
     private Transform _transform;
+    private PlayerAttack _playerAttack;
 
 
     private void Awake()
@@ -21,6 +22,7 @@ public class PlayerController : NetworkBehaviour
         _playerInput = GetComponentInChildren<PlayerInput>();
         _spritePlayer = GetComponentInChildren<SpriteRenderer>().transform;
         _camera = GetComponentInChildren<Camera>();
+        _playerAttack = GetComponent<PlayerAttack>();
         _transform = transform;
     }
     
@@ -32,7 +34,15 @@ public class PlayerController : NetworkBehaviour
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         Quaternion direction = Quaternion.AngleAxis(angle, new Vector3(0, _transform.rotation.y, 1));
         _spritePlayer.rotation = direction;
-        _spritePlayer.Rotate(0, 0, -90);
+        bool isDistance = _playerAttack.GetIsDistance();
+        if (isDistance)
+        {
+            _spritePlayer.Rotate(0, 0, 90);
+        }
+        else
+        {
+            _spritePlayer.Rotate(0, 0, -90);
+        }
     }
 
     public void GetInputMovement(InputAction.CallbackContext ctx)

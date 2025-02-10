@@ -15,6 +15,6 @@ MonoBehaviour:
   SeedName: Flax
   spriteIndex: 2
   bonus: 3
-  bonusDuration: 30
-  bonusIntensity: 2
-  puntos: 5
+  bonusDuration: 10
+  bonusIntensity: 1.25
+  puntos: 0

@@ -22,10 +22,12 @@ public class PlayerAttack : NetworkBehaviour
     private bool _isAttacking;
     private bool _isDistanceAttack;
     private SpriteRenderer _spriteRenderer;
+    private PlayerController _playerController;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _playerController = GetComponent<PlayerController>();
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
@@ -92,7 +94,7 @@ public class PlayerAttack : NetworkBehaviour
 
     private void Attack()
     {
-        if (_isDistanceAttack && _attackTimer >= _distanceAttackSpeed)
+        if (_isDistanceAttack && _attackTimer >= _distanceAttackSpeed / _playerController.Effects().GetEffect(Bonus.AttackSpeed).max)
         {
             _attackTimer = 0;
 

@@ -46,6 +46,8 @@ public class PlayerController : NetworkBehaviour
             _spritePlayer.Rotate(0, 0, -90);
         }
     }
+    
+    public PlayerEffects Effects() => _effects;
 
     public void GetInputMovement(InputAction.CallbackContext ctx)
     {

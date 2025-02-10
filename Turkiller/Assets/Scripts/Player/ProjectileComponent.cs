@@ -74,7 +74,6 @@ public class ProjectileComponent : NetworkBehaviour
         {
             DespawnServerRpc();
             return;
-            
         }
         
         playerNetworkLife.TakeDamageServerRpc(10, networkObject.OwnerClientId);

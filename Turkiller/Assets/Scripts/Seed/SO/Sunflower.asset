@@ -17,4 +17,4 @@ MonoBehaviour:
   bonus: 2
   bonusDuration: 20
   bonusIntensity: 2
-  puntos: 20
+  puntos: 0

@@ -47,14 +47,11 @@ public class PlayerNetworkLife : NetworkBehaviour
     {
         _healthBar.fillAmount = newValue / _maxHealth;
 
-        if (!(newValue <= 0f))
+        if (!(newValue <= 0f) || !IsOwner)
             return;
-
-        if (IsOwner)
-        {
-            _deathMenu.SetActive(true);
-            DieServerRpc(OwnerClientId);
-        }
+        
+        _deathMenu.SetActive(true);
+        DieServerRpc(OwnerClientId);
     }
 
     [Rpc(SendTo.Server, RequireOwnership = false)]

@@ -1,7 +1,5 @@
 using System.Collections;
 using Unity.Netcode;
-using Unity.VisualScripting;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerAttack : NetworkBehaviour
@@ -23,21 +21,20 @@ public class PlayerAttack : NetworkBehaviour
     private float _attackTimer;
     private bool _isAttacking;
     private bool _isDistanceAttack;
-    private Transform _transform;
     private SpriteRenderer _spriteRenderer;
-    private PlayerController _playerController;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _playerController = GetComponent<PlayerController>();
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        _transform = transform;
     }
 
     private void Update()
     {
         _attackTimer += Time.deltaTime;
+
+        if (_isAttacking)
+            Attack();
     }
     private IEnumerator TimeMeleeAttack()
     {
@@ -90,16 +87,7 @@ public class PlayerAttack : NetworkBehaviour
     {
         _isDistanceAttack = !_isDistanceAttack;
 
-        if( _isDistanceAttack )
-        {
-            _spriteRenderer.transform.Rotate(0, 0, 180);
-            print("distance attack");
-        }
-        else
-        {
-            _spriteRenderer.transform.Rotate(0, 0, 180);
-            print("melee attack");
-        }
+        _spriteRenderer.transform.Rotate(0, 0, 180);
     }
 
     private void Attack()
@@ -130,7 +118,12 @@ public class PlayerAttack : NetworkBehaviour
     {
         if(context.performed && IsOwner)
         {
-            Attack();
+            _isAttacking = true;
+        }
+        
+        else if(context.canceled && IsOwner)
+        {
+            _isAttacking = false;
         }
     }
 

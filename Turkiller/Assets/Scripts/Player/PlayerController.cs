@@ -30,10 +30,12 @@ public class PlayerController : NetworkBehaviour
     {
         Movement();
         if (!IsOwner) return;
+        
         Vector3 dir = PlayerAttack.GetMousePosition(_camera) - _transform.position;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         Quaternion direction = Quaternion.AngleAxis(angle, new Vector3(0, _transform.rotation.y, 1));
         _spritePlayer.rotation = direction;
+        
         bool isDistance = _playerAttack.GetIsDistance();
         if (isDistance)
         {
@@ -62,10 +64,5 @@ public class PlayerController : NetworkBehaviour
         if (_rb == null || _moveDirection == Vector2.zero) return;
 
         _rb.linearVelocity = _moveDirection * (_moveSpeed * _effects.GetEffect(Bonus.MoveSpeed).max);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision == null) return;
     }
 }

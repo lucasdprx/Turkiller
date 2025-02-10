@@ -4,15 +4,15 @@ using UnityEngine;
 public class ProjectileComponent : NetworkBehaviour
 {
     [SerializeField] private float _speed = 15f;
-    [SerializeField] private float _distance = 10f;
+    [SerializeField] private float _distance = 15f;
     
     private float _distanceTraveled;
-    private NetworkVariable<ulong> _ownerClientId = new NetworkVariable<ulong>();
+    private readonly NetworkVariable<ulong> _ownerClientId = new NetworkVariable<ulong>();
+    private readonly NetworkVariable<float> _damage = new NetworkVariable<float>();
     private ulong _id;
     private Transform _transform;
     private NetworkObject _networkObject;
     private Rigidbody2D _rigidbody;
-    private float _damage;
 
     private void Awake()
     {
@@ -42,7 +42,7 @@ public class ProjectileComponent : NetworkBehaviour
 
     public void Init(float damage)
     {
-        _damage = damage;
+        _damage.Value = damage;
     }
 
     private void Update()
@@ -64,19 +64,13 @@ public class ProjectileComponent : NetworkBehaviour
         if (IsServer || other.CompareTag("IgnoreShoot")) return;
 
         NetworkObject networkObject = other.GetComponent<NetworkObject>();
-        if (networkObject != null && networkObject.OwnerClientId == _ownerClientId.Value)
-        {
-            return;
-        }
+        if (networkObject != null && networkObject.OwnerClientId == _ownerClientId.Value) return;
         
         PlayerNetworkLife playerNetworkLife = other.GetComponent<PlayerNetworkLife>();
-        if (playerNetworkLife == null)
+        if (playerNetworkLife != null && NetworkManager.Singleton.LocalClientId == networkObject.OwnerClientId)
         {
-            DespawnServerRpc();
-            return;
+            playerNetworkLife.TakeDamageServerRpc(_damage.Value, networkObject.OwnerClientId);
         }
-        
-        playerNetworkLife.TakeDamageServerRpc(10, networkObject.OwnerClientId);
         DespawnServerRpc();
     }
 

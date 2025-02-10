@@ -98,13 +98,14 @@ public class PlayerAttack : NetworkBehaviour
         {
             _attackTimer = 0;
 
-            Vector3 dir = GetMousePosition(_camera) - _spawnPoint.position;
+            Vector3 position = _spawnPoint.position;
+            Vector3 dir = GetMousePosition(_camera) - position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             Quaternion direction = Quaternion.AngleAxis(angle, new Vector3(0, _spawnPoint.rotation.y, 1));
 
             ulong ownerClientId = GetComponent<NetworkObject>().OwnerClientId;
             _rb.AddForce(-dir.normalized * _recoilDistanceAttack, ForceMode2D.Impulse);
-            RequestDistanceAttackServerRpc(ownerClientId, _spawnPoint.position, direction);
+            RequestDistanceAttackServerRpc(ownerClientId, position, direction);
         }
 
         else if (!_isDistanceAttack && _attackTimer >= _MeleeAttackSpeed)

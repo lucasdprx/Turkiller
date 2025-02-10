@@ -12,12 +12,9 @@ public class PlayerNetworkLife : NetworkBehaviour
 
     private NetworkVariable<float> _currentHealth = new NetworkVariable<float>(100);
 
-    private PlayerSpawn playerSpawn;
-
     private void Start()
     {
         _deathMenu.SetActive(false);
-        playerSpawn = GetComponent<PlayerSpawn>();
     }
 
     public override void OnNetworkSpawn()
@@ -67,13 +64,14 @@ public class PlayerNetworkLife : NetworkBehaviour
                 continue;
 
             PlayerNetworkLife playerNetworkLife = player.GetComponent<PlayerNetworkLife>();
+            Debug.Log(damage * playerNetworkLife._effects.GetEffect(Bonus.DamageTakenMultiplier).min);
 
-            playerNetworkLife._currentHealth.Value -= damage * playerNetworkLife._effects.GetEffect(Bonus.DamageTakenMultiplier).min;
+            playerNetworkLife._currentHealth.Value -= damage * playerNetworkLife._effects.GetEffect(Bonus.DamageTakenMultiplier).max;
         }
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    private void DieClientRpc(ulong targetClientId)
+    public void DieClientRpc(ulong targetClientId)
     {
         if(NetworkManager.Singleton.ConnectedClients.TryGetValue(targetClientId, out NetworkClient player))
         {
@@ -97,17 +95,15 @@ public class PlayerNetworkLife : NetworkBehaviour
     {
         if (clientId != OwnerClientId) return;
 
-        //GetRandomSpawnPoint();
         _deathMenu.SetActive(false);
-        _healthBar.transform.parent.gameObject.SetActive(true);
+        
         NetworkObject playerPrefab = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
+        playerPrefab.transform.position = playerPrefab.GetComponent<PlayerSpawn>().GetRandomSpawnPoint().position;
         playerPrefab.GetComponent<PlayerAttack>().enabled = true;
         playerPrefab.GetComponentInChildren<Collider2D>().enabled = true;
         playerPrefab.GetComponent<PlayerController>().enabled = true;
         _player.GetComponentInChildren<SpriteRenderer>().enabled = true;
-        playerPrefab.transform.position = playerPrefab.GetComponent<PlayerSpawn>().GetRandomSpawnPoint().position;
+        _healthBar.transform.parent.gameObject.SetActive(true);
         _player.SetActive(true);
     }
-
-
 }

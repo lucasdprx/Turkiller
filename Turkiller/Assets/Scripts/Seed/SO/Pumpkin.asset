@@ -16,5 +16,5 @@ MonoBehaviour:
   spriteIndex: 3
   bonus: 4
   bonusDuration: 15
-  bonusIntensity: 1.4
+  bonusIntensity: 1.5
   puntos: 0

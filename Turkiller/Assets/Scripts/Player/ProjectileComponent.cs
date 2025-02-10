@@ -61,7 +61,7 @@ public class ProjectileComponent : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (IsServer || other.CompareTag("Bush")) return;
+        if (IsServer || other.CompareTag("IgnoreShoot")) return;
 
         NetworkObject networkObject = other.GetComponent<NetworkObject>();
         if (networkObject != null && networkObject.OwnerClientId == _ownerClientId.Value)
@@ -76,6 +76,7 @@ public class ProjectileComponent : NetworkBehaviour
             return;
             
         }
+        
         playerNetworkLife.TakeDamageServerRpc(10, networkObject.OwnerClientId);
         DespawnServerRpc();
     }

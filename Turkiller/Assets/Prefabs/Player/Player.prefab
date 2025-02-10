@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  _moveSpeed: 5
+  _moveSpeed: 7
   _effects: {fileID: 1377571546169007362}
 --- !u!114 &4219436783519841249
 MonoBehaviour:
@@ -408,9 +408,9 @@ MonoBehaviour:
   _camera: {fileID: 8471852998346571616}
   _baseDamage: 10
   _effects: {fileID: 1377571546169007362}
-  _distanceAttackSpeed: 0.6
+  _distanceAttackSpeed: 0.3
   _recoilDistanceAttack: 4
-  _recoilMeleeAttack: 4
+  _recoilMeleeAttack: 25
   _MeleeAttackSpeed: 0.6
   _meleeAttackPoint: {fileID: 8763695918499013071}
 --- !u!50 &6906997715150876645
@@ -623,7 +623,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 6.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

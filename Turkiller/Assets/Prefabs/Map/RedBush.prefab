@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 418544346168012958}
   m_Layer: 0
   m_Name: RedBush
-  m_TagString: Bush
+  m_TagString: IgnoreShoot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

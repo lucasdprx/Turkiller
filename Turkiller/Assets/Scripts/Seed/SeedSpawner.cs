@@ -58,9 +58,12 @@ public class SeedSpawner : NetworkBehaviour
     [Rpc(SendTo.Server)]
     public void SeedCollectedServerRpc(Vector3 spawnPosition)
     {
-        currentSeedCount--;
+        if (currentSeedCount > 0)
+        {
+            currentSeedCount--;
+        }
 
-        foreach (Transform point in ReferenceManager.instance.respawnPoints)
+        foreach (Transform point in ReferenceManager.instance.seedSpawnPoints)
         {
             if (point.position == spawnPosition)
             {
@@ -69,6 +72,7 @@ public class SeedSpawner : NetworkBehaviour
             }
         }
     }
+
 
 
     private Transform GetRandomAvailableSpawnPoint()

@@ -70,10 +70,13 @@ public class ProjectileComponent : NetworkBehaviour
         }
         
         PlayerNetworkLife playerNetworkLife = other.GetComponent<PlayerNetworkLife>();
-        if (playerNetworkLife == null)
+        if (playerNetworkLife != null)
         {
-            playerNetworkLife.TakeDamageServerRpc(10, networkObject.OwnerClientId);
+            DespawnServerRpc();
+            return;
+            
         }
+        playerNetworkLife.TakeDamageServerRpc(10, networkObject.OwnerClientId);
         DespawnServerRpc();
     }
 

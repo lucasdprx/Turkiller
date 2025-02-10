@@ -131,8 +131,8 @@ public class InscriptionManager : MonoBehaviour
     {
         SignInData data = new SignInData()
         {
-            email = emailInputSignUp.text,
-            password = passwordInputSignUp.text,
+            email = emailInputSignIn.text,
+            password = passwordInputSignIn.text,
         };
         string json = JsonUtility.ToJson(data);
         using (UnityWebRequest www = UnityWebRequest.Post("http://192.168.1.249:3000/login", json, "application/json"))

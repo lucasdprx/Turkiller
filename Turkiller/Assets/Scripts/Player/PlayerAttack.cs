@@ -41,7 +41,7 @@ public class PlayerAttack : NetworkBehaviour
     }
     private IEnumerator TimeMeleeAttack()
     {
-        _playerController.FreezeInput(true);
+        //_playerController.FreezeInput(true);
         yield return new WaitForSeconds(0.2f);
         Collider2D[] results =  Physics2D.OverlapBoxAll(_meleeAttackPoint.position, Vector2.one * 2, 0);
         foreach (Collider2D result in results)
@@ -58,7 +58,7 @@ public class PlayerAttack : NetworkBehaviour
             result.GetComponent<PlayerNetworkLife>().TakeDamageServerRpc(20, networkObjectResult.OwnerClientId);
         }
         yield return new WaitForSeconds(0.2f);
-        _playerController.FreezeInput(false);
+        //_playerController.FreezeInput(false);
     }
 
     public bool GetIsDistance()

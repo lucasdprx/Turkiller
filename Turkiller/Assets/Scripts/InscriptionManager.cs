@@ -4,24 +4,32 @@ using System.Runtime.Serialization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class InscriptionManager : MonoBehaviour
 {
+    [Header("MainPage")]
+    public GameObject menuHome;
+
+    [Header("Customization")]
+    public GameObject menuCustomization;
+    public TextMeshProUGUI nameText;
+
+    [Header("SignUp")]
+    public GameObject menuSignUp;
     public TextMeshProUGUI nameInputSignUp;
     public TextMeshProUGUI emailInputSignUp;
     public TextMeshProUGUI passwordInputSignUp;
 
+    [Header("SignIn")]
+    public GameObject menuSignIn;
     public TextMeshProUGUI emailInputSignIn;
     public TextMeshProUGUI passwordInputSignIn;
+
+    [Header("Other")]
 
     public GameObject objectToDesactiveOnPlay;
 
     public NetworkMenu networkMenu;
-
-    [Header("Legacy")]
-
-    public TextMeshProUGUI nameText;
 
 
     public void StartGame()
@@ -40,19 +48,30 @@ public class InscriptionManager : MonoBehaviour
         networkMenu.StartHost(objectToDesactiveOnPlay, newName);
     }
 
+    public void GoToCustomization()
+    {
+        menuSignIn.SetActive(false);
+        menuSignUp.SetActive(false);
+        menuCustomization.SetActive(true);
+    }
+
     public void GoToSignUp()
     {
-
+        menuSignUp.SetActive(true);
+        menuHome.SetActive(false);
     }
 
     public void GoToSignIn()
     {
-
+        menuSignIn.SetActive(true);
+        menuHome.SetActive(false);
     }
 
     public void GoBackToMenu()
     {
-
+        menuHome.SetActive(true);
+        menuSignIn.SetActive(false);
+        menuSignUp.SetActive(false);
     }
 
     public void SignUp()
@@ -104,7 +123,7 @@ public class InscriptionManager : MonoBehaviour
                 Debug.LogError(www.result.ToString());
             }
             else
-                Debug.Log("CA A MARCHé 2 ");
+                GoToCustomization();
         }
     }
 
@@ -125,7 +144,7 @@ public class InscriptionManager : MonoBehaviour
                 Debug.LogError(www.result.ToString());
             }
             else
-                Debug.Log("CA A MARCHé");
+                GoToCustomization();
         }
     }
 

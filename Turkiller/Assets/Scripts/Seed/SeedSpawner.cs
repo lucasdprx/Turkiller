@@ -7,16 +7,15 @@ public class SeedSpawner : NetworkBehaviour
 {
     [SerializeField] private GameObject seedPrefab;
     [SerializeField] private List<Seeds> seeds;
-    [SerializeField] private Vector2 spawnAreaMin = new Vector2(-10, -10);
-    [SerializeField] private Vector2 spawnAreaMax = new Vector2(10, 10);
     [SerializeField] private float spawnInterval = 5f;
     [SerializeField] private int maxSeeds = 10;
 
     private int currentSeedCount = 0;
+    private HashSet<Transform> occupiedSpawnPoints = new HashSet<Transform>();
 
     public override void OnNetworkSpawn()
     {
-        if(!IsServer) return;
+        if (!IsServer) return;
 
         StartCoroutine(SpawnSeeds());
     }
@@ -39,27 +38,57 @@ public class SeedSpawner : NetworkBehaviour
         if (seeds.Count == 0) return;
 
         Seeds randomSeed = seeds[Random.Range(0, seeds.Count)];
+        Transform spawnPoint = GetRandomAvailableSpawnPoint();
 
-        Vector2 randomPosition = new Vector2(
-            Random.Range(spawnAreaMin.x, spawnAreaMax.x),
-            Random.Range(spawnAreaMin.y, spawnAreaMax.y)
-        );
+        if (spawnPoint == null) return;
 
-        GameObject newSeed = Instantiate(seedPrefab, randomPosition, Quaternion.identity);
+        GameObject newSeed = Instantiate(seedPrefab, spawnPoint.position, Quaternion.identity);
         newSeed.GetComponent<SeedObject>().Init(randomSeed, this);
+        occupiedSpawnPoints.Add(spawnPoint);
         currentSeedCount++;
 
         NetworkObject networkObject = newSeed.GetComponent<NetworkObject>();
         if (networkObject != null)
         {
-            newSeed.GetComponent<SeedObject>().SetOwner(ownerClientId); // Assignation de l'ID
+            newSeed.GetComponent<SeedObject>().SetOwner(ownerClientId);
             networkObject.Spawn(true);
         }
     }
 
     [Rpc(SendTo.Server)]
-    public void SeedCollectedServerRpc()
+    public void SeedCollectedServerRpc(Vector3 spawnPosition)
     {
         currentSeedCount--;
+
+        foreach (Transform point in ReferenceManager.instance.respawnPoints)
+        {
+            if (point.position == spawnPosition)
+            {
+                occupiedSpawnPoints.Remove(point);
+                break;
+            }
+        }
+    }
+
+
+    private Transform GetRandomAvailableSpawnPoint()
+    {
+        List<Transform> availablePoints = new List<Transform>();
+
+        foreach (Transform point in ReferenceManager.instance.seedSpawnPoints)
+        {
+            if (!occupiedSpawnPoints.Contains(point))
+            {
+                availablePoints.Add(point);
+            }
+        }
+
+        if (availablePoints.Count == 0)
+        {
+            Debug.LogWarning("No available spawn points!");
+            return null;
+        }
+
+        return availablePoints[Random.Range(0, availablePoints.Count)];
     }
 }

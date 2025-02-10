@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MVP/MVP.unity
     guid: 60a8bf55e0b66694289fffe37f2c4e37
   - enabled: 1
-    path: Assets/Scenes/MVP/IntegrationVisuals.unity
+    path: Assets/Scenes/Doryan/IntegrationVisuals.unity
     guid: 3febe76eb59b9874d9a11ac506ca6047
   - enabled: 1
     path: Assets/Scenes/Andy/PlayerDeath.unity

@@ -116,7 +116,7 @@ public class PlayerAttack : NetworkBehaviour
             StartCoroutine(TimeMeleeAttack());
         }
     }
-
+    
     public void LeftClick(InputAction.CallbackContext context)
     {
         if(context.performed && IsOwner)
@@ -135,4 +135,5 @@ public class PlayerAttack : NetworkBehaviour
         if(context.performed)
             ChangeStateAttack();
     }
+
 }

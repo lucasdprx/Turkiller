@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MVP/MVP.unity
+    path: Assets/Scenes/MVP/Game.unity
     guid: 60a8bf55e0b66694289fffe37f2c4e37
   - enabled: 1
     path: Assets/Scenes/Doryan/IntegrationVisuals.unity
@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Andy/DevRoomAndy.unity
     guid: af7d1cbe55c351f44bdc1f68bb5620e6
+  - enabled: 1
+    path: Assets/Scenes/Andy/ParticlesEffects.unity
+    guid: a3833e13251300d458448609f577276a
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

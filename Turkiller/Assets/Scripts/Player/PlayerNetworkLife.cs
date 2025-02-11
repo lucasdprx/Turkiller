@@ -9,6 +9,8 @@ public class PlayerNetworkLife : NetworkBehaviour
     [SerializeField] private PlayerEffects _effects;
     [SerializeField] private GameObject _deathMenu;
     [SerializeField] private GameObject _player;
+    [SerializeField] private GameObject _bloodParticlesPrefab;
+
 
     private NetworkVariable<float> _currentHealth = new NetworkVariable<float>(100);
 
@@ -73,8 +75,18 @@ public class PlayerNetworkLife : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     public void DieClientRpc(ulong targetClientId)
     {
-        if(NetworkManager.Singleton.ConnectedClients.TryGetValue(targetClientId, out NetworkClient player))
+        if (NetworkManager.Singleton.ConnectedClients.TryGetValue(targetClientId, out NetworkClient player))
         {
+            Transform playerTransform = player.PlayerObject.transform;
+
+            GameObject bloodEffect = Instantiate(_bloodParticlesPrefab, playerTransform.position, Quaternion.identity);
+            ParticleSystem ps = bloodEffect.GetComponent<ParticleSystem>();
+            if (ps != null)
+            {
+                ps.Play();
+            }
+            Destroy(bloodEffect, ps.main.duration);
+
             _healthBar.transform.parent.gameObject.SetActive(false);
             player.PlayerObject.GetComponent<PlayerAttack>().enabled = false;
             player.PlayerObject.GetComponent<PlayerController>().enabled = false;
@@ -82,6 +94,7 @@ public class PlayerNetworkLife : NetworkBehaviour
             player.PlayerObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
         }
     }
+
 
     [Rpc(SendTo.Server, RequireOwnership = false)]
     private void DieServerRpc(ulong targetClientId)

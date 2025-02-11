@@ -63,7 +63,7 @@ public class SeedSpawner : NetworkBehaviour
             currentSeedCount--;
         }
 
-        foreach (Transform point in ReferenceManager.instance.seedSpawnPoints)
+        foreach (Transform point in ReferenceManager.instance.spawnPoints)
         {
             if (point.position == spawnPosition)
             {
@@ -79,7 +79,7 @@ public class SeedSpawner : NetworkBehaviour
     {
         List<Transform> availablePoints = new List<Transform>();
 
-        foreach (Transform point in ReferenceManager.instance.seedSpawnPoints)
+        foreach (Transform point in ReferenceManager.instance.spawnPoints)
         {
             if (!occupiedSpawnPoints.Contains(point))
             {

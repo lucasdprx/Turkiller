@@ -1,7 +1,5 @@
 using System.Collections;
 using Unity.Netcode;
-using Unity.VisualScripting;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerAttack : NetworkBehaviour
@@ -23,7 +21,6 @@ public class PlayerAttack : NetworkBehaviour
     private float _attackTimer;
     private bool _isAttacking;
     private bool _isDistanceAttack;
-    private Transform _transform;
     private SpriteRenderer _spriteRenderer;
     private PlayerController _playerController;
 
@@ -32,12 +29,14 @@ public class PlayerAttack : NetworkBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _playerController = GetComponent<PlayerController>();
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        _transform = transform;
     }
 
     private void Update()
     {
         _attackTimer += Time.deltaTime;
+
+        if (_isAttacking)
+            Attack();
     }
     private IEnumerator TimeMeleeAttack()
     {
@@ -90,38 +89,30 @@ public class PlayerAttack : NetworkBehaviour
     {
         _isDistanceAttack = !_isDistanceAttack;
 
-        if( _isDistanceAttack )
-        {
-            _spriteRenderer.transform.Rotate(0, 0, 180);
-            print("distance attack");
-        }
-        else
-        {
-            _spriteRenderer.transform.Rotate(0, 0, 180);
-            print("melee attack");
-        }
+        _spriteRenderer.transform.Rotate(0, 0, 180);
     }
 
     private void Attack()
     {
-        if (_isDistanceAttack && _attackTimer >= _distanceAttackSpeed)
+        if (_isDistanceAttack && _attackTimer >= _distanceAttackSpeed / _playerController.Effects().GetEffect(Bonus.AttackSpeed).max)
         {
             _attackTimer = 0;
 
-            Vector3 dir = GetMousePosition(_camera) - _spawnPoint.position;
+            Vector3 position = _spawnPoint.position;
+            Vector3 dir = GetMousePosition(_camera) - position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             Quaternion direction = Quaternion.AngleAxis(angle, new Vector3(0, _spawnPoint.rotation.y, 1));
 
             ulong ownerClientId = GetComponent<NetworkObject>().OwnerClientId;
             _rb.AddForce(-dir.normalized * _recoilDistanceAttack, ForceMode2D.Impulse);
-            RequestDistanceAttackServerRpc(ownerClientId, _spawnPoint.position, direction);
+            RequestDistanceAttackServerRpc(ownerClientId, position, direction);
         }
 
         else if (!_isDistanceAttack && _attackTimer >= _MeleeAttackSpeed)
         {
             _attackTimer = 0;
-            Vector3 dir = GetMousePosition(_camera) - _spawnPoint.position;
-            _rb.AddForce(dir.normalized * _recoilMeleeAttack, ForceMode2D.Impulse);
+            Vector3 dir = (GetMousePosition(_camera) - _spawnPoint.position).normalized;
+            _rb.AddForce(dir * _recoilMeleeAttack, ForceMode2D.Impulse);
             StartCoroutine(TimeMeleeAttack());
         }
     }
@@ -130,7 +121,12 @@ public class PlayerAttack : NetworkBehaviour
     {
         if(context.performed && IsOwner)
         {
-            Attack();
+            _isAttacking = true;
+        }
+        
+        else if(context.canceled && IsOwner)
+        {
+            _isAttacking = false;
         }
     }
 

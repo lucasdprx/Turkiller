@@ -86,7 +86,7 @@ public class LeaderBoardManager : NetworkBehaviour
             var player = client.Value.PlayerObject.GetComponent<PlayerInfo>();
             if (player != null)
             {
-                playerScores.Add((player.playerName, player.score.Value));
+                playerScores.Add((player.playerName.Value, player.score.Value));
             }
         }
 

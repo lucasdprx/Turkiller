@@ -17,6 +17,7 @@ public class NetworkPlayer : NetworkBehaviour
         _playerNetworkLife = GetComponent<PlayerNetworkLife>();
         _camera = GetComponentInChildren<Camera>();
         _playerInput = GetComponentInChildren<PlayerInput>();
+        transform.position = GetComponent<PlayerSpawn>().GetRandomSpawnPoint().position;
     }
 
     public override void OnNetworkSpawn()
@@ -27,22 +28,13 @@ public class NetworkPlayer : NetworkBehaviour
         _playerNetworkLife.enabled = IsOwner;
         _camera.gameObject.SetActive(IsOwner);
         _playerInput.gameObject.SetActive(IsOwner);
-
-
-        transform.position = GetComponent<PlayerSpawn>().GetRandomSpawnPoint().position;
+        
 
         UpdateTagLocally();
     }
 
     private void UpdateTagLocally()
     {
-        if (IsOwner)
-        {
-            gameObject.tag = "Player"; // Tag local pour le propriétaire du personnage
-        }
-        else
-        {
-            gameObject.tag = "Untagged"; // Tous les autres joueurs sont vus comme "Untagged"
-        }
+        gameObject.tag = IsOwner ? "Player" : "Untagged";
     }
 }

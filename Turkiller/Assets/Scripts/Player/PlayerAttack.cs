@@ -53,7 +53,7 @@ public class PlayerAttack : NetworkBehaviour
             if (networkObjectResult == null || networkObjectPlayer == null ||
                 networkObjectResult.OwnerClientId == networkObjectPlayer.OwnerClientId) continue;
             
-            result.GetComponent<PlayerNetworkLife>().TakeDamageServerRpc(20, networkObjectResult.OwnerClientId);
+            result.GetComponent<PlayerNetworkLife>().TakeDamageServerRpc(20, networkObjectResult.OwnerClientId, networkObjectPlayer.OwnerClientId);
         }
         yield return new WaitForSeconds(0.2f);
     }

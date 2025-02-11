@@ -18,12 +18,12 @@ public class InscriptionManager : MonoBehaviour
     [SerializeField] private GameObject menuSignUp;
     [SerializeField] private TextMeshProUGUI nameInputSignUp;
     [SerializeField] private TextMeshProUGUI emailInputSignUp;
-    [SerializeField] private TextMeshProUGUI passwordInputSignUp;
+    [SerializeField] private TMP_InputField passwordInputSignUp;
 
     [Header("SignIn")]
     [SerializeField] private GameObject menuSignIn;
     [SerializeField] private TextMeshProUGUI emailInputSignIn;
-    [SerializeField] private TextMeshProUGUI passwordInputSignIn;
+    [SerializeField] private TMP_InputField passwordInputSignIn;
 
     [Header("Other")]
 
@@ -43,7 +43,6 @@ public class InscriptionManager : MonoBehaviour
     {
         string newName = nameText.text;
 
-        print(newName);
         networkMenu.StartHost(objectToDeactivateOnPlay, newName);
     }
 
@@ -79,7 +78,7 @@ public class InscriptionManager : MonoBehaviour
         {
             if(nameInputSignUp.text.Length > 1)
             {
-                if(passwordInputSignUp.text.Length > 8)
+                if(passwordInputSignUp.text.Length >= 8)
                 {
                     StartCoroutine("SignUpCoroutine");
                 }

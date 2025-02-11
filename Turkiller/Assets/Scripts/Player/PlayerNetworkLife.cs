@@ -52,7 +52,7 @@ public class PlayerNetworkLife : NetworkBehaviour
     }
 
     [Rpc(SendTo.Server, RequireOwnership = false)]
-    public void TakeDamageServerRpc(float damage, ulong targetClientId)
+    public void TakeDamageServerRpc(float damage, ulong targetClientId, ulong attackerClientId) 
     {
         if (!IsServer) return;
 
@@ -67,6 +67,12 @@ public class PlayerNetworkLife : NetworkBehaviour
             Debug.Log(damage * playerNetworkLife._effects.GetEffect(Bonus.DamageTakenMultiplier).min);
 
             playerNetworkLife._currentHealth.Value -= damage * playerNetworkLife._effects.GetEffect(Bonus.DamageTakenMultiplier).max;
+
+            if (playerNetworkLife._currentHealth.Value <= 0)
+            {
+                PlayerInfo attacker = NetworkManager.Singleton.ConnectedClients[attackerClientId].PlayerObject.GetComponent<PlayerInfo>();
+                attacker.AddScore(30);
+            }
         }
     }
 

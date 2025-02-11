@@ -25,10 +25,24 @@ public class AudioManager : NetworkBehaviour
             Destroy(gameObject);
         }
     }
+    
+    public bool IsSFXPlaying(string name)
+    {
+        return _currentSFX.Exists(s => s._name == name);
+    }
+    
+    public float GetSFXLength(string name)
+    {
+        Sound sound = Array.Find(_sfxSounds, s => s._name == name);
+        return sound != null ? sound._clip.length : 0f;
+    }
 
-    private void PlaySound(AudioSource audioSource, Sound[] soundList, string name, bool isSFX = false)
+    private void PlaySound(AudioSource audioSource, Sound[] soundList, string name, bool isSFX = false, float pitch = 1f)
     {
         Sound sound = Array.Find(soundList, s => s._name == name);
+
+        if (pitch == 0)
+            pitch = 1;
 
         if (sound == null)
         {
@@ -43,12 +57,13 @@ public class AudioManager : NetworkBehaviour
                 Debug.LogError("[AudioManager] Aucun conteneur SFX assigné !");
                 return;
             }
-            
+
             // Créer un nouvel AudioSource attaché au conteneur SFX
             AudioSource sfxSource = sfxContainer.AddComponent<AudioSource>();
             sfxSource.clip = sound._clip;
+            sfxSource.pitch = pitch;
             sfxSource.Play();
-            
+
             _currentSFXSources.Add(sfxSource);
             _currentSFX.Add(sound);
 
@@ -58,6 +73,7 @@ public class AudioManager : NetworkBehaviour
         else
         {
             audioSource.clip = sound._clip;
+            audioSource.pitch = pitch;
             audioSource.Play();
         }
     }
@@ -87,9 +103,17 @@ public class AudioManager : NetworkBehaviour
         PlayMusicServerRpc(name);
     }
 
-    public void PlaySFX(string name)
+    public void PlaySFX(string name, bool isPitched)
     {
-        PlaySound(null, _sfxSounds, name, true);
+        if (isPitched)
+        {
+            float pitch = UnityEngine.Random.Range(-1f, 1f);
+            PlaySound(null, _sfxSounds, name, true, pitch);
+        }
+        else
+        {
+            PlaySound(null, _sfxSounds, name, true);
+        }
         PlaySFXServerRpc(name);
     }
 

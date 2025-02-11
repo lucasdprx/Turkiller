@@ -6,6 +6,8 @@ public class PlayerController : NetworkBehaviour
 {
     [SerializeField] private float _moveSpeed = 10f;
     [SerializeField] private PlayerEffects _effects;
+
+    [SerializeField] private Animator _animator;
     
     private Vector2 _moveDirection;
     private Rigidbody2D _rb;
@@ -59,9 +61,15 @@ public class PlayerController : NetworkBehaviour
     }
     private void Movement()
     {
-        if (_rb == null || _moveDirection == Vector2.zero) return;
+        if (_rb == null || _moveDirection == Vector2.zero)
+        {
+            _animator.SetBool("Moove", false);
+            return;
+        }
 
         _rb.linearVelocity = _moveDirection * (_moveSpeed * _effects.GetEffect(Bonus.MoveSpeed).max);
+
+        _animator.SetBool("Moove", true);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

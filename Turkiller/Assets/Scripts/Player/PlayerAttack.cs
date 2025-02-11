@@ -97,6 +97,7 @@ public class PlayerAttack : NetworkBehaviour
         if (_isDistanceAttack && _attackTimer >= _distanceAttackSpeed / _playerController.Effects().GetEffect(Bonus.AttackSpeed).max)
         {
             _attackTimer = 0;
+            AudioManager.Instance.PlaySFX("pop");
 
             Vector3 dir = GetMousePosition(_camera) - _spawnPoint.position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;

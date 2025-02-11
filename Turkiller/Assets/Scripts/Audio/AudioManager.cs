@@ -1,16 +1,17 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
 public class AudioManager : NetworkBehaviour
 {
     public static AudioManager Instance;
-
     public AudioSource _audioSourceMusic;
-    public AudioSource _audioSourceSFX;
-
+    private List<AudioSource> _currentSFXSources = new List<AudioSource>();
+    private List<Sound> _currentSFX = new List<Sound>();
     public Sound[] _musicSounds;
     public Sound[] _sfxSounds;
+    public GameObject sfxContainer;
 
     private void Awake()
     {
@@ -25,13 +26,34 @@ public class AudioManager : NetworkBehaviour
         }
     }
 
-    private void PlaySound(AudioSource audioSource, Sound[] soundList, string name)
+    private void PlaySound(AudioSource audioSource, Sound[] soundList, string name, bool isSFX = false)
     {
         Sound sound = Array.Find(soundList, s => s._name == name);
 
         if (sound == null)
         {
             Debug.Log($"[AudioManager] Son '{name}' introuvable !");
+            return;
+        }
+
+        if (isSFX)
+        {
+            if (sfxContainer == null)
+            {
+                Debug.LogError("[AudioManager] Aucun conteneur SFX assigné !");
+                return;
+            }
+            
+            // Créer un nouvel AudioSource attaché au conteneur SFX
+            AudioSource sfxSource = sfxContainer.AddComponent<AudioSource>();
+            sfxSource.clip = sound._clip;
+            sfxSource.Play();
+            
+            _currentSFXSources.Add(sfxSource);
+            _currentSFX.Add(sound);
+
+            // Détruire l'AudioSource quand il a fini de jouer
+            Destroy(sfxSource, sound._clip.length);
         }
         else
         {
@@ -40,19 +62,23 @@ public class AudioManager : NetworkBehaviour
         }
     }
 
-    private void StopSound(AudioSource audioSource)
-    {
-        audioSource.Stop();
-    }
-
     public void StopMusic()
     {
-        StopSound(_audioSourceMusic);
+        _audioSourceMusic.Stop();
     }
 
-    public void StopSFX()
+    public void StopSFX(string name)
     {
-        StopSound(_audioSourceSFX);
+        for (int i = _currentSFXSources.Count - 1; i >= 0; i--)
+        {
+            if (_currentSFX[i]._name == name)
+            {
+                _currentSFXSources[i].Stop();
+                Destroy(_currentSFXSources[i]);
+                _currentSFXSources.RemoveAt(i);
+                _currentSFX.RemoveAt(i);
+            }
+        }
     }
 
     public void PlayMusic(string name)
@@ -63,7 +89,7 @@ public class AudioManager : NetworkBehaviour
 
     public void PlaySFX(string name)
     {
-        PlaySound(_audioSourceSFX, _sfxSounds, name);
+        PlaySound(null, _sfxSounds, name, true);
         PlaySFXServerRpc(name);
     }
 
@@ -71,15 +97,13 @@ public class AudioManager : NetworkBehaviour
     {
         return Array.Exists(soundList, s => s._name == name);
     }
-    
-    /// Demande au serveur de jouer la musique sur tous les clients.
+
     [ServerRpc(RequireOwnership = false)]
     private void PlayMusicServerRpc(string name)
     {
         PlayMusicClientRpc(name);
     }
-    
-    /// Joue la musique sur tous les clients connectés.
+
     [ClientRpc]
     private void PlayMusicClientRpc(string name)
     {
@@ -88,21 +112,19 @@ public class AudioManager : NetworkBehaviour
             PlaySound(_audioSourceMusic, _musicSounds, name);
         }
     }
-    
-    /// Demande au serveur de jouer un effet sonore sur tous les clients.
+
     [ServerRpc(RequireOwnership = false)]
     private void PlaySFXServerRpc(string name)
     {
         PlaySFXClientRpc(name);
     }
-    
-    /// Joue l'effet sonore sur tous les clients connectés.
+
     [ClientRpc]
     private void PlaySFXClientRpc(string name)
     {
         if (!IsOwner)
         {
-            PlaySound(_audioSourceSFX, _sfxSounds, name);
+            PlaySound(null, _sfxSounds, name, true);
         }
     }
 }

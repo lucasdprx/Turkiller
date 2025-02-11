@@ -53,8 +53,16 @@ public class PlayerController : NetworkBehaviour
     {
         _moveDirection = ctx.ReadValue<Vector2>();
         
+        if (_rb.linearVelocity == Vector2.zero)
+            AudioManager.Instance.PlaySFX("run grass");
+
         if (ctx.canceled)
+        {
+            Debug.Log("stop moving");
             _rb.linearVelocity = Vector2.zero;
+            AudioManager.Instance.StopSFX("run grass");
+        }
+
     }
 
     public void FreezeInput(bool value)

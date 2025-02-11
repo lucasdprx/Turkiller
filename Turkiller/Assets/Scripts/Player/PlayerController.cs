@@ -14,6 +14,7 @@ public class PlayerController : NetworkBehaviour
     private Camera _camera;
     private Transform _transform;
     private PlayerAttack _playerAttack;
+    private bool _isFreeze;
 
 
     private void Awake()
@@ -53,18 +54,20 @@ public class PlayerController : NetworkBehaviour
     {
         _moveDirection = ctx.ReadValue<Vector2>();
         
-        if (ctx.canceled)
+        if (ctx.canceled && !_isFreeze)
             _rb.linearVelocity = Vector2.zero;
     }
 
     public void FreezeInput(bool value)
     {
         _playerInput.enabled = !value;
+        _isFreeze = value;
     }
     private void Movement()
     {
-        if (_rb == null || _moveDirection == Vector2.zero) return;
+        if (_rb == null || _moveDirection == Vector2.zero || _isFreeze) return;
 
-        _rb.linearVelocity = _moveDirection * (_moveSpeed * _effects.GetEffect(Bonus.MoveSpeed).max);
+        Vector2 speed = _moveDirection * (_moveSpeed * _effects.GetEffect(Bonus.MoveSpeed).max);
+        _rb.linearVelocity = speed;
     }
 }

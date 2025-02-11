@@ -40,6 +40,9 @@ public class PlayerAttack : NetworkBehaviour
     }
     private IEnumerator TimeMeleeAttack()
     {
+        _playerController.FreezeInput(true);
+        Vector2 directionForce = ((Vector2)GetMousePosition(_camera) - (Vector2)_spawnPoint.position).normalized;
+        _rb.AddForce(directionForce * _recoilMeleeAttack, ForceMode2D.Impulse);
         yield return new WaitForSeconds(0.2f);
         Collider2D[] results =  Physics2D.OverlapBoxAll(_meleeAttackPoint.position, Vector2.one * 2, 0);
         foreach (Collider2D result in results)
@@ -56,6 +59,7 @@ public class PlayerAttack : NetworkBehaviour
             result.GetComponent<PlayerNetworkLife>().TakeDamageServerRpc(20, networkObjectResult.OwnerClientId, networkObjectPlayer.OwnerClientId);
         }
         yield return new WaitForSeconds(0.2f);
+        _playerController.FreezeInput(false);
     }
 
     public bool GetIsDistance()
@@ -103,16 +107,15 @@ public class PlayerAttack : NetworkBehaviour
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             Quaternion direction = Quaternion.AngleAxis(angle, new Vector3(0, _spawnPoint.rotation.y, 1));
 
+            Vector2 directionForce = ((Vector2)GetMousePosition(_camera) - (Vector2)position).normalized;
             ulong ownerClientId = GetComponent<NetworkObject>().OwnerClientId;
-            _rb.AddForce(-dir.normalized * _recoilDistanceAttack, ForceMode2D.Impulse);
+            _rb.AddForce(-directionForce * _recoilDistanceAttack, ForceMode2D.Impulse);
             RequestDistanceAttackServerRpc(ownerClientId, position, direction);
         }
 
         else if (!_isDistanceAttack && _attackTimer >= _MeleeAttackSpeed)
         {
             _attackTimer = 0;
-            Vector3 dir = (GetMousePosition(_camera) - _spawnPoint.position).normalized;
-            _rb.AddForce(dir * _recoilMeleeAttack, ForceMode2D.Impulse);
             StartCoroutine(TimeMeleeAttack());
         }
     }

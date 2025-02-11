@@ -651,7 +651,7 @@ MonoBehaviour:
   _effects: {fileID: 1377571546169007362}
   _distanceAttackSpeed: 0.3
   _recoilDistanceAttack: 4
-  _recoilMeleeAttack: 25
+  _recoilMeleeAttack: 15
   _MeleeAttackSpeed: 0.6
   _meleeAttackPoint: {fileID: 8763695918499013071}
 --- !u!50 &6906997715150876645

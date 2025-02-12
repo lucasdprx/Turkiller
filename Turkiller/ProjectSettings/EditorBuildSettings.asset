@@ -20,13 +20,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Andy/DevRoomAndy.unity
     guid: af7d1cbe55c351f44bdc1f68bb5620e6
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Bruce/SkinCustomization.unity
     guid: 514b5489767041a45b94e555c64e98db
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Andy/ParticlesEffects.unity
     guid: a3833e13251300d458448609f577276a
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Andy/DeathUpdate.unity
     guid: 159aed3562c4f7244adb27b7af950011
   m_configObjects:

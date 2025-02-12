@@ -45,25 +45,25 @@ public class PlayerInfo : NetworkBehaviour
         if (!PlayerNameTracker.TryGetPlayerData(OwnerClientId, out string newName, out int newSkin))
             return;
         
-        SetNameServerRpc(newName.Length > 1 ? newName : GetRandomName());
+        SetInfoServerRpc(newName.Length > 1 ? newName : GetRandomName(), newSkin);
 
-        skinIndex.Value = newSkin;
-        SetSkin(newSkin);
         PlayerNameTracker.RemovePlayerData(OwnerClientId);
     }
     
     [Rpc(SendTo.Server)]
-    private void SetNameServerRpc(string newName)
+    private void SetInfoServerRpc(string newName, int newSkin)
     {
         playerName.Value = newName;
         usernameText.text = newName;
-        SetNameClientRpc(newName);
+        skinIndex.Value = newSkin;
+        SetInfoClientRpc(newName, newSkin);
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    private void SetNameClientRpc(string newName)
+    private void SetInfoClientRpc(string newName, int newSkin)
     {
         usernameText.text = newName;
+        SetSkin(newSkin);
         IReadOnlyDictionary<ulong, NetworkClient> players = NetworkManager.Singleton.ConnectedClients;
         foreach (KeyValuePair<ulong, NetworkClient> player in players)
         {
@@ -72,6 +72,7 @@ public class PlayerInfo : NetworkBehaviour
             
             PlayerInfo playerInfo = player.Value.PlayerObject.GetComponent<PlayerInfo>();
             playerInfo.usernameText.text = playerInfo.playerName.Value.ToString();
+            playerInfo.SetSkin(playerInfo.skinIndex.Value);
         }
     }
 

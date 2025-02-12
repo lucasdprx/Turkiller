@@ -9,6 +9,7 @@ public class PlayerNetworkLife : NetworkBehaviour
     [SerializeField] private PlayerEffects _effects;
     [SerializeField] private GameObject _deathMenu;
     [SerializeField] private GameObject _player;
+    [SerializeField] private Animator _animator;
 
     private NetworkVariable<float> _currentHealth = new NetworkVariable<float>(100);
 
@@ -43,6 +44,11 @@ public class PlayerNetworkLife : NetworkBehaviour
     private void OnHealthChanged(float previousValue, float newValue)
     {
         _healthBar.fillAmount = newValue / _maxHealth;
+
+        if(newValue < previousValue)
+        {
+            _animator.SetTrigger("TakeDamage");
+        }
 
         if (!(newValue <= 0f) || !IsOwner)
             return;

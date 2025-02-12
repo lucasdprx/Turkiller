@@ -65,7 +65,10 @@ public class PlayerController : NetworkBehaviour
         {
             Debug.Log("stop moving");
             _rb.linearVelocity = Vector2.zero;
-            AudioManager.Instance.StopSFX("run grass");
+            if (AudioManager.Instance.IsSFXPlaying("run grass"))
+            {
+                AudioManager.Instance.StopSFX("run grass");
+            }
             StopCoroutine(PlayRunGrassSFX());
         }
     }

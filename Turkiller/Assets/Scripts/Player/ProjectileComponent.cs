@@ -76,6 +76,7 @@ public class ProjectileComponent : NetworkBehaviour
             return;
         }
         
+        AudioManager.Instance.PlaySFX("impact egg", false);
         playerNetworkLife.TakeDamageServerRpc(10, networkObject.OwnerClientId);
         DespawnServerRpc();
     }

@@ -56,7 +56,7 @@ public class PlayerController : NetworkBehaviour
     {
         _moveDirection = ctx.ReadValue<Vector2>();
 
-        if (_rb.linearVelocity != Vector2.zero && !AudioManager.Instance.IsSFXPlaying("run grass"))
+        if (AudioManager.Instance != null &&_rb.linearVelocity != Vector2.zero && !AudioManager.Instance.IsSFXPlaying("run grass"))
         {
             StartCoroutine(PlayRunGrassSFX());
         }
@@ -64,7 +64,7 @@ public class PlayerController : NetworkBehaviour
         if (ctx.canceled && !_isFreeze)
         {
             _rb.linearVelocity = Vector2.zero;
-            if (AudioManager.Instance.IsSFXPlaying("run grass"))
+            if (AudioManager.Instance != null && AudioManager.Instance.IsSFXPlaying("run grass"))
             {
                 AudioManager.Instance.StopSFX("run grass");
             }
@@ -110,7 +110,7 @@ public class PlayerController : NetworkBehaviour
         float offsetDirection = _isLeftFoot ? -1 : 1;
         _isLeftFoot = !_isLeftFoot;
 
-        Vector3 footprintPosition = _transform.position + (_spritePlayer.right * _footstepDistance * offsetDirection);
+        Vector3 footprintPosition = _transform.position + (_spritePlayer.right * (_footstepDistance * offsetDirection));
         Quaternion footprintRotation = _spritePlayer.rotation;
 
         if (IsServer)

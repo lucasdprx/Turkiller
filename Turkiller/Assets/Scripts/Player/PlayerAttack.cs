@@ -105,7 +105,8 @@ public class PlayerAttack : NetworkBehaviour
         if (_isDistanceAttack && _attackTimer >= _distanceAttackSpeed / _playerController.Effects().GetEffect(Bonus.AttackSpeed).max)
         {
             _attackTimer = 0;
-            AudioManager.Instance.PlaySFX("pop", false);
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlaySFX("pop", false);
 
             Vector3 position = _spawnPoint.position;
             Vector3 dir = GetMousePosition(_camera) - position;
@@ -123,7 +124,8 @@ public class PlayerAttack : NetworkBehaviour
         {
             _attackTimer = 0;
             _animator.SetTrigger("Melee");
-            AudioManager.Instance.PlaySFX("melee swoosh", false);
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlaySFX("melee swoosh", false);
             StartCoroutine(TimeMeleeAttack());
         }
     }

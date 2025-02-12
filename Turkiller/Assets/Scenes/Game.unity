@@ -3504,6 +3504,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2cb15550e96a4554880f10499c38c2be, type: 2}
   spawnInterval: 5
   maxSeeds: 14
+  spawnerType: 0
 --- !u!114 &720763214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4664,6 +4665,7 @@ MonoBehaviour:
   - {fileID: 700760461}
   - {fileID: 474506968}
   - {fileID: 716186265}
+  spawnPointsWeathSeed: []
   parentsEffectUI: {fileID: 249935143}
 --- !u!4 &976400106
 Transform:

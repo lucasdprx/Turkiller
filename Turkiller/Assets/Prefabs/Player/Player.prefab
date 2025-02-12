@@ -639,6 +639,7 @@ MonoBehaviour:
   _footprintPrefab: {fileID: 3383577417511897774, guid: 9305a9e8e10762043beb48feca1ccc41, type: 3}
   _footstepDistance: 0.3
   _footstepInterval: 0.2
+  _soundPackIndex: 0
 --- !u!114 &4219436783519841249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -776,6 +777,7 @@ MonoBehaviour:
   _player: {fileID: 3540394408133261254}
   _bloodParticlesPrefab: {fileID: 1041152724713221524, guid: 04cf7940be200cb40a65ead15410e92c, type: 3}
   _damageParticlesPrefab: {fileID: 1041152724713221524, guid: 4df155683d4d1db4489371f068f958c4, type: 3}
+  _animator: {fileID: 296183125399049502}
 --- !u!114 &1377571546169007362
 MonoBehaviour:
   m_ObjectHideFlags: 0

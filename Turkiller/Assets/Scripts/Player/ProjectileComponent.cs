@@ -63,10 +63,10 @@ public class ProjectileComponent : NetworkBehaviour
     {
         if (IsServer || other.CompareTag("IgnoreShoot")) return;
 
-        NetworkObject networkObject = other.GetComponent<NetworkObject>();
+        NetworkObject networkObject = other.GetComponentInParent<NetworkObject>();
         if (networkObject != null && networkObject.OwnerClientId == _ownerClientId.Value) return;
         
-        PlayerNetworkLife playerNetworkLife = other.GetComponent<PlayerNetworkLife>();
+        PlayerNetworkLife playerNetworkLife = other.GetComponentInParent<PlayerNetworkLife>();
         if (playerNetworkLife != null && NetworkManager.Singleton.LocalClientId == networkObject.OwnerClientId)
         {
             playerNetworkLife.TakeDamageServerRpc(_damage.Value, networkObject.OwnerClientId, _ownerClientId.Value);

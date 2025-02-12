@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class PlayerInfo : NetworkBehaviour
@@ -10,6 +11,8 @@ public class PlayerInfo : NetworkBehaviour
 
     public NetworkVariable<int> score = new();
     public TextMeshProUGUI usernameText;
+    public CircleCollider2D circleCollider;
+    public GameObject _bodyPlayer;
 
     private void Awake()
     {

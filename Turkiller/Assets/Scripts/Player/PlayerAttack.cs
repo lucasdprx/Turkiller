@@ -49,16 +49,16 @@ public class PlayerAttack : NetworkBehaviour
         Collider2D[] results =  Physics2D.OverlapBoxAll(_meleeAttackPoint.position, Vector2.one * 2, 0);
         foreach (Collider2D result in results)
         {
-            if (result.GetComponent<PlayerNetworkLife>() == null)
+            if (result.GetComponentInParent<PlayerNetworkLife>() == null)
                 continue;
             
-            NetworkObject networkObjectResult = result.GetComponent<NetworkObject>();
+            NetworkObject networkObjectResult = result.GetComponentInParent<NetworkObject>();
             NetworkObject networkObjectPlayer = GetComponent<NetworkObject>();
 
             if (networkObjectResult == null || networkObjectPlayer == null ||
                 networkObjectResult.OwnerClientId == networkObjectPlayer.OwnerClientId) continue;
             
-            result.GetComponent<PlayerNetworkLife>().TakeDamageServerRpc(20, networkObjectResult.OwnerClientId, networkObjectPlayer.OwnerClientId);
+            result.GetComponentInParent<PlayerNetworkLife>().TakeDamageServerRpc(20, networkObjectResult.OwnerClientId, networkObjectPlayer.OwnerClientId);
         }
         yield return new WaitForSeconds(0.2f);
         _playerController.FreezeInput(false);

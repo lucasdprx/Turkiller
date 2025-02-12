@@ -82,10 +82,11 @@ public class PlayerNetworkLife : NetworkBehaviour
         if(NetworkManager.Singleton.ConnectedClients.TryGetValue(targetClientId, out NetworkClient player))
         {
             _healthBar.transform.parent.gameObject.SetActive(false);
+            PlayerInfo playerInfo = player.PlayerObject.GetComponent<PlayerInfo>();
             player.PlayerObject.GetComponent<PlayerAttack>().enabled = false;
             player.PlayerObject.GetComponent<PlayerController>().enabled = false;
-            player.PlayerObject.GetComponentInChildren<Collider2D>().enabled = false;
-            player.PlayerObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
+            playerInfo.circleCollider.enabled = false;
+            playerInfo._bodyPlayer.SetActive(false);
         }
     }
 
@@ -104,11 +105,12 @@ public class PlayerNetworkLife : NetworkBehaviour
         _deathMenu.SetActive(false);
         
         NetworkObject playerPrefab = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
+        PlayerInfo playerInfo = playerPrefab.GetComponent<PlayerInfo>();
         playerPrefab.transform.position = playerPrefab.GetComponent<PlayerSpawn>().GetRandomSpawnPoint().position;
-        playerPrefab.GetComponent<PlayerAttack>().enabled = true;
-        playerPrefab.GetComponentInChildren<Collider2D>().enabled = true;
+        playerInfo.circleCollider.enabled = true;
+        playerInfo._bodyPlayer.SetActive(true);
         playerPrefab.GetComponent<PlayerController>().enabled = true;
-        _player.GetComponentInChildren<SpriteRenderer>().enabled = true;
+        playerPrefab.GetComponent<PlayerAttack>().enabled = true;
         _healthBar.transform.parent.gameObject.SetActive(true);
         _player.SetActive(true);
     }

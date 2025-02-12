@@ -1,6 +1,7 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class HidingPlace : MonoBehaviour
+public class HidingPlace : NetworkBehaviour
 {
     private SpriteRenderer _bush;
     private Color _clearBush;
@@ -20,15 +21,29 @@ public class HidingPlace : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag != "Player") return;
+        if (!collision.gameObject.CompareTag("Player")) return;
 
-        _bush.color = _clearBush;
+        NetworkObject netObj = collision.GetComponentInParent<NetworkObject>();
+        if (!netObj)
+            return;
+        
+        if (netObj.IsLocalPlayer)
+        {
+            _bush.color = _clearBush;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag != "Player") return;
+        if (!collision.gameObject.CompareTag("Player")) return;
 
-        _bush.color = _fullBush;
+        NetworkObject netObj = collision.GetComponentInParent<NetworkObject>();
+        if (!netObj)
+            return;
+        
+        if (netObj.IsLocalPlayer)
+        {
+            _bush.color = _fullBush;
+        }
     }
 }

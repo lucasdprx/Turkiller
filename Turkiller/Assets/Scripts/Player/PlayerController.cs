@@ -6,6 +6,8 @@ public class PlayerController : NetworkBehaviour
 {
     [SerializeField] private float _moveSpeed = 10f;
     [SerializeField] private PlayerEffects _effects;
+
+    [SerializeField] private Animator _animator;
     
     private Vector2 _moveDirection;
     private Rigidbody2D _rb;
@@ -65,9 +67,14 @@ public class PlayerController : NetworkBehaviour
     }
     private void Movement()
     {
-        if (_rb == null || _moveDirection == Vector2.zero || _isFreeze) return;
+        if (_rb == null || _moveDirection == Vector2.zero || _isFreeze)
+        {
+            _animator.SetBool("Moove", false);
+            return;
+        }
 
-        Vector2 speed = _moveDirection * (_moveSpeed * _effects.GetEffect(Bonus.MoveSpeed).max);
-        _rb.linearVelocity = speed;
+        _rb.linearVelocity = _moveDirection * (_moveSpeed * _effects.GetEffect(Bonus.MoveSpeed).max);
+
+        _animator.SetBool("Moove", true);
     }
 }

@@ -17,6 +17,8 @@ public class PlayerAttack : NetworkBehaviour
     [SerializeField] private float _MeleeAttackSpeed = 0.6f;
     [SerializeField] private Transform _meleeAttackPoint;
 
+    [SerializeField] private Animator _animator;
+
     private Rigidbody2D _rb;
     private float _attackTimer;
     private bool _isAttacking;
@@ -110,12 +112,14 @@ public class PlayerAttack : NetworkBehaviour
             Vector2 directionForce = ((Vector2)GetMousePosition(_camera) - (Vector2)position).normalized;
             ulong ownerClientId = GetComponent<NetworkObject>().OwnerClientId;
             _rb.AddForce(-directionForce * _recoilDistanceAttack, ForceMode2D.Impulse);
+            _animator.SetTrigger("Distance");
             RequestDistanceAttackServerRpc(ownerClientId, position, direction);
         }
 
         else if (!_isDistanceAttack && _attackTimer >= _MeleeAttackSpeed)
         {
             _attackTimer = 0;
+            _animator.SetTrigger("Melee");
             StartCoroutine(TimeMeleeAttack());
         }
     }

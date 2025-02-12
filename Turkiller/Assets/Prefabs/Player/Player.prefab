@@ -636,6 +636,9 @@ MonoBehaviour:
   _moveSpeed: 8
   _effects: {fileID: 1377571546169007362}
   _animator: {fileID: 296183125399049502}
+  _footprintPrefab: {fileID: 3383577417511897774, guid: 9305a9e8e10762043beb48feca1ccc41, type: 3}
+  _footstepDistance: 0.3
+  _footstepInterval: 0.2
 --- !u!114 &4219436783519841249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -771,6 +774,8 @@ MonoBehaviour:
   _effects: {fileID: 1377571546169007362}
   _deathMenu: {fileID: 6728460881759544175}
   _player: {fileID: 3540394408133261254}
+  _bloodParticlesPrefab: {fileID: 1041152724713221524, guid: 04cf7940be200cb40a65ead15410e92c, type: 3}
+  _damageParticlesPrefab: {fileID: 1041152724713221524, guid: 4df155683d4d1db4489371f068f958c4, type: 3}
 --- !u!114 &1377571546169007362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,7 +873,7 @@ MonoBehaviour:
         byte0059: 0
         byte0060: 0
         byte0061: 0
- skinIndex:
+  skinIndex:
     m_InternalValue: 0
   skins:
   - {fileID: 2642053492378982893, guid: 81cf15a7ab4e9db44842779e4f4fb379, type: 3}
@@ -883,6 +888,22 @@ MonoBehaviour:
   - {fileID: -4040046907630454711, guid: 98a84e41d0fa2104280025434b80e814, type: 3}
   - {fileID: 3555115691458294516, guid: 1651460ef449d0044a7c43d77ef9f55f, type: 3}
   - {fileID: 1372335161102834277, guid: dc0c5c243f530244d82760fa7b0f15bd, type: 3}
+  - {fileID: -4122185248844357282, guid: d479d9854186e0b4499207c27fdd8def, type: 3}
+  - {fileID: 4138223980208024357, guid: dd8c60eec72b00447a536e9f5d394901, type: 3}
+  - {fileID: -5326267760684497326, guid: ea1479999372ad94587b7405a4a66383, type: 3}
+  - {fileID: 94711503687753992, guid: 0b417e926f77fac4c90e5c7218298d4f, type: 3}
+  - {fileID: -609841592422930631, guid: 3d917f37173fb74439e8c0ad23165cb6, type: 3}
+  - {fileID: 6550229403945522988, guid: a77f9c33c02147044bbd1d4a49b3e0b3, type: 3}
+  - {fileID: -1387662395301578967, guid: c3e264fd5dbbd064e90ce6a4f2257de0, type: 3}
+  - {fileID: -4213270373089657481, guid: c6104bf8ba82cb645bcca3d38f2fe0c2, type: 3}
+  - {fileID: 6453853303662824948, guid: 24588a4abdd1996409efb796ca45fd12, type: 3}
+  - {fileID: 4679725001364321366, guid: 9b627a7f91f43ca43ad7b48da34a868a, type: 3}
+  - {fileID: 9046215376232531194, guid: c5a2dc3b5d885fb49a3cb2fad5bdeba1, type: 3}
+  - {fileID: -133560443504087923, guid: 33f0e7849a09f0f4ab3fd5674aeff1af, type: 3}
+  - {fileID: 803958148472530610, guid: e220666a65f39b649a216ce7f5ba4afb, type: 3}
+  - {fileID: 5949114163122182415, guid: 5d5c0f08d466ed3438c878115cd68a02, type: 3}
+  - {fileID: -5288711791686409010, guid: efa96231b973c3c4baefee3e1c1ccb0f, type: 3}
+  - {fileID: 8578166986042057950, guid: 9d1b4081e0a26b44389c8105b3272b0c, type: 3}
   playerSprite: {fileID: 7342292673270453411}
   score:
     m_InternalValue: 0

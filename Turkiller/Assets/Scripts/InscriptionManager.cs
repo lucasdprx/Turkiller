@@ -62,6 +62,7 @@ public class InscriptionManager : MonoBehaviour
     public void HostGame()
     {
         string newName = nameText.text;
+        print(newName);
         networkMenu.StartHost(objectToDeactivateOnPlay, newName, skinIndex);
     }
 
@@ -92,6 +93,7 @@ public class InscriptionManager : MonoBehaviour
 
     public void GoToSignUp()
     {
+        print("enter");
         menuSignUp.SetActive(true);
         menuHome.SetActive(false);
     }

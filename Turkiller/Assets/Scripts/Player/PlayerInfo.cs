@@ -4,7 +4,6 @@ using Unity.Netcode;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Unity.Collections;
-using UnityEngine.UI;
 
 public class PlayerInfo : NetworkBehaviour
 {
@@ -32,14 +31,14 @@ public class PlayerInfo : NetworkBehaviour
     {
         if(!IsServer) return;
 
-        if (!PlayerNameTracker.TryGetPlayerName(OwnerClientId, out string newName, out int newSkin))
+        if (!PlayerNameTracker.TryGetPlayerData(OwnerClientId, out string newName, out int newSkin))
             return;
         
         SetNameServerRpc(newName.Length > 1 ? newName : GetRandomName());
 
         skinIndex.Value = newSkin;
         SetSkin(newSkin);
-        PlayerNameTracker.RemovePlayerName(OwnerClientId);
+        PlayerNameTracker.RemovePlayerData(OwnerClientId);
     }
     
     [Rpc(SendTo.Server)]

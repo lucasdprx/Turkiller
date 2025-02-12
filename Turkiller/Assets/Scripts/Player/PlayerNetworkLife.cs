@@ -11,7 +11,7 @@ public class PlayerNetworkLife : NetworkBehaviour
     [SerializeField] private GameObject _player;
     [SerializeField] private GameObject _bloodParticlesPrefab;
     [SerializeField] private GameObject _damageParticlesPrefab;
-
+    [SerializeField] private Animator _animator;
 
     private NetworkVariable<float> _currentHealth = new NetworkVariable<float>(100);
 
@@ -49,6 +49,7 @@ public class PlayerNetworkLife : NetworkBehaviour
         if (newValue < previousValue)
         {
             ShowDamageEffect();
+            _animator.SetTrigger("TakeDamage");
         }
 
         if (!(newValue <= 0f) || !IsOwner)

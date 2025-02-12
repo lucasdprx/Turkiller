@@ -9,9 +9,23 @@ public class SeedSpawner : NetworkBehaviour
     [SerializeField] private List<Seeds> seeds;
     [SerializeField] private float spawnInterval = 5f;
     [SerializeField] private int maxSeeds = 10;
+    [SerializeField] private int spawnerType;
 
     private int currentSeedCount = 0;
     private HashSet<Transform> occupiedSpawnPoints = new HashSet<Transform>();
+    private Transform[] spawnPointsSeed;
+
+    private void Start()
+    {
+        if(spawnerType == 0)
+        {
+            spawnPointsSeed = ReferenceManager.instance.spawnPointsSeed;
+        }
+        else
+        {
+            spawnPointsSeed = ReferenceManager.instance.spawnPointsWeathSeed;
+        }
+    }
 
     public override void OnNetworkSpawn()
     {
@@ -35,13 +49,13 @@ public class SeedSpawner : NetworkBehaviour
     [Rpc(SendTo.Server)]
     private void SpawnSeedServerRpc(ulong ownerClientId)
     {
+        
         if (seeds.Count == 0) return;
 
         Seeds randomSeed = seeds[Random.Range(0, seeds.Count)];
         Transform spawnPoint = GetRandomAvailableSpawnPoint();
-
         if (spawnPoint == null) return;
-
+        
         GameObject newSeed = Instantiate(seedPrefab, spawnPoint.position, Quaternion.identity);
         newSeed.GetComponent<SeedObject>().Init(randomSeed, this);
         occupiedSpawnPoints.Add(spawnPoint);
@@ -63,7 +77,7 @@ public class SeedSpawner : NetworkBehaviour
             currentSeedCount--;
         }
 
-        foreach (Transform point in ReferenceManager.instance.spawnPoints)
+        foreach (Transform point in spawnPointsSeed)
         {
             if (point.position == spawnPosition)
             {
@@ -79,7 +93,7 @@ public class SeedSpawner : NetworkBehaviour
     {
         List<Transform> availablePoints = new List<Transform>();
 
-        foreach (Transform point in ReferenceManager.instance.spawnPointsSeed)
+        foreach (Transform point in spawnPointsSeed)
         {
             if (!occupiedSpawnPoints.Contains(point))
             {

@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Andy/DevRoomAndy.unity
     guid: af7d1cbe55c351f44bdc1f68bb5620e6
+  - enabled: 1
+    path: Assets/Scenes/Bruce/SkinCustomization.unity
+    guid: 514b5489767041a45b94e555c64e98db
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

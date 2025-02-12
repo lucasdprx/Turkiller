@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using Unity.Netcode;
 using UnityEngine;
@@ -13,9 +14,17 @@ public class NetworkMenu : MonoBehaviour
         Debug.Log("Start server !");
     }
 
-    public void StartClient(GameObject networkMenu, string playerName)
+    public void StartClient(GameObject networkMenu, string playerName, int skinIndex)
     {
-        NetworkManager.Singleton.NetworkConfig.ConnectionData = Encoding.UTF8.GetBytes(playerName);
+        byte[] nameBytes = Encoding.UTF8.GetBytes(playerName);
+        byte[] skinBytes = BitConverter.GetBytes(skinIndex);
+
+        byte[] connectionData = new byte[nameBytes.Length + 1 + skinBytes.Length];
+        connectionData[0] = (byte)nameBytes.Length;
+        nameBytes.CopyTo(connectionData, 1);
+        skinBytes.CopyTo(connectionData, 1 + nameBytes.Length);
+
+        NetworkManager.Singleton.NetworkConfig.ConnectionData = connectionData;
 
 
         bool success = NetworkManager.Singleton.StartClient();
@@ -29,9 +38,17 @@ public class NetworkMenu : MonoBehaviour
             networkMenu.SetActive(false);
         }
     }
-    public void StartHost(GameObject networkMenu, string playerName)
+    public void StartHost(GameObject networkMenu, string playerName, int skinIndex)
     {
-        NetworkManager.Singleton.NetworkConfig.ConnectionData = Encoding.UTF8.GetBytes(playerName);
+        byte[] nameBytes = Encoding.UTF8.GetBytes(playerName);
+        byte[] skinBytes = BitConverter.GetBytes(skinIndex);
+
+        byte[] connectionData = new byte[nameBytes.Length + 1 + skinBytes.Length];
+        connectionData[0] = (byte)nameBytes.Length;
+        nameBytes.CopyTo(connectionData, 1);
+        skinBytes.CopyTo(connectionData, 1 + nameBytes.Length);
+
+        NetworkManager.Singleton.NetworkConfig.ConnectionData = connectionData;
 
         if (!NetworkManager.Singleton.StartHost()) return;
             

@@ -2,20 +2,29 @@ using System.Collections.Generic;
 
 public static class PlayerNameTracker
 {
-    private static Dictionary<ulong, string> playerNames = new Dictionary<ulong, string>();
+    private static Dictionary<ulong, (string name, int skinIndex)> playerData = new Dictionary<ulong, (string, int)>();
 
-    public static void AddPlayerName(ulong clientId, string name)
+
+    public static void AddPlayerData(ulong clientId, string name, int skinIndex)
     {
-        playerNames[clientId] = name;
+        playerData[clientId] = (name, skinIndex);
     }
 
-    public static bool TryGetPlayerName(ulong clientId, out string name)
+    public static bool TryGetPlayerData(ulong clientId, out string name, out int skinIndex)
     {
-        return playerNames.TryGetValue(clientId, out name);
+        if (playerData.TryGetValue(clientId, out var data))
+        {
+            name = data.name;
+            skinIndex = data.skinIndex;
+            return true;
+        }
+        name = "Joueur";
+        skinIndex = 0;
+        return false;
     }
 
-    public static void RemovePlayerName(ulong clientId)
+    public static void RemovePlayerData(ulong clientId)
     {
-        playerNames.Remove(clientId);
+        playerData.Remove(clientId);
     }
 }

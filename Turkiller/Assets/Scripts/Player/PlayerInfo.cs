@@ -1,41 +1,49 @@
+using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInfo : NetworkBehaviour
 {
     public NetworkVariable<FixedString64Bytes> playerName = new("");
+    public NetworkVariable<int> skinIndex = new();
+
+    [SerializeField] List<Sprite> skins;
+    [SerializeField] SpriteRenderer playerSprite; 
 
     public NetworkVariable<int> score = new();
 
     public override void OnNetworkSpawn()
     {
-        if(!IsServer) return;
-
-        if (PlayerNameTracker.TryGetPlayerName(OwnerClientId, out string newName))
+        if (IsServer)
         {
-            print(newName);
-            if (newName.Length > 1)
+            if (PlayerNameTracker.TryGetPlayerData(OwnerClientId, out string newName, out int newSkin))
             {
-                playerName.Value = newName;
-            }
-            else
-            {
-                FixedString64Bytes n = GetRandomName();
-                playerName.Value = n;
-            }
+                if (newName.Length > 1)
+                {
+                    playerName.Value = newName;
+                }
+                else
+                {
+                    FixedString64Bytes n = GetRandomName();
+                    playerName.Value = n;
+                }
 
-            PlayerNameTracker.RemovePlayerName(OwnerClientId);
+                skinIndex.Value = newSkin;
+
+                SetSkin(newSkin);
+
+                PlayerNameTracker.RemovePlayerData(OwnerClientId);
+            }
         }
 
-        
+        playerSprite.sprite = skins[skinIndex.Value];
     }
 
-    private void Awake()
+    public void SetSkin(int index)
     {
-        
-        
-        
+        playerSprite.sprite = skins[index];
     }
 
     private string GetRandomName()

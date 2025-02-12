@@ -503,7 +503,91 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  playerName: 
+  playerName:
+    m_InternalValue:
+      utf8LengthInBytes: 0
+      bytes:
+        offset0000:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        offset0016:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        offset0032:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        byte0048: 0
+        byte0049: 0
+        byte0050: 0
+        byte0051: 0
+        byte0052: 0
+        byte0053: 0
+        byte0054: 0
+        byte0055: 0
+        byte0056: 0
+        byte0057: 0
+        byte0058: 0
+        byte0059: 0
+        byte0060: 0
+        byte0061: 0
+  skinIndex:
+    m_InternalValue: 0
+  skins:
+  - {fileID: 2642053492378982893, guid: 81cf15a7ab4e9db44842779e4f4fb379, type: 3}
+  - {fileID: 7421034534782609827, guid: d585580175745394aa597b94ef5244ac, type: 3}
+  - {fileID: 5775973847623521412, guid: 86b8150fd3e3bbb4294939fb946f87e6, type: 3}
+  - {fileID: -6212159341264610544, guid: 4d06d7232c9e1454db4d85204ef0f3f5, type: 3}
+  - {fileID: -4118679987319013736, guid: b9b6f1de5c47a344591dd6e5365a5e4c, type: 3}
+  - {fileID: -842853142720032652, guid: e786e59d92648744bbeffbe2f8187409, type: 3}
+  - {fileID: -8991496158347712944, guid: 6559c7140f849cd47ac1420183a2ca06, type: 3}
+  - {fileID: 1613876790299128544, guid: ed66a7c201b0ccf47ad2f414e99ead1f, type: 3}
+  - {fileID: -888795515794945796, guid: 8ac0e00b89e85ba4fa1159fce886f25f, type: 3}
+  - {fileID: -4040046907630454711, guid: 98a84e41d0fa2104280025434b80e814, type: 3}
+  - {fileID: 3555115691458294516, guid: 1651460ef449d0044a7c43d77ef9f55f, type: 3}
+  - {fileID: 1372335161102834277, guid: dc0c5c243f530244d82760fa7b0f15bd, type: 3}
+  playerSprite: {fileID: 7342292673270453411}
   score:
     m_InternalValue: 0
 --- !u!58 &4547670548150361495

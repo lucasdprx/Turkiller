@@ -26,7 +26,6 @@ public class PlayerNetworkLife : NetworkBehaviour
 
 
         _currentHealth.OnValueChanged += OnHealthChanged;
-
     }
 
     public void SpawnTest()
@@ -64,9 +63,8 @@ public class PlayerNetworkLife : NetworkBehaviour
                 continue;
 
             PlayerNetworkLife playerNetworkLife = player.GetComponent<PlayerNetworkLife>();
-            Debug.Log(damage * playerNetworkLife._effects.GetEffect(Bonus.DamageTakenMultiplier).min);
 
-            playerNetworkLife._currentHealth.Value -= damage * playerNetworkLife._effects.GetEffect(Bonus.DamageTakenMultiplier).max;
+            playerNetworkLife._currentHealth.Value -= damage * playerNetworkLife._effects.GetEffect(Bonus.DamageTakenMultiplier).min;
         }
     }
 

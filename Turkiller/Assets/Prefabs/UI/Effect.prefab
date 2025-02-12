@@ -120,6 +120,8 @@ MonoBehaviour:
     bonus: 3
   - sprite: {fileID: 8969210940614702701, guid: 7cb3cb3f403e27544acf3817d84fb9d6, type: 3}
     bonus: 4
+  - sprite: {fileID: -7227219082984208509, guid: 06a713a242eeff942b5691c8a85af131, type: 3}
+    bonus: 0
   imageEffect: {fileID: 8052100356845473855}
   bgImage: {fileID: 1407552588139440232}
 --- !u!1 &7992835288017102465

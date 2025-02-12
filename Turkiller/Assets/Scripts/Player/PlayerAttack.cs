@@ -46,7 +46,7 @@ public class PlayerAttack : NetworkBehaviour
         Vector2 directionForce = ((Vector2)GetMousePosition(_camera) - (Vector2)_spawnPoint.position).normalized;
         _rb.AddForce(directionForce * _recoilMeleeAttack, ForceMode2D.Impulse);
         yield return new WaitForSeconds(0.2f);
-        Collider2D[] results =  Physics2D.OverlapBoxAll(_meleeAttackPoint.position, Vector2.one * 2, 0);
+        Collider2D[] results = Physics2D.OverlapBoxAll(_meleeAttackPoint.position, Vector2.one * 2, 0);
         foreach (Collider2D result in results)
         {
             if (result.GetComponentInParent<PlayerNetworkLife>() == null)
@@ -59,6 +59,8 @@ public class PlayerAttack : NetworkBehaviour
                 networkObjectResult.OwnerClientId == networkObjectPlayer.OwnerClientId) continue;
             
             result.GetComponentInParent<PlayerNetworkLife>().TakeDamageServerRpc(20, networkObjectResult.OwnerClientId, networkObjectPlayer.OwnerClientId);
+            
+            AudioManager.Instance.PlaySFX("impact melee", false);
         }
         yield return new WaitForSeconds(0.2f);
         _playerController.FreezeInput(false);
@@ -103,6 +105,7 @@ public class PlayerAttack : NetworkBehaviour
         if (_isDistanceAttack && _attackTimer >= _distanceAttackSpeed / _playerController.Effects().GetEffect(Bonus.AttackSpeed).max)
         {
             _attackTimer = 0;
+            AudioManager.Instance.PlaySFX("pop", false);
 
             Vector3 position = _spawnPoint.position;
             Vector3 dir = GetMousePosition(_camera) - position;
@@ -120,6 +123,7 @@ public class PlayerAttack : NetworkBehaviour
         {
             _attackTimer = 0;
             _animator.SetTrigger("Melee");
+            AudioManager.Instance.PlaySFX("melee swoosh", false);
             StartCoroutine(TimeMeleeAttack());
         }
     }

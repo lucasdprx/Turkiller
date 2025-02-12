@@ -92,6 +92,10 @@ public class PlayerNetworkLife : NetworkBehaviour
                 PlayerInfo attacker = NetworkManager.Singleton.ConnectedClients[attackerClientId].PlayerObject.GetComponent<PlayerInfo>();
                 attacker.AddScore(30);
             }
+
+            // Recuperer le _soundPackIndex et appeler PlaySFXPain
+            int soundPackIndex = player.GetComponent<PlayerController>()._soundPackIndex;
+            AudioManager.Instance.PlaySFXPain(soundPackIndex);
         }
     }
 
@@ -124,6 +128,19 @@ public class PlayerNetworkLife : NetworkBehaviour
     private void DieServerRpc(ulong targetClientId)
     {
         _currentHealth.Value = _maxHealth;
+
+        PlayerController[] players = FindObjectsByType<PlayerController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (PlayerController player in players)
+        {
+            NetworkObject networkObject = player.GetComponent<NetworkObject>();
+            if (networkObject.OwnerClientId != targetClientId)
+                continue;
+
+            // Récupérer le _soundPackIndex et appele PlaySFXDeath
+            int soundPackIndex = player.GetComponent<PlayerController>()._soundPackIndex;
+            AudioManager.Instance.PlaySFXDeath(soundPackIndex);
+        }
+
         DieClientRpc(targetClientId);
     }
 

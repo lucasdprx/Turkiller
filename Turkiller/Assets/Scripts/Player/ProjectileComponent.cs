@@ -77,10 +77,10 @@ public class ProjectileComponent : NetworkBehaviour
         {
             playerNetworkLife.TakeDamageServerRpc(_damage.Value, networkObject.OwnerClientId, _ownerClientId.Value);
         }
-
+        
         PlayLocalParticles();
-
         DespawnServerRpc(NetworkManager.Singleton.LocalClientId);
+        AudioManager.Instance.PlaySFX("impact egg", false);
     }
 
 

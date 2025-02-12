@@ -1,6 +1,8 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -19,9 +21,10 @@ public class PlayerController : NetworkBehaviour
     private Transform _transform;
     private PlayerAttack _playerAttack;
     private bool _isFreeze;
-
     private float _lastFootstepTime;
     private bool _isLeftFoot = true;
+    
+    public int _soundPackIndex = 0;
 
     private void Awake()
     {
@@ -52,9 +55,30 @@ public class PlayerController : NetworkBehaviour
     public void GetInputMovement(InputAction.CallbackContext ctx)
     {
         _moveDirection = ctx.ReadValue<Vector2>();
-        
+
+        if (_rb.linearVelocity != Vector2.zero && !AudioManager.Instance.IsSFXPlaying("run grass"))
+        {
+            StartCoroutine(PlayRunGrassSFX());
+        }
+
         if (ctx.canceled && !_isFreeze)
+        {
             _rb.linearVelocity = Vector2.zero;
+            if (AudioManager.Instance.IsSFXPlaying("run grass"))
+            {
+                AudioManager.Instance.StopSFX("run grass");
+            }
+            StopCoroutine(PlayRunGrassSFX());
+        }
+    }
+
+    private IEnumerator PlayRunGrassSFX()
+    {
+        while (_rb.linearVelocity != Vector2.zero)
+        {
+            AudioManager.Instance.PlaySFX("run grass", true);
+            yield return new WaitForSeconds(AudioManager.Instance.GetSFXLength("run grass"));
+        }
     }
 
     public void FreezeInput(bool value)
@@ -106,5 +130,4 @@ public class PlayerController : NetworkBehaviour
         GameObject footprint = Instantiate(_footprintPrefab, position, rotation);
         footprint.GetComponent<NetworkObject>().Spawn();
     }
-
 }

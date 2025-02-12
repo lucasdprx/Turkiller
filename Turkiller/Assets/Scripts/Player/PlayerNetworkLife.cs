@@ -9,6 +9,9 @@ public class PlayerNetworkLife : NetworkBehaviour
     [SerializeField] private PlayerEffects _effects;
     [SerializeField] private GameObject _deathMenu;
     [SerializeField] private GameObject _player;
+    [SerializeField] private GameObject _bloodParticlesPrefab;
+    [SerializeField] private GameObject _damageParticlesPrefab;
+
 
     private NetworkVariable<float> _currentHealth = new NetworkVariable<float>(100);
 
@@ -43,12 +46,29 @@ public class PlayerNetworkLife : NetworkBehaviour
     {
         _healthBar.fillAmount = newValue / _maxHealth;
 
+        if (newValue < previousValue)
+        {
+            ShowDamageEffect();
+        }
+
         if (!(newValue <= 0f) || !IsOwner)
             return;
-        
+
         _deathMenu.SetActive(true);
         DieServerRpc(OwnerClientId);
     }
+
+    private void ShowDamageEffect()
+    {
+        GameObject damageEffect = Instantiate(_damageParticlesPrefab, transform.position, Quaternion.identity);
+        ParticleSystem ps = damageEffect.GetComponent<ParticleSystem>();
+        if (ps != null)
+        {
+            ps.Play();
+        }
+        Destroy(damageEffect, ps.main.duration);
+    }
+
 
     [Rpc(SendTo.Server, RequireOwnership = false)]
     public void TakeDamageServerRpc(float damage, ulong targetClientId, ulong attackerClientId) 
@@ -77,8 +97,18 @@ public class PlayerNetworkLife : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     public void DieClientRpc(ulong targetClientId)
     {
-        if(NetworkManager.Singleton.ConnectedClients.TryGetValue(targetClientId, out NetworkClient player))
+        if (NetworkManager.Singleton.ConnectedClients.TryGetValue(targetClientId, out NetworkClient player))
         {
+            Transform playerTransform = player.PlayerObject.transform;
+
+            GameObject bloodEffect = Instantiate(_bloodParticlesPrefab, playerTransform.position, Quaternion.identity);
+            ParticleSystem ps = bloodEffect.GetComponent<ParticleSystem>();
+            if (ps != null)
+            {
+                ps.Play();
+            }
+            Destroy(bloodEffect, ps.main.duration);
+
             _healthBar.transform.parent.gameObject.SetActive(false);
             PlayerInfo playerInfo = player.PlayerObject.GetComponent<PlayerInfo>();
             player.PlayerObject.GetComponent<PlayerAttack>().enabled = false;
@@ -87,6 +117,7 @@ public class PlayerNetworkLife : NetworkBehaviour
             playerInfo._bodyPlayer.SetActive(false);
         }
     }
+
 
     [Rpc(SendTo.Server, RequireOwnership = false)]
     private void DieServerRpc(ulong targetClientId)

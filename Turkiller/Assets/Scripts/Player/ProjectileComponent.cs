@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -5,7 +6,8 @@ public class ProjectileComponent : NetworkBehaviour
 {
     [SerializeField] private float _speed = 15f;
     [SerializeField] private float _distance = 15f;
-    
+    [SerializeField] private GameObject _eggParticlesPrefab;
+
     private float _distanceTraveled;
     private readonly NetworkVariable<ulong> _ownerClientId = new NetworkVariable<ulong>();
     private readonly NetworkVariable<float> _damage = new NetworkVariable<float>();
@@ -48,6 +50,11 @@ public class ProjectileComponent : NetworkBehaviour
     private void Update()
     {
         MoveProjectile();
+
+        if(Input.GetKeyDown(KeyCode.O))
+        {
+            DespawnServerRpc(NetworkManager.Singleton.LocalClientId);
+        }
     }
 
     private void MoveProjectile()
@@ -56,7 +63,7 @@ public class ProjectileComponent : NetworkBehaviour
         if (!(_distanceTraveled >= _distance))
             return;
         
-        DespawnServerRpc();
+        DespawnServerRpc(NetworkManager.Singleton.LocalClientId);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -71,15 +78,52 @@ public class ProjectileComponent : NetworkBehaviour
         {
             playerNetworkLife.TakeDamageServerRpc(_damage.Value, networkObject.OwnerClientId, _ownerClientId.Value);
         }
-        DespawnServerRpc();
+
+        PlayLocalParticles();
+
+        DespawnServerRpc(NetworkManager.Singleton.LocalClientId);
     }
 
-    [Rpc(SendTo.Server, RequireOwnership = false)]
-    private void DespawnServerRpc()
+
+    private void PlayLocalParticles()
     {
-        if (_networkObject != null)
+        GameObject particles = Instantiate(_eggParticlesPrefab, _transform.position, Quaternion.identity);
+        ParticleSystem ps = particles.GetComponent<ParticleSystem>();
+        if (ps != null)
         {
-            _networkObject.Despawn();
+            ps.Play();
         }
+        Destroy(particles, ps.main.duration);
     }
+
+
+
+    [Rpc(SendTo.Server, RequireOwnership = false)]
+    private void DespawnServerRpc(ulong senderClientId)
+    {
+        if (!IsServer) return;
+
+        SpawnParticlesClientRpc(_transform.position, senderClientId);
+
+        _networkObject.Despawn();
+    }
+
+
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void SpawnParticlesClientRpc(Vector3 position, ulong ignoreClientId)
+    {
+        if (NetworkManager.Singleton.LocalClientId == ignoreClientId) return; // �vite le double effet
+
+        GameObject particles = Instantiate(_eggParticlesPrefab, position, Quaternion.identity);
+        ParticleSystem ps = particles.GetComponent<ParticleSystem>();
+        if (ps != null)
+        {
+            ps.Play();
+        }
+        Destroy(particles, ps.main.duration);
+    }
+
+
+
 }

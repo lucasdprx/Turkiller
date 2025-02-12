@@ -200,6 +200,8 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   _speed: 15
   _distance: 15
+  _eggParticles: {fileID: 6787069584346422299, guid: 3f30c6419b93d444e85cdae08875f4fd, type: 3}
+  _eggParticlesPrefab: {fileID: 966114975289640646, guid: 3f30c6419b93d444e85cdae08875f4fd, type: 3}
 --- !u!114 &8960888883328421359
 MonoBehaviour:
   m_ObjectHideFlags: 0

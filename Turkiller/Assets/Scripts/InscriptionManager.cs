@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class InscriptionManager : MonoBehaviour
 {
@@ -25,25 +27,60 @@ public class InscriptionManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI emailInputSignIn;
     [SerializeField] private TMP_InputField passwordInputSignIn;
 
+    [Header("Skin")]
+    [SerializeField] private List<Sprite> skins;
+    private int skinIndex = 0;
+    [SerializeField] private GameObject skinPreviewPrefab;
+    [SerializeField] private Transform skinSelector;
+    [SerializeField] private Image skinSelected;
+    [SerializeField] private Transform skinsParent;
+
     [Header("Other")]
 
     [SerializeField] private GameObject objectToDeactivateOnPlay;
     [SerializeField] private NetworkMenu networkMenu;
 
+    private void Start()
+    {
+        foreach (var item in skins)
+        {
+            Instantiate(skinPreviewPrefab, skinsParent).GetComponent<Image>().sprite = item;
+        }
+        skinIndex = 0;
+
+        Invoke("SetSkinVisuals", .1f);
+    }
 
     public void StartGame()
     {
         string newName = nameText.text;
 
 
-        networkMenu.StartClient(objectToDeactivateOnPlay, newName);
+        networkMenu.StartClient(objectToDeactivateOnPlay, newName, skinIndex);
     }
 
     public void HostGame()
     {
         string newName = nameText.text;
+        networkMenu.StartHost(objectToDeactivateOnPlay, newName, skinIndex);
+    }
 
-        networkMenu.StartHost(objectToDeactivateOnPlay, newName);
+    public void NextSkin()
+    {
+        skinIndex = (skinIndex + 1) % skins.Count;
+        SetSkinVisuals();
+    }
+
+    public void PreviousSkin()
+    {
+        skinIndex = skinIndex - 1 < 0 ? skins.Count - 1 : skinIndex - 1;
+        SetSkinVisuals();
+    }
+
+    private void SetSkinVisuals()
+    {
+        skinSelected.sprite = skins[skinIndex];
+        skinSelector.position = skinsParent.GetChild(skinIndex).position;
     }
 
     public void GoToCustomization()

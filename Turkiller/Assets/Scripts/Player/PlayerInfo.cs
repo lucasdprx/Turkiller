@@ -1,13 +1,18 @@
 using System.Collections.Generic;
 using TMPro;
-using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Unity.Collections;
+using UnityEngine.UI;
 
 public class PlayerInfo : NetworkBehaviour
 {
     public NetworkVariable<FixedString64Bytes> playerName = new("");
+    public NetworkVariable<int> skinIndex = new();
+
+    [SerializeField] List<Sprite> skins;
+    [SerializeField] SpriteRenderer playerSprite; 
 
     public NetworkVariable<int> score = new();
     public TextMeshProUGUI usernameText;
@@ -27,10 +32,13 @@ public class PlayerInfo : NetworkBehaviour
     {
         if(!IsServer) return;
 
-        if (!PlayerNameTracker.TryGetPlayerName(OwnerClientId, out string newName))
+        if (!PlayerNameTracker.TryGetPlayerName(OwnerClientId, out string newName, out int newSkin))
             return;
         
         SetNameServerRpc(newName.Length > 1 ? newName : GetRandomName());
+
+        skinIndex.Value = newSkin;
+        SetSkin(newSkin);
         PlayerNameTracker.RemovePlayerName(OwnerClientId);
     }
     
@@ -55,6 +63,11 @@ public class PlayerInfo : NetworkBehaviour
             PlayerInfo playerInfo = player.Value.PlayerObject.GetComponent<PlayerInfo>();
             playerInfo.usernameText.text = playerInfo.playerName.Value.ToString();
         }
+    }
+
+    public void SetSkin(int index)
+    {
+        playerSprite.sprite = skins[index];
     }
 
     private string GetRandomName()

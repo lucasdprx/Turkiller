@@ -10,6 +10,7 @@ public class PlayerNetworkLife : NetworkBehaviour
     [SerializeField] private GameObject _deathMenu;
     [SerializeField] private GameObject _player;
     [SerializeField] private GameObject _bloodParticlesPrefab;
+    [SerializeField] private GameObject _damageParticlesPrefab;
 
 
     private NetworkVariable<float> _currentHealth = new NetworkVariable<float>(100);
@@ -46,12 +47,29 @@ public class PlayerNetworkLife : NetworkBehaviour
     {
         _healthBar.fillAmount = newValue / _maxHealth;
 
+        if (newValue < previousValue)
+        {
+            ShowDamageEffect();
+        }
+
         if (!(newValue <= 0f) || !IsOwner)
             return;
-        
+
         _deathMenu.SetActive(true);
         DieServerRpc(OwnerClientId);
     }
+
+    private void ShowDamageEffect()
+    {
+        GameObject damageEffect = Instantiate(_damageParticlesPrefab, transform.position, Quaternion.identity);
+        ParticleSystem ps = damageEffect.GetComponent<ParticleSystem>();
+        if (ps != null)
+        {
+            ps.Play();
+        }
+        Destroy(damageEffect, ps.main.duration);
+    }
+
 
     [Rpc(SendTo.Server, RequireOwnership = false)]
     public void TakeDamageServerRpc(float damage, ulong targetClientId)

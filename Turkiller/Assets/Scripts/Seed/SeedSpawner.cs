@@ -79,7 +79,7 @@ public class SeedSpawner : NetworkBehaviour
     {
         List<Transform> availablePoints = new List<Transform>();
 
-        foreach (Transform point in ReferenceManager.instance.spawnPoints)
+        foreach (Transform point in ReferenceManager.instance.spawnPointsSeed)
         {
             if (!occupiedSpawnPoints.Contains(point))
             {

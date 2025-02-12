@@ -10,8 +10,19 @@ public class PlayerInfo : NetworkBehaviour
     public NetworkVariable<FixedString64Bytes> playerName = new("");
     public NetworkVariable<int> skinIndex = new();
 
-    [SerializeField] List<Sprite> skins;
-    [SerializeField] SpriteRenderer playerSprite; 
+    [SerializeField] List<SkinStruct> skins;
+    [SerializeField] SpriteRenderer bodySprite; 
+    [SerializeField] SpriteRenderer headSprite; 
+    [SerializeField] SpriteRenderer leftSprite; 
+    [SerializeField] SpriteRenderer rightSprite; 
+    [SerializeField] SpriteRenderer tailSprite; 
+
+    [System.Serializable]
+    public struct SkinStruct
+    {
+        public List<Sprite> skin;
+    }
+
 
     public NetworkVariable<int> score = new();
     public TextMeshProUGUI usernameText;
@@ -66,7 +77,23 @@ public class PlayerInfo : NetworkBehaviour
 
     public void SetSkin(int index)
     {
-        playerSprite.sprite = skins[index];
+        bodySprite.sprite = skins[index].skin[0];
+        headSprite.sprite = skins[index].skin[1];
+
+        if (skins[index].skin.Count == 3)
+        {
+            leftSprite.sprite = null;
+            rightSprite.sprite = null;
+            tailSprite.sprite = skins[index].skin[2];
+        }
+        else
+        {
+            leftSprite.sprite = skins[index].skin[2];
+            rightSprite.sprite = skins[index].skin[3];
+            tailSprite.sprite = skins[index].skin[4];
+        }
+        
+        
     }
 
     private string GetRandomName()

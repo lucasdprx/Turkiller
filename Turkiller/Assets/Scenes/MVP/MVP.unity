@@ -768,6 +768,13 @@ MonoBehaviour:
     _clip: {fileID: 8300000, guid: 1bb8edfb13962a446a52ff8fb077374a, type: 3}
   - _name: egg impact
     _clip: {fileID: 8300000, guid: 66c283e9958c426489e0350f8d88c330, type: 3}
+  _painSounds:
+  - sounds:
+    - _name: dsq
+      _clip: {fileID: 0}
+    - _name: ds
+      _clip: {fileID: 0}
+  _deathSounds: []
   sfxContainer: {fileID: 151862102}
 --- !u!4 &835288245
 Transform:

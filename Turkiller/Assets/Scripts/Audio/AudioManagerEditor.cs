@@ -38,6 +38,8 @@ public class AudioManagerEditor : Editor
     {
         serializedObject.Update();
 
+        EditorGUI.BeginChangeCheck(); // Début de la détection de changement
+
         // Affichage des propriétés sérialisables normales
         foreach (var property in otherProperties)
         {
@@ -49,7 +51,11 @@ public class AudioManagerEditor : Editor
         DrawSound2DArray(ref manager._painSounds, "Pain Sounds");
         DrawSound2DArray(ref manager._deathSounds, "Death Sounds");
 
-        serializedObject.ApplyModifiedProperties();
+        if (EditorGUI.EndChangeCheck()) // Vérifie si quelque chose a changé
+        {
+            serializedObject.ApplyModifiedProperties();
+            EditorUtility.SetDirty(target); // Marquer comme modifié uniquement si nécessaire
+        }
     }
 
     private void DrawSound2DArray(ref SerializableSoundArray[] soundArray, string label)

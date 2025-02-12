@@ -2,6 +2,7 @@ using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -15,6 +16,8 @@ public class PlayerController : NetworkBehaviour
     private Camera _camera;
     private Transform _transform;
     private PlayerAttack _playerAttack;
+
+    public int _soundPackIndex = 0;
 
     private void Awake()
     {

@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
+[System.Serializable]
+public class SerializableSoundArray
+{
+    public Sound[] sounds;
+}
+
 public class AudioManager : NetworkBehaviour
 {
     public static AudioManager Instance;
@@ -11,6 +17,11 @@ public class AudioManager : NetworkBehaviour
     private List<Sound> _currentSFX = new List<Sound>();
     public Sound[] _musicSounds;
     public Sound[] _sfxSounds;
+
+    // Remplacer les tableaux 2D par des tableaux de SerializableSoundArray
+    [SerializeField] public SerializableSoundArray[] _painSounds;
+    [SerializeField] public SerializableSoundArray[] _deathSounds;
+
     public GameObject sfxContainer;
 
     private void Awake()
@@ -25,12 +36,12 @@ public class AudioManager : NetworkBehaviour
             Destroy(gameObject);
         }
     }
-    
+
     public bool IsSFXPlaying(string name)
     {
         return _currentSFX.Exists(s => s._name == name);
     }
-    
+
     public float GetSFXLength(string name)
     {
         Sound sound = Array.Find(_sfxSounds, s => s._name == name);
@@ -115,6 +126,24 @@ public class AudioManager : NetworkBehaviour
             PlaySound(null, _sfxSounds, name, true);
         }
         PlaySFXServerRpc(name);
+    }
+
+    public void PlaySFXPain(int index)
+    {
+        PlayRandomSoundFromArray(_painSounds, index);
+    }
+
+    public void PlaySFXDeath(int index)
+    {
+        PlayRandomSoundFromArray(_deathSounds, index);
+    }
+
+    private void PlayRandomSoundFromArray(SerializableSoundArray[] soundArray, int index)
+    {
+        if (index < 0 || index >= soundArray.Length || soundArray[index].sounds.Length == 0) return;
+
+        int randomIndex = UnityEngine.Random.Range(0, soundArray[index].sounds.Length);
+        PlaySound(null, soundArray[index].sounds, soundArray[index].sounds[randomIndex]._name, true);
     }
 
     public bool IsSoundInList(Sound[] soundList, string name)

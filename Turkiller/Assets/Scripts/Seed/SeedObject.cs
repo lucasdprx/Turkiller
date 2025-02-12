@@ -39,7 +39,7 @@ public class SeedObject : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        PlayerEffects playerEffect = collision.gameObject.GetComponent<PlayerEffects>();
+        PlayerEffects playerEffect = collision.gameObject.GetComponentInParent<PlayerEffects>();
         if (playerEffect == null)
             return;
         

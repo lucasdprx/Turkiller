@@ -21,11 +21,14 @@ public class InscriptionManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameInputSignUp;
     [SerializeField] private TextMeshProUGUI emailInputSignUp;
     [SerializeField] private TMP_InputField passwordInputSignUp;
+    [SerializeField] private TextMeshProUGUI textErrorSignUp;
 
     [Header("SignIn")]
     [SerializeField] private GameObject menuSignIn;
     [SerializeField] private TextMeshProUGUI emailInputSignIn;
     [SerializeField] private TMP_InputField passwordInputSignIn;
+    [SerializeField] private TextMeshProUGUI textErrorSignIn;
+
 
     [Header("Skin")]
     [SerializeField] private List<Sprite> skins;
@@ -42,9 +45,14 @@ public class InscriptionManager : MonoBehaviour
 
     private void Start()
     {
-        foreach (var item in skins)
+        for (int i = 0; i < skins.Count; i++)
         {
-            Instantiate(skinPreviewPrefab, skinsParent).GetComponent<Image>().sprite = item;
+            var item = skins[i];
+        
+            GameObject go = Instantiate(skinPreviewPrefab, skinsParent);
+            go.GetComponent<Image>().sprite = item;
+            int k = i;
+            go.GetComponent<Button>().onClick.AddListener(() => { SetSkinByIndex(k); });
         }
         skinIndex = 0;
 
@@ -77,6 +85,12 @@ public class InscriptionManager : MonoBehaviour
         SetSkinVisuals();
     }
 
+    public void SetSkinByIndex(int index)
+    {
+        skinIndex = index;
+        SetSkinVisuals();
+    }
+
     private void SetSkinVisuals()
     {
         skinSelected.sprite = skins[skinIndex];
@@ -94,7 +108,6 @@ public class InscriptionManager : MonoBehaviour
 
     public void GoToSignUp()
     {
-        print("enter");
         menuSignUp.SetActive(true);
         menuHome.SetActive(false);
     }
@@ -114,26 +127,29 @@ public class InscriptionManager : MonoBehaviour
 
     public void SignUp()
     {
-        if(emailInputSignUp.text.Contains("@") && emailInputSignUp.text.Contains("."))
+        if(emailInputSignUp.text.Contains("@") && emailInputSignUp.text.Contains(".") && emailInputSignUp.text.Length > 5)
         {
-            if(nameInputSignUp.text.Length > 1)
+            if(nameInputSignUp.text.Length > 2)
             {
-                if(passwordInputSignUp.text.Length >= 8)
+                if(passwordInputSignUp.text.Length >= 4)
                 {
                     StartCoroutine("SignUpCoroutine");
                 }
                 else
                 {
-                    print("Password need to be at least 8 characters long");
+                    textErrorSignUp.SetText("Password need to be at least 4 characters long");
+                    print("Password need to be at least 4 characters long");
                 }
             }
             else
             {
+                textErrorSignUp.SetText("Invalid username");
                 print("Invalid username");
             }
         }
         else
         {
+            textErrorSignUp.SetText("Wrong email format");
             print("Wrong email format");
         }
     }
@@ -157,6 +173,7 @@ public class InscriptionManager : MonoBehaviour
             yield return www.SendWebRequest();
             if (www.result != UnityWebRequest.Result.Success)
             {
+                textErrorSignUp.SetText("Server Down");
                 Debug.LogError(www.error);
                 Debug.LogError(www.result.ToString());
             }
@@ -178,6 +195,7 @@ public class InscriptionManager : MonoBehaviour
             yield return www.SendWebRequest();
             if (www.result != UnityWebRequest.Result.Success)
             {
+                textErrorSignIn.SetText("The email or password is incorrect");
                 Debug.LogError(www.error);
                 Debug.LogError(www.result.ToString());
             }

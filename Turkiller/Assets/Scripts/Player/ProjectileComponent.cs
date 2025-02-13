@@ -112,7 +112,7 @@ public class ProjectileComponent : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     private void SpawnParticlesClientRpc(Vector3 position, ulong ignoreClientId)
     {
-        if (NetworkManager.Singleton.LocalClientId == ignoreClientId) return; // �vite le double effet
+        if (NetworkManager.Singleton.LocalClientId == ignoreClientId) return; // evite le double effet
 
         GameObject particles = Instantiate(_eggParticlesPrefab, position, Quaternion.identity);
         ParticleSystem ps = particles.GetComponent<ParticleSystem>();

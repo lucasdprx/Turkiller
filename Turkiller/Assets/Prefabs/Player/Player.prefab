@@ -776,6 +776,11 @@ MonoBehaviour:
   _bloodParticlesPrefab: {fileID: 1041152724713221524, guid: 04cf7940be200cb40a65ead15410e92c, type: 3}
   _damageParticlesPrefab: {fileID: 1041152724713221524, guid: 4df155683d4d1db4489371f068f958c4, type: 3}
   _animator: {fileID: 296183125399049502}
+  _playerHead: {fileID: 0}
+  _playerTail: {fileID: 0}
+  _playerBody: {fileID: 0}
+  _playerLWing: {fileID: 0}
+  _playerRWing: {fileID: 0}
 --- !u!114 &1377571546169007362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -883,7 +888,9 @@ MonoBehaviour:
     - {fileID: 6899322459203267387, guid: b285e160d5928b747ac51314b029b18a, type: 3}
     - {fileID: 5481864112307773692, guid: ac8774d064a7f0f4e99c221a0589a3a9, type: 3}
   - skin:
-    - {fileID: -3215406157581093683, guid: cdfd1a6742f95634282b17ffd292dc1f, type: 3}
+    - {fileID: -7270847897998321937, guid: badbeeb4fe8d31b42a5f30d25e2bd7ec, type: 3}
+    - {fileID: 2673867315381134528, guid: d466ae8c9d53c3a4c8f38daedf369626, type: 3}
+    - {fileID: -8404759147818779858, guid: 3908f90bf3738cb4c9ce2aff1287ce1c, type: 3}
   - skin:
     - {fileID: -6802123376668241873, guid: b086cc20c42de8f499bbe83b8468a3ec, type: 3}
     - {fileID: 5603050195047632238, guid: 8b9a158481eb7854db4e7965d0fb3ef3, type: 3}

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 0f73a6adf3496dd4f9a8432470d6e573
+guid: 22faa9d017b305b45973a20809013f10
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3751444483256516630
-    second: DropDown_0
+      213: -6413742106249790484
+    second: "Pivert R\xE9tro_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,56 +96,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DropDown_0
+      name: "Pivert R\xE9tro_0"
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 270
-        height: 146
+        x: 13
+        y: 4
+        width: 38
+        height: 52
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: aef75e45e1130fbc0800000000000000
-      internalID: -3751444483256516630
+      spriteID: cebf30c298fcdf6a0800000000000000
+      internalID: -6413742106249790484
       vertices: []
       indices: 
       edges: []
@@ -174,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      DropDown_0: -3751444483256516630
+      "Pivert R\xE9tro_0": -6413742106249790484
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

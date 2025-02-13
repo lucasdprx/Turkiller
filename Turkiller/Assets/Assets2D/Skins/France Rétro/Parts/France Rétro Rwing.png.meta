@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 0f73a6adf3496dd4f9a8432470d6e573
+guid: 0c24b3a2c8ec84248aedba645d6e921a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3751444483256516630
-    second: DropDown_0
+      213: 7723137952118770666
+    second: "France R\xE9tro Rwing_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,56 +96,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DropDown_0
+      name: "France R\xE9tro Rwing_0"
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 270
-        height: 146
+        x: 34
+        y: 7
+        width: 17
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: aef75e45e1130fbc0800000000000000
-      internalID: -3751444483256516630
+      spriteID: aeb806b6c091e2b60800000000000000
+      internalID: 7723137952118770666
       vertices: []
       indices: 
       edges: []
@@ -174,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      DropDown_0: -3751444483256516630
+      "France R\xE9tro Rwing_0": 7723137952118770666
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

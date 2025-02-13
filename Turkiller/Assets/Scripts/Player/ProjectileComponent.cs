@@ -68,18 +68,22 @@ public class ProjectileComponent : NetworkBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (IsServer || other.CompareTag("IgnoreShoot")) return;
-        
-        AudioManager.Instance.PlaySFX("impact egg", false, this.transform.position);
 
         NetworkObject networkObject = other.GetComponentInParent<NetworkObject>();
         if (networkObject != null && networkObject.OwnerClientId == _ownerClientId.Value) return;
-        
+
         PlayerNetworkLife playerNetworkLife = other.GetComponentInParent<PlayerNetworkLife>();
         if (playerNetworkLife != null && NetworkManager.Singleton.LocalClientId == networkObject.OwnerClientId)
         {
             playerNetworkLife.TakeDamageServerRpc(_damage.Value, networkObject.OwnerClientId, _ownerClientId.Value);
         }
-        
+
+        // Jouer le son seulement si l'objet touché n'est pas le joueur qui a tiré le projectile
+        if (networkObject == null || networkObject.OwnerClientId != _ownerClientId.Value)
+        {
+            AudioManager.Instance.PlaySFX("egg impact", false, this.transform.position);
+        }
+
         PlayLocalParticles();
         DespawnServerRpc(NetworkManager.Singleton.LocalClientId);
     }

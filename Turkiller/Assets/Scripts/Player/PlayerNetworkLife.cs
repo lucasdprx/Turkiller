@@ -106,6 +106,10 @@ public class PlayerNetworkLife : NetworkBehaviour
         PlayerController[] players = FindObjectsByType<PlayerController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         foreach (PlayerController player in players)
         {
+            // Recuperer le _soundPackIndex et appeler PlaySFXPain
+            int soundPackIndex = player.GetComponent<PlayerController>()._soundPackIndex;
+            AudioManager.Instance.PlaySFXPain(soundPackIndex, this.transform.position);
+            
             NetworkObject networkObject = player.GetComponent<NetworkObject>();
             if (networkObject.OwnerClientId != targetClientId)
                 continue;
@@ -119,10 +123,7 @@ public class PlayerNetworkLife : NetworkBehaviour
                 PlayerInfo attacker = NetworkManager.Singleton.ConnectedClients[attackerClientId].PlayerObject.GetComponent<PlayerInfo>();
                 attacker.AddScore(30);
             }
-
-            // Recuperer le _soundPackIndex et appeler PlaySFXPain
-            int soundPackIndex = player.GetComponent<PlayerController>()._soundPackIndex;
-            AudioManager.Instance.PlaySFXPain(soundPackIndex, this.transform.position);
+            
         }
     }
 

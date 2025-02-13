@@ -1,8 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using Unity.VisualScripting;
 
 public class PlayerNetworkLife : NetworkBehaviour
 {
@@ -14,11 +12,6 @@ public class PlayerNetworkLife : NetworkBehaviour
     [SerializeField] private GameObject _bloodParticlesPrefab;
     [SerializeField] private GameObject _damageParticlesPrefab;
     [SerializeField] private Animator _animator;
-    [SerializeField] private SpriteRenderer _playerHead;
-    [SerializeField] private SpriteRenderer _playerTail;
-    [SerializeField] private SpriteRenderer _playerBody;
-    [SerializeField] private SpriteRenderer _playerLWing;
-    [SerializeField] private SpriteRenderer _playerRWing;
 
     private NetworkVariable<float> _currentHealth = new NetworkVariable<float>(100);
 
@@ -55,8 +48,8 @@ public class PlayerNetworkLife : NetworkBehaviour
 
         if (newValue < previousValue)
         {
+            _animator.SetTrigger("TakeDamage");
             ShowDamageEffect();
-            StartCoroutine(TakeDamageAnimation());
         }
 
         if (!(newValue <= 0f) || !IsOwner)
@@ -64,26 +57,6 @@ public class PlayerNetworkLife : NetworkBehaviour
 
         _deathMenu.SetActive(true);
         DieServerRpc(OwnerClientId);
-    }
-
-    private IEnumerator TakeDamageAnimation()
-    {
-        Color lerpColor = new Color32(255, 255, 255, 100);
-        Color resetColor = new Color32(255, 255, 255, 255);
-
-        _playerHead.color = lerpColor;
-        _playerTail.color = lerpColor;
-        _playerBody.color = lerpColor;
-        _playerLWing.color = lerpColor;
-        _playerRWing.color = lerpColor;
-        
-        yield return new WaitForSeconds(0.1f);
-
-        _playerHead.color = resetColor;
-        _playerTail.color = resetColor;
-        _playerBody.color = resetColor;
-        _playerLWing.color = resetColor;
-        _playerRWing.color = resetColor;
     }
 
     private void ShowDamageEffect()
@@ -146,16 +119,9 @@ public class PlayerNetworkLife : NetworkBehaviour
             player.PlayerObject.GetComponent<PlayerAttack>().enabled = false;
             player.PlayerObject.GetComponent<PlayerController>().enabled = false;
             playerInfo.circleCollider.enabled = false;
-            StartCoroutine(DeathAnimation(playerInfo));
+            playerInfo._bodyPlayer.SetActive(false);
             playerInfo.AddScore(-20);
         }
-    }
-
-    private IEnumerator DeathAnimation(PlayerInfo playerInfo)
-    {
-        _animator.SetTrigger("Death");
-        yield return new WaitForSeconds(1.3f);
-        playerInfo._bodyPlayer.SetActive(false);
     }
 
 

@@ -1975,7 +1975,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &300041877
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3419,8 +3419,10 @@ MonoBehaviour:
   - {fileID: 2642053492378982893, guid: 81cf15a7ab4e9db44842779e4f4fb379, type: 3}
   - {fileID: 1198628577651258883, guid: bcdbd6f6874d36e4881103f5e7fdee64, type: 3}
   - {fileID: 7421034534782609827, guid: d585580175745394aa597b94ef5244ac, type: 3}
+  - {fileID: 371310679581292648, guid: 107117177f81f804ab92a5947590c432, type: 3}
   - {fileID: 7686246584731468894, guid: 918256d2ba379be44bf9f2a4f5708fe3, type: 3}
   - {fileID: 5775973847623521412, guid: 86b8150fd3e3bbb4294939fb946f87e6, type: 3}
+  - {fileID: -2466963066607840380, guid: e49a19155db276f418645e1d73d6d7c8, type: 3}
   - {fileID: -6212159341264610544, guid: 4d06d7232c9e1454db4d85204ef0f3f5, type: 3}
   - {fileID: 446211102146905387, guid: 19c700c071b2da54a9e147446fd4b82d, type: 3}
   - {fileID: -4118679987319013736, guid: b9b6f1de5c47a344591dd6e5365a5e4c, type: 3}
@@ -3446,6 +3448,7 @@ MonoBehaviour:
   - {fileID: -4972202294675210907, guid: cccb6e96055c91f45844d7c1d48b2024, type: 3}
   - {fileID: -4122185248844357282, guid: d479d9854186e0b4499207c27fdd8def, type: 3}
   - {fileID: 4138223980208024357, guid: dd8c60eec72b00447a536e9f5d394901, type: 3}
+  - {fileID: 3190908377094587067, guid: ad51b81770ffbdd498488c89059e8985, type: 3}
   - {fileID: -5150559791317438853, guid: c081f778e0bcc4d488f79f06075bae5d, type: 3}
   - {fileID: -5326267760684497326, guid: ea1479999372ad94587b7405a4a66383, type: 3}
   - {fileID: 3768805794045626041, guid: 920f0252d9c3fdc42bb85774d3b759fc, type: 3}
@@ -6774,8 +6777,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2001251343}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.6056154}
-  m_AnchorMax: {x: 1, y: 0.99999994}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8141,7 +8144,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1372391583
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8741,7 +8744,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1537906046
 RectTransform:
   m_ObjectHideFlags: 0

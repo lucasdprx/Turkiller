@@ -776,6 +776,11 @@ MonoBehaviour:
   _bloodParticlesPrefab: {fileID: 1041152724713221524, guid: 04cf7940be200cb40a65ead15410e92c, type: 3}
   _damageParticlesPrefab: {fileID: 1041152724713221524, guid: 4df155683d4d1db4489371f068f958c4, type: 3}
   _animator: {fileID: 296183125399049502}
+  _playerHead: {fileID: 0}
+  _playerTail: {fileID: 0}
+  _playerBody: {fileID: 0}
+  _playerLWing: {fileID: 0}
+  _playerRWing: {fileID: 0}
 --- !u!114 &1377571546169007362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2217,7 +2222,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4445154996454866711
 RectTransform:
   m_ObjectHideFlags: 0

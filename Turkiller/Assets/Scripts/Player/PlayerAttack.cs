@@ -46,7 +46,7 @@ public class PlayerAttack : NetworkBehaviour
         Vector2 directionForce = ((Vector2)GetMousePosition(_camera) - (Vector2)_spawnPoint.position).normalized;
         _rb.AddForce(directionForce * _recoilMeleeAttack, ForceMode2D.Impulse);
         yield return new WaitForSeconds(0.2f);
-        Collider2D[] results = Physics2D.OverlapBoxAll(_meleeAttackPoint.position, Vector2.one * 2, 0);
+        Collider2D[] results = Physics2D.OverlapBoxAll(_meleeAttackPoint.position, Vector2.one , 0);
         foreach (Collider2D result in results)
         {
             if (result.GetComponentInParent<PlayerNetworkLife>() == null)

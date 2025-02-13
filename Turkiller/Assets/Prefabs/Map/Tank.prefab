@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8996936041807152032}
   - component: {fileID: 8586169220765190485}
-  - component: {fileID: 468274486343244756}
+  - component: {fileID: 8452756038547179316}
   m_Layer: 0
   m_Name: Tank
   m_TagString: Untagged
@@ -88,8 +88,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &468274486343244756
-BoxCollider2D:
+--- !u!70 &8452756038547179316
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -122,15 +122,6 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.04868722, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.86, y: 3.05}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 3.3993888, y: 3.05}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0.074744664, y: -0.007491456}
+  m_Size: {x: 4.718035, y: 3.0062106}
+  m_Direction: 1

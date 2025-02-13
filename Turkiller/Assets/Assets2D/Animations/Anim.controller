@@ -113,7 +113,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Damage
-  m_Speed: 1
+  m_Speed: 5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 8246138728792978888}
@@ -359,22 +359,22 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -3221263224692051233}
-    m_Position: {x: 380, y: 170, z: 0}
+    m_Position: {x: 310, y: 220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4963058593953907468}
-    m_Position: {x: 770, y: 390, z: 0}
+    m_Position: {x: 920, y: 430, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3189298280623346951}
-    m_Position: {x: 530, y: 580, z: 0}
+    m_Position: {x: 540, y: 510, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2710404732449745097}
     m_Position: {x: 870, y: 10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3160500856709975825}
-    m_Position: {x: 710, y: 170, z: 0}
+    m_Position: {x: 760, y: 240, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -893229564673962683}
-    m_Position: {x: 290, y: 380, z: 0}
+    m_Position: {x: 160, y: 400, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -714,7 +714,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: AttckMelee
-  m_Speed: 1
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 999635640431656164}

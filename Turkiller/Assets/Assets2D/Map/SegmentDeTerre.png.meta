@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7f5e07bfded826c42af97f0798be1cd9
+guid: b86ec7cb9f2a8ff4eb706ad2cb0d5c81
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -670549717269879281
-    second: TankUsine 1_0
+      213: 3788719093363845942
+    second: SegmentDeTerre_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TankUsine 1_0
+      name: SegmentDeTerre_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 89
-        width: 491
-        height: 309
+        x: 0
+        y: 0
+        width: 1024
+        height: 1024
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f06e3e9b59ab1b6f0800000000000000
-      internalID: -670549717269879281
+      spriteID: 63b21b121fb349430800000000000000
+      internalID: 3788719093363845942
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      TankUsine 1_0: -670549717269879281
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

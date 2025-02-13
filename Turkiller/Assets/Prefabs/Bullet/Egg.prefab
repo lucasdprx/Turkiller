@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 15
   m_Sprite: {fileID: -4072622106568590741, guid: 9a217681684bf9844b67580bd9d98a9f, type: 3}
   m_Color: {r: 1, g: 0.5641509, b: 0.5641509, a: 1}
   m_FlipX: 0
@@ -200,7 +200,6 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   _speed: 15
   _distance: 15
-  _eggParticles: {fileID: 6787069584346422299, guid: 3f30c6419b93d444e85cdae08875f4fd, type: 3}
   _eggParticlesPrefab: {fileID: 966114975289640646, guid: 3f30c6419b93d444e85cdae08875f4fd, type: 3}
 --- !u!114 &8960888883328421359
 MonoBehaviour:

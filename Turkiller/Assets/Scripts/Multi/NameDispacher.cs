@@ -18,6 +18,7 @@ public class NameDispacher : MonoBehaviour
         ulong clientId = request.ClientNetworkId;
         string playerName = "Joueur";
         int skinIndex = 0;
+        int voiceIndex = 0;
 
         if (request.Payload.Length < 1)
         {
@@ -40,13 +41,15 @@ public class NameDispacher : MonoBehaviour
 
             playerName = Encoding.UTF8.GetString(request.Payload, 1, nameLength);
             skinIndex = BitConverter.ToInt32(request.Payload, 1 + nameLength);
+            voiceIndex = BitConverter.ToInt32(request.Payload, 1 + nameLength + 4);
+
         }
 
-        Debug.Log($"Joueur {clientId} se connecte avec le nom : {playerName} et l'index de skin : {skinIndex}");
+        Debug.Log($"Joueur {clientId} se connecte avec le nom : {playerName}, l'index de skin : {skinIndex} et l'index de voix : {voiceIndex}");
 
         response.Approved = true;
         response.CreatePlayerObject = true;
 
-        PlayerNameTracker.AddPlayerData(clientId, playerName, skinIndex);
+        PlayerNameTracker.AddPlayerData(clientId, playerName, skinIndex, voiceIndex);
     }
 }

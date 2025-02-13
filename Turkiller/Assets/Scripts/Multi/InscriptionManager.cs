@@ -38,6 +38,13 @@ public class InscriptionManager : MonoBehaviour
     [SerializeField] private Image skinSelected;
     [SerializeField] private Transform skinsParent;
 
+
+    [Header("Voice")]
+    [SerializeField] int voiceCount = 2;
+    [SerializeField] TextMeshProUGUI voiceText;
+    int voiceIndex = 0;
+
+
     [Header("Other")]
 
     [SerializeField] private GameObject objectToDeactivateOnPlay;
@@ -56,6 +63,8 @@ public class InscriptionManager : MonoBehaviour
         }
         skinIndex = 0;
 
+        voiceIndex = 0;
+
         Invoke("SetSkinVisuals", .1f);
     }
 
@@ -64,13 +73,13 @@ public class InscriptionManager : MonoBehaviour
         string newName = nameText.text;
 
 
-        networkMenu.StartClient(objectToDeactivateOnPlay, newName, skinIndex);
+        networkMenu.StartClient(objectToDeactivateOnPlay, newName, skinIndex, voiceIndex);
     }
 
     public void HostGame()
     {
         string newName = nameText.text;
-        networkMenu.StartHost(objectToDeactivateOnPlay, newName, skinIndex);
+        networkMenu.StartHost(objectToDeactivateOnPlay, newName, skinIndex, voiceIndex);
     }
 
     public void NextSkin()
@@ -83,6 +92,23 @@ public class InscriptionManager : MonoBehaviour
     {
         skinIndex = skinIndex - 1 < 0 ? skins.Count - 1 : skinIndex - 1;
         SetSkinVisuals();
+    }
+
+    public void NextVoice()
+    {
+        voiceIndex = (voiceIndex + 1) % voiceCount;
+        SetVoiceText();
+    }
+
+    public void PreviousVoice()
+    {
+        voiceIndex = voiceIndex - 1 < 0 ? voiceCount - 1 : voiceIndex - 1;
+        SetVoiceText();
+    }
+
+    private void SetVoiceText()
+    {
+        voiceText.text = "Voice " + (voiceIndex + 1).ToString();
     }
 
     public void SetSkinByIndex(int index)

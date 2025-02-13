@@ -9,6 +9,7 @@ public class NetworkPlayer : NetworkBehaviour
     private Camera _camera;
     private PlayerInput _playerInput;
     private PlayerNetworkLife _playerNetworkLife;
+    private PlayerInfo _playerInfo;
 
     private void Awake()
     {
@@ -18,6 +19,7 @@ public class NetworkPlayer : NetworkBehaviour
         _camera = GetComponentInChildren<Camera>();
         _playerInput = GetComponentInChildren<PlayerInput>();
         transform.position = GetComponent<PlayerSpawn>().GetRandomSpawnPoint().position;
+        _playerInfo = GetComponent<PlayerInfo>();
     }
 
     public override void OnNetworkSpawn()
@@ -28,7 +30,7 @@ public class NetworkPlayer : NetworkBehaviour
         _playerNetworkLife.enabled = IsOwner;
         _camera.gameObject.SetActive(IsOwner);
         _playerInput.gameObject.SetActive(IsOwner);
-        
+        _playerInfo.enabled = IsOwner;
 
         UpdateTagLocally();
     }

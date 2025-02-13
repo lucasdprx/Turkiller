@@ -58,7 +58,7 @@ public class PlayerAttack : NetworkBehaviour
             if (networkObjectResult == null || networkObjectPlayer == null ||
                 networkObjectResult.OwnerClientId == networkObjectPlayer.OwnerClientId) continue;
             
-            result.GetComponentInParent<PlayerNetworkLife>().TakeDamageServerRpc(20, networkObjectResult.OwnerClientId, networkObjectPlayer.OwnerClientId);
+            result.GetComponentInParent<PlayerNetworkLife>().TakeDamageServerRpc(40, networkObjectResult.OwnerClientId, networkObjectPlayer.OwnerClientId);
             
             AudioManager.Instance.PlaySFX("impact melee", false, this.transform.position);
         }

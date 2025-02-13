@@ -114,14 +114,12 @@ MonoBehaviour:
   seedSprites:
   - sprite: {fileID: 7847595167911472084, guid: ae229b9d8029d4343b21a521b6602388, type: 3}
     bonus: 1
-  - sprite: {fileID: 3627446616717767677, guid: 3b2d4f077b55f444c982d0692aed5bce, type: 3}
+  - sprite: {fileID: -1628415804029052092, guid: 76bb5389aeb943a4aa5c9735f7517059, type: 3}
     bonus: 2
-  - sprite: {fileID: 7447576856632055868, guid: 7e9f6b22e12a175418413112a31b3100, type: 3}
+  - sprite: {fileID: 3891111680702244737, guid: eda800adb5e4d8448b43f0f6753469b5, type: 3}
     bonus: 3
-  - sprite: {fileID: 8969210940614702701, guid: 7cb3cb3f403e27544acf3817d84fb9d6, type: 3}
+  - sprite: {fileID: 3697765172625964763, guid: f5ad3e992bb3cb14abf94cde87b746c6, type: 3}
     bonus: 4
-  - sprite: {fileID: -7227219082984208509, guid: 06a713a242eeff942b5691c8a85af131, type: 3}
-    bonus: 0
   imageEffect: {fileID: 8052100356845473855}
   bgImage: {fileID: 1407552588139440232}
 --- !u!1 &7992835288017102465
@@ -158,7 +156,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.9, y: 0.14}
+  m_AnchoredPosition: {x: 0, y: 0.14}
   m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3456726803878181542
@@ -191,7 +189,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 8969210940614702701, guid: 7cb3cb3f403e27544acf3817d84fb9d6, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1

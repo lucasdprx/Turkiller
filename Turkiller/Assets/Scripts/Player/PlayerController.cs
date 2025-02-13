@@ -76,7 +76,7 @@ public class PlayerController : NetworkBehaviour
     {
         while (_rb.linearVelocity != Vector2.zero)
         {
-            AudioManager.Instance.PlaySFX("run grass", true);
+            AudioManager.Instance.PlaySFX("run grass", true, this.transform.position);
             yield return new WaitForSeconds(AudioManager.Instance.GetSFXLength("run grass"));
         }
     }

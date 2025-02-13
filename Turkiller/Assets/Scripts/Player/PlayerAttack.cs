@@ -60,7 +60,7 @@ public class PlayerAttack : NetworkBehaviour
             
             result.GetComponentInParent<PlayerNetworkLife>().TakeDamageServerRpc(20, networkObjectResult.OwnerClientId, networkObjectPlayer.OwnerClientId);
             
-            AudioManager.Instance.PlaySFX("impact melee", false);
+            AudioManager.Instance.PlaySFX("impact melee", false, this.transform.position);
         }
         yield return new WaitForSeconds(0.2f);
         _playerController.FreezeInput(false);
@@ -106,7 +106,7 @@ public class PlayerAttack : NetworkBehaviour
         {
             _attackTimer = 0;
             if (AudioManager.Instance != null)
-                AudioManager.Instance.PlaySFX("pop", false);
+                AudioManager.Instance.PlaySFX("pop", false, this.transform.position);
 
             Vector3 position = _spawnPoint.position;
             Vector3 dir = GetMousePosition(_camera) - position;
@@ -125,7 +125,7 @@ public class PlayerAttack : NetworkBehaviour
             _attackTimer = 0;
             _animator.SetTrigger("Melee");
             if (AudioManager.Instance != null)
-                AudioManager.Instance.PlaySFX("melee swoosh", false);
+                AudioManager.Instance.PlaySFX("melee swoosh", false, this.transform.position);
             StartCoroutine(TimeMeleeAttack());
         }
     }

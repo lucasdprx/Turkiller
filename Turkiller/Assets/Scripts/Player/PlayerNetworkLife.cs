@@ -95,7 +95,7 @@ public class PlayerNetworkLife : NetworkBehaviour
 
             // Recuperer le _soundPackIndex et appeler PlaySFXPain
             int soundPackIndex = player.GetComponent<PlayerController>()._soundPackIndex;
-            AudioManager.Instance.PlaySFXPain(soundPackIndex);
+            AudioManager.Instance.PlaySFXPain(soundPackIndex, this.transform.position);
         }
     }
 
@@ -138,7 +138,7 @@ public class PlayerNetworkLife : NetworkBehaviour
 
             // Récupérer le _soundPackIndex et appele PlaySFXDeath
             int soundPackIndex = player.GetComponent<PlayerController>()._soundPackIndex;
-            AudioManager.Instance.PlaySFXDeath(soundPackIndex);
+            AudioManager.Instance.PlaySFXDeath(soundPackIndex, this.transform.position);
         }
 
         DieClientRpc(targetClientId);

@@ -80,7 +80,7 @@ public class ProjectileComponent : NetworkBehaviour
         
         PlayLocalParticles();
         DespawnServerRpc(NetworkManager.Singleton.LocalClientId);
-        AudioManager.Instance.PlaySFX("impact egg", false);
+        AudioManager.Instance.PlaySFX("impact egg", false, this.transform.position);
     }
 
 

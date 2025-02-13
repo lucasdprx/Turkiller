@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
@@ -115,3 +116,4 @@ public class AudioManagerEditor : Editor
         }
     }
 }
+#endif

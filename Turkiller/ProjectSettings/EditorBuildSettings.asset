@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MVP/Game.unity
+    path: Assets/Scenes/Game.unity
     guid: 60a8bf55e0b66694289fffe37f2c4e37
   - enabled: 0
     path: Assets/Scenes/Doryan/IntegrationVisuals.unity

@@ -14,15 +14,18 @@ public class NetworkMenu : MonoBehaviour
         Debug.Log("Start server !");
     }
 
-    public void StartClient(GameObject networkMenu, string playerName, int skinIndex)
+    public void StartClient(GameObject networkMenu, string playerName, int skinIndex, int voiceIndex)
     {
         byte[] nameBytes = Encoding.UTF8.GetBytes(playerName);
         byte[] skinBytes = BitConverter.GetBytes(skinIndex);
+        byte[] voiceBytes = BitConverter.GetBytes(voiceIndex);
 
-        byte[] connectionData = new byte[nameBytes.Length + 1 + skinBytes.Length];
+        byte[] connectionData = new byte[nameBytes.Length + 1 + skinBytes.Length + voiceBytes.Length];
+
         connectionData[0] = (byte)nameBytes.Length;
         nameBytes.CopyTo(connectionData, 1);
         skinBytes.CopyTo(connectionData, 1 + nameBytes.Length);
+        voiceBytes.CopyTo(connectionData, 1 + nameBytes.Length + skinBytes.Length);
 
         NetworkManager.Singleton.NetworkConfig.ConnectionData = connectionData;
 
@@ -38,17 +41,21 @@ public class NetworkMenu : MonoBehaviour
             networkMenu.SetActive(false);
         }
     }
-    public void StartHost(GameObject networkMenu, string playerName, int skinIndex)
+    public void StartHost(GameObject networkMenu, string playerName, int skinIndex, int voiceIndex)
     {
         byte[] nameBytes = Encoding.UTF8.GetBytes(playerName);
         byte[] skinBytes = BitConverter.GetBytes(skinIndex);
+        byte[] voiceBytes = BitConverter.GetBytes(voiceIndex);
 
-        byte[] connectionData = new byte[nameBytes.Length + 1 + skinBytes.Length];
+        byte[] connectionData = new byte[nameBytes.Length + 1 + skinBytes.Length + voiceBytes.Length];
+
         connectionData[0] = (byte)nameBytes.Length;
         nameBytes.CopyTo(connectionData, 1);
         skinBytes.CopyTo(connectionData, 1 + nameBytes.Length);
+        voiceBytes.CopyTo(connectionData, 1 + nameBytes.Length + skinBytes.Length);
 
         NetworkManager.Singleton.NetworkConfig.ConnectionData = connectionData;
+
 
         if (!NetworkManager.Singleton.StartHost()) return;
             

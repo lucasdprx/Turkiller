@@ -9,6 +9,7 @@ public class PlayerInfo : NetworkBehaviour
 {
     public NetworkVariable<FixedString64Bytes> playerName = new("");
     public NetworkVariable<int> skinIndex = new();
+    public NetworkVariable<int> voiceIndex = new();
 
     [SerializeField] List<SkinStruct> skins;
     [SerializeField] SpriteRenderer bodySprite; 
@@ -42,20 +43,21 @@ public class PlayerInfo : NetworkBehaviour
     {
         if(!IsServer) return;
 
-        if (!PlayerNameTracker.TryGetPlayerData(OwnerClientId, out string newName, out int newSkin))
+        if (!PlayerNameTracker.TryGetPlayerData(OwnerClientId, out string newName, out int newSkin, out int newVoice))
             return;
         
-        SetInfoServerRpc(newName.Length > 1 ? newName : GetRandomName(), newSkin);
+        SetInfoServerRpc(newName.Length > 1 ? newName : GetRandomName(), newSkin, newVoice);
 
         PlayerNameTracker.RemovePlayerData(OwnerClientId);
     }
     
     [Rpc(SendTo.Server)]
-    private void SetInfoServerRpc(string newName, int newSkin)
+    private void SetInfoServerRpc(string newName, int newSkin, int newVoice)
     {
         playerName.Value = newName;
         usernameText.text = newName;
         skinIndex.Value = newSkin;
+        voiceIndex.Value = newVoice;
         SetInfoClientRpc(newName, newSkin);
     }
 

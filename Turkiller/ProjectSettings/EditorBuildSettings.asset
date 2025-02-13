@@ -29,6 +29,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Andy/DeathUpdate.unity
     guid: 159aed3562c4f7244adb27b7af950011
+  - enabled: 1
+    path: Assets/Scenes/Bruce/VoiceChange.unity
+    guid: 07cb9337293b83e4390ab31b19d2ed32
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

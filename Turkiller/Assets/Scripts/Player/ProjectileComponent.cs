@@ -68,6 +68,8 @@ public class ProjectileComponent : NetworkBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (IsServer || other.CompareTag("IgnoreShoot")) return;
+        
+        AudioManager.Instance.PlaySFX("impact egg", false, this.transform.position);
 
         NetworkObject networkObject = other.GetComponentInParent<NetworkObject>();
         if (networkObject != null && networkObject.OwnerClientId == _ownerClientId.Value) return;
@@ -78,7 +80,6 @@ public class ProjectileComponent : NetworkBehaviour
             playerNetworkLife.TakeDamageServerRpc(_damage.Value, networkObject.OwnerClientId, _ownerClientId.Value);
         }
         
-        AudioManager.Instance.PlaySFX("impact egg", false, this.transform.position);
         PlayLocalParticles();
         DespawnServerRpc(NetworkManager.Singleton.LocalClientId);
     }

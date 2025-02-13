@@ -42,9 +42,14 @@ public class InscriptionManager : MonoBehaviour
 
     private void Start()
     {
-        foreach (var item in skins)
+        for (int i = 0; i < skins.Count; i++)
         {
-            Instantiate(skinPreviewPrefab, skinsParent).GetComponent<Image>().sprite = item;
+            var item = skins[i];
+        
+            GameObject go = Instantiate(skinPreviewPrefab, skinsParent);
+            go.GetComponent<Image>().sprite = item;
+            int k = i;
+            go.GetComponent<Button>().onClick.AddListener(() => { SetSkinByIndex(k); });
         }
         skinIndex = 0;
 
@@ -74,6 +79,12 @@ public class InscriptionManager : MonoBehaviour
     public void PreviousSkin()
     {
         skinIndex = skinIndex - 1 < 0 ? skins.Count - 1 : skinIndex - 1;
+        SetSkinVisuals();
+    }
+
+    public void SetSkinByIndex(int index)
+    {
+        skinIndex = index;
         SetSkinVisuals();
     }
 

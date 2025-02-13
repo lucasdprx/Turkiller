@@ -89,8 +89,8 @@ public class PlayerAttack : NetworkBehaviour
             return;
         
         projectileComponent.SetOwner(ownerClientId);
-        projectileComponent.Init(_baseDamage * _effects.GetEffect(Bonus.DamageMultiplier).max);
         networkObject.Spawn(true);
+        projectileComponent.Init(_baseDamage * _effects.GetEffect(Bonus.DamageMultiplier).max);
     }
 
     private void ChangeStateAttack()

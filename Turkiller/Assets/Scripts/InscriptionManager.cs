@@ -80,7 +80,7 @@ public class InscriptionManager : MonoBehaviour
     private void SetSkinVisuals()
     {
         skinSelected.sprite = skins[skinIndex];
-        skinSelector.parent = skinsParent.GetChild(skinIndex);
+        skinSelector.SetParent(skinsParent.GetChild(skinIndex));
         skinSelector.localPosition = new();
 
     }

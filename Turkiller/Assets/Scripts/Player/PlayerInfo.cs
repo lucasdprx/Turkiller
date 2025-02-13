@@ -113,6 +113,7 @@ public class PlayerInfo : NetworkBehaviour
 
     public void AddScore(int newScore)
     {
+        if(!IsServer) return;
         score.Value += newScore;
         if (score.Value < 0) score.Value = 0;
     }

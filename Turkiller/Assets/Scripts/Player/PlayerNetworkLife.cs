@@ -120,6 +120,7 @@ public class PlayerNetworkLife : NetworkBehaviour
             player.PlayerObject.GetComponent<PlayerController>().enabled = false;
             playerInfo.circleCollider.enabled = false;
             playerInfo._bodyPlayer.SetActive(false);
+            playerInfo.AddScore(-20);
         }
     }
 
